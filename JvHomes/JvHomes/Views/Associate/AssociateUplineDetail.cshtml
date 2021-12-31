@@ -1,0 +1,108 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "AssociateUplineDetail";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="app-main">
+    <!-- BEGIN .profile-header -->
+    <header class="main-heading">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                    <div class="page-icon">
+                        <i class="icon-laptop_windows"></i>
+                    </div>
+                    <div class="page-title">
+                        <h3>Upline</h3>
+                        @*<h6 class="sub-heading">Welcome to Kingfisher Admin Template</h6>*@
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                    <div class="daterange-container">
+                        <div id="reportrange1" class="form-control">
+                            <span>@DateTime.Now.ToString("MMM dd yyyy") </span> <i class="icon-chevron-down down-arrow"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- END: .profile-header -->
+    <div class="main-content">
+        <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="card custom-bdr">
+                    <div class="card-header">Upline</div>
+                    <div class="card-body">
+                        
+                        <div class="dt-responsive table-responsive">
+                            <table id="basic-btn" class="table table-striped table-bordered nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>S No.</th>
+                                        <th>LoginId</th>
+                                        <th>Name</th>
+                                        <th>Rank Name</th>
+                                        <th>Percentage</th>
+                                     
+                                        <th>Mobile Number</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        if (Model.lstDetails != null)
+                                        {
+                                            if (Model.lstDetails.Rows.Count > 0)
+                                            {
+                                                int j = 1;
+                                                for (int i = 0; i <= Model.lstDetails.Rows.Count - 1; i++)
+                                                {
+                                                    <tr class="text-left">
+                                                        <td>@j</td>
+                                                        <td>@Model.lstDetails.Rows[i]["AssociateId"].ToString()   </td>
+                                                        <td>@Model.lstDetails.Rows[i]["AssociateName"].ToString()   </td>
+                                                        <td>@Model.lstDetails.Rows[i]["DesignationName"].ToString()   </td>
+                                                        <td>@Model.lstDetails.Rows[i]["Percentage"].ToString()   </td>                                                  
+                                                        <td>@Model.lstDetails.Rows[i]["Mobile"].ToString()   </td>
+
+
+                                                    </tr>
+                                                    j++;
+                                                }
+                                            }
+
+                                        }
+                                    }
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>S No.</th>
+                                        <th>Affiliate ID</th>
+                                        <th>Affiliate Name</th>
+                                        <th>Rank Name</th>
+                                        <th>Percentage</th>
+                                        
+                                        <th>Mobile Number</th>
+
+
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END: .main-content -->
+    <!-- BEGIN .main-footer -->
+    <footer class="main-footer">
+        @@ Copyright Jv Homes 2021. All Right Reserved.
+    </footer>
+    <!-- END: .main-footer -->
+</div>

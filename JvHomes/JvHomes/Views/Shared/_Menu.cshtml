@@ -1,0 +1,55 @@
+﻿@model JvHomes.Models.Home
+
+@*<input type="text" id="filtersearch" onkeyup="searchMenu();" class="form-control" placeholder="Search Page">*@
+<ul class="navigation-menu">
+
+    <li class="has-submenu">
+        <a href="/Admin/DashBoard"><i class="icon-accelerator"></i> Dashboard</a>
+    </li>
+    @if (Model != null)
+    {
+        if (Model.lstMenu != null)
+        {
+            foreach (var item in Model.lstMenu)
+            {
+
+
+
+
+                <li class="has-submenu searchMenu">
+
+                    <a href="#"><i class="icon-te"></i>@item.MenuName <i class="@item.Icons"></i></a>
+
+
+
+
+                    <ul class="submenu megamenu">
+                        <li class="searchMenuLi">
+
+                            <ul>
+                                @foreach (var item1 in Model.lstsubmenu)
+                                {
+                                    if (item1.MenuId == item.MenuId)
+                                    {
+                                        <li>
+                                            <a href='@item1.Url'>@item1.SubMenuName</a>
+                                        </li>
+                                    }
+                                }
+
+                            </ul>
+                        </li>
+
+
+                    </ul>
+
+
+
+                </li>
+
+            }
+        }
+    }
+</ul>
+
+

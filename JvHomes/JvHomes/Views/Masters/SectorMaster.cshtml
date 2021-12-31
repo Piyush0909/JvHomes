@@ -1,0 +1,118 @@
+﻿@model JvHomes.Models.Master
+@{
+    ViewBag.Title = "Sector Master";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("SectorMaster", "Masters", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Masters</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Add Sector</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label class="float-label">Select Site<span style="color:red">*</span></label>
+                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control" })
+                <span class="form-bar"></span>
+            </div>
+            <div class="col-sm-6">
+                <label class="float-label">Sector<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.SectorName, new { @class = "form-control", @Placeholder = "Sector Name" })
+                <span class="form-bar"></span>
+            </div>
+        </div>
+        <br />
+        <div class="form-group row">
+            <div class="col-md-6">
+                @if (Model.SectorID == null)
+                {
+                    <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Save" id="btnSave" name="btnSave" />
+                }
+                else
+                {
+                    @Html.HiddenFor(m => m.SectorID, new { @Value = @Model.SectorID })
+                    <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Update" id="btnUpdate" name="btnUpdate" />
+                }
+                <a class="btn btn-info" href="/Masters/SectorList">Back To List</a>
+                <p style="color:red">@TempData["SectorMaster"]</p>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+   
+
+}
+
+<script>
+    function validateform() {
+        $(".errortext").removeClass("errortext");
+
+        if ($('#SiteID').val() == '0') {
+            $("#SiteID").addClass('errortext');
+            $('#SiteID').focus();
+            return false;
+        }
+        if ($('#SectorName').val() == '') {
+            $("#SectorName").addClass('errortext');
+            $('#SectorName').focus();
+            return false;
+        }
+
+
+        return true;
+    }
+
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+</script>
+
+
+<style>
+    .errortext {
+        border: 1px solid red !important;
+        background-color: #fff0f0 !important;
+    }
+</style>

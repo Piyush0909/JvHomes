@@ -1,0 +1,273 @@
+﻿@model JvHomes.Models.Registration
+
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+
+<!-- Mirrored from bootstrap.gallery/kingfisher/light-sidebar/signup.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Dec 2018 07:20:15 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Registration" />
+
+    <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Registration</title>
+
+    <!--
+        **********************
+        **********************
+        Common CSS files
+        **********************
+        **********************
+    -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../AdminPanelCss/css/bootstrap.min.css" />
+    <!-- Icomoon Icons CSS -->
+    <link rel="stylesheet" href="../../AdminPanelCss/fonts/icomoon/icomoon.css" />
+    <!-- Master CSS -->
+    <link rel="stylesheet" href="../../AdminPanelCss/css/main.css" />
+    <style>
+        .errortext {
+            border: 1px solid red !important;
+            background-color: #fff0f0 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container start -->
+    <div class="container">
+        @using (Html.BeginForm("Registration", "Home", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+        {
+
+            <div class="row justify-content-md-center">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="login-screen">
+                        <div class="login-box">
+                            <a href="#" class="login-logo">
+                                <img src="../../AdminPanelCss/img/logo-dark.png" alt="Jaya Sakti" />
+                            </a>
+                            <div class="row gutters">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.sponserId, new { @class = "form-control", @placeHolder = "Refer By", @onchange = "return GetMemberName();" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.sponsorName, new { @class = "form-control", @Disabled = "true" })
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        @Html.HiddenFor(m => m.leg)
+                                        <input type="radio" value="Left" @ViewBag.LeftChecked id="left" name="Leg" /> Left
+
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="radio" value="Right" id="right" name="Leg" @ViewBag.RightChecked /> Right
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.firstName, new { @class = "form-control", @placeHolder = "First Name" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.lastName, new { @class = "form-control", @placeHolder = "Last Name" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", @placeHolder = "Email Id" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @placeHolder = "Mobile No" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        @Html.DropDownListFor(q => q.gender, new SelectList(ViewBag.ddlGender, "Value", "Text"), new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.panCard, new { @class = "form-control", @placeHolder = "Pan Card", @onchage = "return validatepan();" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="form-group">
+                                        @Html.TextAreaFor(m => m.address, new { @class = "form-control", @placeHolder = "Address" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", @placeHolder = "Pincode", @onchange = "return getstatecity();" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="State" placeholder="State" readonly="readonly" />
+
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="City" placeholder="City" readonly="readonly" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="actions clearfix">
+                                <input type="submit" class="btn btn-primary btn-block" value="Sign Up" onclick="return fvalidate();" />
+                            </div>
+
+                            @*<a href="login.html" class="additional-link">Have an Account? <span>Login Now</span></a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+    <!-- Container end -->
+</body>
+
+
+</html>
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function GetMemberName() {
+        $("#divload").css({ 'display': '' });
+        $(".errortext").removeClass("errortext");
+        $.ajax({
+            url: '/Home/GetSponserDetails',
+            type: 'GET',
+            dataType: 'JSON',
+            data: { 'ReferBy': $('#sponserId').val() },
+            success: function (response) {
+                if (response.Result == "Yes") {
+                    $("#divload").css({ 'display': 'none' });
+                    $('#sponsorName').val(response.DisplayName);
+                }
+                else {
+                    $("#divload").css({ 'display': 'none' });
+                    $("#sponserId").addClass('errortext');
+                    $('#sponsorName').val('');
+                    $('#sponserId').val('');
+                    $('#sponserId').focus();
+                    alert(response.Result);
+                }
+            }
+        })
+    }
+    function validatepan(event) {
+        $(".errortext").removeClass("errortext");
+        var regExp = /[a-zA-z]{5}\d{4}[a-zA-Z]{1}/;
+        var txtpan = $('#panCard').val();
+        if (txtpan.length == 10) {
+            if (txtpan.match(regExp)) {
+
+            }
+            else {
+                $("#panCard").addClass('errortext');
+                $('#panCard').focus();
+                $('#panCard').val('');
+                alert('Please enter valid PanNo');
+
+            }
+        }
+        else {
+            $("#panCard").addClass('errortext');
+            $('#panCard').focus();
+            $('#panCard').val('');
+            alert('Please enter 10 digits for a valid PAN number');
+
+        }
+    }
+    function getstatecity() {
+        $(".errortext").removeClass("errortext");
+        $.ajax({
+            url: "/Home/GetStateCity",
+            Type: "Get",
+            DataType: "JSON",
+            data: { PinCode: $("#pinCode").val() },
+            success: function (data) {
+                if (data.Result == "1") {
+                    $("#State").val(data.State);
+                    $("#City").val(data.City);
+                }
+                else {
+                    $("#State").val('');
+                    $("#City").val('');
+                    $("#pinCode").val('');
+                    $("#pinCode").addClass('errortext');
+                    $('#pinCode').focus();
+                    alert(data.Result);
+
+                }
+
+
+            }
+
+        });
+    }
+    function fvalidate() {
+        $(".errortext").removeClass("errortext");
+        if ($('#sponserId').val() == '') {
+            $("#sponserId").addClass('errortext');
+            $('#sponserId').focus();
+            return false;
+        }
+        if ($('#firstName').val() == '') {
+            $("#firstName").addClass('errortext');
+            $('#firstName').focus();
+            return false;
+        }
+        if ($('#lastName').val() == '') {
+            $("#lastName").addClass('errortext');
+            $('#lastName').focus();
+            return false;
+        }
+        if ($('#mobileNo').val() == '') {
+            $("#mobileNo").addClass('errortext');
+            $('#mobileNo').focus();
+            return false;
+        }
+        if ($('#panCard').val() == '') {
+            $("#panCard").addClass('errortext');
+            $('#panCard').focus();
+            return false;
+        }
+        if ($('#address').val() == '') {
+            $("#address").addClass('errortext');
+            $('#address').focus();
+            return false;
+        }
+        if ($('#pinCode').val() == '') {
+            $("#pinCode").addClass('errortext');
+            $('#pinCode').focus();
+            return false;
+        }
+        if ($('#left').prop('checked')) {
+            $('#leg').val('L');
+        }
+        else {
+            $('#leg').val('R');
+        }
+
+    }
+</script>

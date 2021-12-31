@@ -1,0 +1,288 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "PayoutRequestList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@using (Html.BeginForm("PayoutRequestList", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Accounts</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Payout Request List</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Login Id
+                        @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @Placeholder = "Associate Id" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        From Date
+                        @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @Placeholder = "From Date" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        To Date
+                        @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @Placeholder = "To Date" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <br />
+                        <input class="btn btn-success" type="submit" value="Search" id="btnSearch" name="Search" />
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row gutters table-responsive">
+                <table id="example23" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>LoginId</th>
+                            <th>Name</th>
+
+                            <th>Requested Date</th>
+
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.lstDetails != null)
+                            {
+                                if (Model.lstDetails.Rows.Count > 0)
+                                {
+                                    int j = 1;
+                                    for (int i = 0; i <= Model.lstDetails.Rows.Count - 1; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @j
+                                            </td>
+                                            <td>
+                                                <b>@Model.lstDetails.Rows[i]["LoginId"].ToString()</b>
+
+                                            </td>
+
+                                            <td>
+                                                <b>@Model.lstDetails.Rows[i]["Name"].ToString()</b>
+
+                                            </td>
+
+
+                                        
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["RequestedDate"].ToString()<br />
+
+                                            </td>
+                                            <td>@Model.lstDetails.Rows[i]["AMount"].ToString()</td>
+
+                                            <td>@Model.lstDetails.Rows[i]["Status"].ToString()</td>
+                                            <td>
+                                                <a class="btn btn-primary btn-sm" style="color:white" onclick="return openPopUp('@Model.lstDetails.Rows[i]["Pk_RequestId"].ToString()');">Approve Payout</a>
+                                                @*<a href="/Admin/ApprovePayoutRequest?id=@Model.lstDetails.Rows[i]["Pk_RequestId"].ToString()" onclick="return confirm('Are you sure you want to approve this request?');">
+                                                        Approve Request
+                                                    </a>*@
+                                            </td>
+                                        </tr>
+                                        j++;
+                                    }
+
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" role="dialog" style="display: none">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="closeModal();">&times;</button>
+
+                </div>
+                <div class="modal-body" style="color: black">
+                    <div class="row">
+                        <input type="hidden" id="Pk_RequestId" />
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Payment Mode</label>
+                                @Html.DropDownListFor(m => m.PaymentMode, new SelectList(ViewBag.ddlPaymentMode, "Value", "Text"), new { @class = "form-control", @onchange = "return CheckPayMode()" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Credit To</label>
+                                @Html.DropDownListFor(m => m.Fk_BankId, new SelectList(ViewBag.ddlBank, "Value", "Text"), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="row" id="divPaymentMode" style="display: none">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    Cheque/Transaction Number <span style="color: red">*</span>
+                                    @Html.TextBoxFor(m => m.TransactionNumber, new { @class = "form-control", @Placeholder = "Cheque/Transaction Number", @maxlength = "50" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    Cheque/Transaction Date <span style="color: red">*</span>
+                                    @Html.TextBoxFor(m => m.TransactionDate, new { @class = "form-control", @Placeholder = "Cheque/Transaction Date", @Readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    Bank Name <span style="color: red">*</span>
+                                    @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Name" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    Bank Branch <span style="color: red">*</span>
+                                    @Html.TextBoxFor(m => m.BankBranch, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Branch" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @*<a href="/Plot/CancelPlotBooking?BookingID=@Item.PK_BookingId" class="btn btn-danger btn-sm" onclick = "return confirm('Are you sure you want to cancel this booking?');">Cancel</a>*@
+                                <input type="button" class="btn btn-sm btn-danger pull-right" onclick="return approveRequest()" value="Approve" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeModal();">Close</button>
+                    </div>*@
+            </div>
+
+        </div>
+    </div>
+
+}
+    <script src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script>
+    function openPopUp(Pk_RequestId) {
+        $("#myModal").modal('show');
+        $("#Pk_RequestId").val(Pk_RequestId);
+
+
+    }
+    function approveRequest() {
+        if ($('#PaymentMode').val() == '') {
+            $("#PaymentMode").addClass('errortext');
+            $('#PaymentMode').focus();
+            return false;
+        }
+        if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+            if ($('#TransactionNumber').val() == '') {
+                $("#TransactionNumber").addClass('errortext');
+                $('#TransactionNumber').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#TransactionDate').val() == '') {
+                $("#TransactionDate").addClass('errortext');
+                $('#TransactionDate').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#PaymentMode').val() != '4' && $('#PaymentMode').val() != '9') {
+                if ($('#BankName').val() == '') {
+                    $("#BankName").addClass('errortext');
+                    $('#BankName').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
+                if ($('#BankBranch').val() == '') {
+                    $("#BankBranch").addClass('errortext');
+                    $('#BankBranch').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
+                // $('#creditdebit').html('Debit To');
+            }
+
+        }
+        else {
+            $('#TransactionNumber').val('');
+            $('#TransactionDate').val('');
+            $('#BankName').val('');
+            $('#BankBranch').val('');
+        }
+
+         var r = confirm('Are you sure you want to approve this payment ?');
+        if (r == true) {
+            //$("#divload").css({ 'display': '' });
+            $.ajax({
+                url: "/Admin/ApprovePayoutRequest",
+                Type: "Get",
+                DataType: "JSON",
+                data: { id: $("#Pk_RequestId").val(), PaymentMode: $('#PaymentMode').val(), TransactionNumber: $('#TransactionNumber').val(), TransactionDate: $('#TransactionDate').val(), BankName: $('#BankName').val(), BankBranch: $('#BankBranch').val(), Fk_BankId: $('#Fk_BankId').val()},
+                success: function (data) {
+                    alert("Payment Approved");
+                    window.location.href = '@Url.Action("PayoutRequestList", "Admin")';
+
+                }
+
+            });
+       }
+    }
+    $('#FromDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true
+    });
+    $('#Todate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true
+    });
+    $('#TransactionDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true
+    });
+    function CheckPayMode() {
+        debugger
+        if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+            $("#divPaymentMode").show();
+
+        }
+
+        else {
+            $("#divPaymentMode").hide();
+        }
+
+    }
+</script>

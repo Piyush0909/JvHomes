@@ -1,0 +1,79 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "PlotSizeList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("PlotSizeList", "Masters", FormMethod.Post, new { @id = "form1" }))
+{
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Masters</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Plot Size List</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+            <div class="dt-responsive table-responsive">
+                <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="example23">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>Width Feet</th>
+                            <th>Width Inch</th>
+                            <th>Height Feet</th>
+                            <th>Height Inch</th>
+                            <th>Plot Area</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.lstSite != null)
+                            {
+                                int i = 1;
+                                foreach (var Item in Model.lstSite)
+                                {
+                                    <tr class="text-left">
+                                        <td>@i</td>
+                                        <td>@Item.WidthFeet</td>
+                                        <td>@Item.WidthInch</td>
+                                        <td>@Item.HeightFeet</td>
+                                        <td>@Item.HeightInch</td>
+                                        <td>@Item.PlotArea</td>
+                                        <td>
+                                            <a href="/Masters/PlotSizeMaster?plotSizeID=@Item.EncryptKey" class="btn btn-info btn-sm">Edit</a>
+                                            <a href="/Masters/DeletePlotSize?id=@Item.PlotSizeID" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you wish to delete this Plot Size?');">Delete</a>
+                                        </td>
+
+                                    </tr>
+                                    i++;
+                                }
+
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+     
+
+}
+

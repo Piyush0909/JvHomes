@@ -1,0 +1,112 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "BusinessReport";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@using (Html.BeginForm("BusinessReport", "Associate", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Business Report</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+
+                
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-3">
+                    <div class="form-group">
+                        <label>Month</label>
+                        @Html.DropDownListFor(m => m.Month, new SelectList(ViewBag.ddlMonth, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+
+                </div>
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-3">
+                    <div class="form-group">
+                        <br />
+                        <input type="submit" id="btnSearch" class="btn btn-success pull-left" name="Search" value="Search" onclick="return fvalidate();" />
+                    </div>
+                </div>
+            </div>
+            <table id="example23" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>LoginId</th>
+
+                        <th>Name</th>
+
+                        <th>Self Business</th>
+                        <th>Team Business</th>
+                      
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.lstDetails != null)
+                        {
+                            if (Model.lstDetails.Rows.Count > 0)
+                            {
+
+                                int j = 1;
+                                for (int i = 0; i <= Model.lstDetails.Rows.Count - 1; i++)
+                                {
+                                    <tr>
+                                        <td>@j</td>
+                                        <td>@Model.lstDetails.Rows[i]["LoginId"].ToString()</td>
+
+
+                                        <td>@Model.lstDetails.Rows[i]["Name"].ToString()</td>
+
+                                        <td>
+                                            @Model.lstDetails.Rows[i]["SelfBusiness"].ToString()
+
+                                        </td>
+
+                                        <td>@Model.lstDetails.Rows[i]["TeamBusiness"].ToString()</td>
+                                     
+
+                                        <td>
+                                            <a class="btn btn-info btn-sm" href="/Associate/BusinessReport?loginid=@Model.lstDetails.Rows[i]["LoginId"].ToString()">Down Business</a>
+                                        </td>
+                                    </tr>
+                                    j++;
+                                }
+
+                            }
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}
+<script>
+    function fn_showPWD(id, pwd) {
+
+        if ($('#' + id).html() != '******') {
+            $('#' + id).html('******');
+        }
+        else {
+            $('#' + id).html(pwd);
+        }
+    }
+</script>
+

@@ -1,0 +1,70 @@
+﻿@model JvHomes.Models.Expense
+
+@{
+    ViewBag.Title = "ExpenseManagement";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("ExpenseManagement", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="app-main">
+        <!-- BEGIN .profile-header -->
+        <header class="main-heading">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                        <div class="page-icon">
+                            <i class="icon-laptop_windows"></i>
+                        </div>
+                        <div class="page-title">
+                            <h3>Expense Entry</h3>
+                            @*<h6 class="sub-heading">Welcome to Kingfisher Admin Template</h6>*@
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                        <div class="daterange-container">
+                            <div id="reportrange1" class="form-control">
+                                <span>@DateTime.Now.ToString("MMM dd yyyy") </span> <i class="icon-chevron-down down-arrow"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END: .profile-header -->
+        <div class="main-content">
+            <div class="section-container">
+                <h6 class="section-title">Expense Entry</h6>
+
+                <div class="section-wrapper white left">
+
+
+                    <div class="row gutters">
+                     
+                        <div class="row gutters">
+                            
+                            <div class="col-sm-3">
+                               Date <span style="color: red">*</span>
+                                @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control", @onchange = "return onSectorChange();" })
+                            </div>
+                            <div class="col-sm-3">
+                                Select Block <span style="color: red">*</span>
+                                @Html.DropDownListFor(m => m.BlockID, new SelectList(ViewBag.ddlBlock, "Value", "Text"), new { @class = "form-control" })
+                            </div>
+                            <div class="col-sm-3">
+                                Plot Number <span style="color: red">*</span>
+                                @Html.TextBoxFor(m => m.PlotNumber, new { @class = "form-control", @Placeholder = "Plot Number", @onchange = "return CheckPlotStatus();", @style = "text-transform:uppercase" })
+                            
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+

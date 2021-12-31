@@ -1,0 +1,78 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "Sector List";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Masters</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Sector List</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+            <div class="dt-responsive table-responsive">
+                <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="example23">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>SiteName</th>
+                            <th>Sector Name</th>
+
+                            <th></th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.lstSector != null)
+                            {
+                                int i = 1;
+                                foreach (var Item in Model.lstSector)
+                                {
+                                    <tr class="text-left">
+                                        <td>@i</td>
+                                        <td>@Item.SiteName</td>
+                                        <td>@Item.SectorName</td>
+
+                                        <td>
+                                            <a href="/Masters/SectorMaster?SectorID=@Item.EncryptKey" class="btn btn-info btn-sm">Edit</a>
+                                            <a href="/Masters/DeleteSector?id=@Item.SectorID" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you wish to delete this sector?');">Delete</a>
+                                        </td>
+
+                                    </tr>
+
+                                    i++;
+                                }
+                            }
+                        }
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>S No.</th>
+                            <th>SiteName</th>
+                            <th>Sector Name</th>
+
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+    </div>
+</div>
+    
+</div>

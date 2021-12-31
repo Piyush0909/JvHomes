@@ -1,0 +1,65 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "BankList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Masters</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Bank List</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row gutters table-responsive">
+            <table id="example23" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Bank Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.bankList != null)
+                        {
+                            if (Model.bankList.Rows.Count > 0)
+                            {
+                                int j = 1;
+                                for (int i = 0; i <= Model.bankList.Rows.Count - 1; i++)
+                                {
+                                    <tr>
+                                        <td>@j</td>
+
+                                        <td>@Model.bankList.Rows[i]["BankName"].ToString()</td>
+                                        <td>
+                                            @*<a href="/Masters/PLCMaster?plcid=@Model.dtPLC.Rows[i]["PK_PLCID"].ToString()" class="btn btn-info btn-sm">Edit</a>*@
+                                            <a href="/Masters/DeleteBank?id=@Model.bankList.Rows[i]["Pk_BankId"].ToString()" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you wish to delete this Bank?');">Delete</a>
+                                        </td>
+
+                                    </tr>
+                                    j++;
+                                }
+
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+     

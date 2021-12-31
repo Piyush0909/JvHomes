@@ -1,0 +1,114 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "ApprovePayent";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@using (Html.BeginForm("ApprovePayent", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Payment</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Approve Payment</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                Customer LoginId
+                @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @Placeholder = "LoginId" })
+            </div>
+            <div class="col-sm-3">
+                Booking No
+                @Html.TextBoxFor(m => m.BookingNumber, new { @class = "form-control", @Placeholder = "Mobile No" })
+            </div>
+            <div class="col-sm-3">
+                Associate LoginId
+                @Html.TextBoxFor(m => m.SponsorId, new { @class = "form-control", @Placeholder = "Sponsor Id" })
+            </div>
+
+            <div class="col-sm-3">
+                <br />
+                <input type="submit" value="Get Details" class="btn btn-primary" />
+            </div>
+
+        </div>
+        <br />
+        <table id="basicExample" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Associate Details</th>
+                    <th>Customer Details</th>
+                    <th>Payment Mode</th>
+                    <th>Transaction No</th>
+                    <th>Transaction Date</th>
+                    <th>Plot No</th>
+                    <th>Amount</th>
+                    <th>Credit To</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.userList != null)
+                    {
+                        if (Model.userList.Rows.Count > 0)
+                        {
+                            for (int i = 0; i <= Model.userList.Rows.Count - 1; i++)
+                            {
+                <tr>
+                    <td>
+                        @Model.userList.Rows[i]["associateName"].ToString()
+                        <br />
+                        <label class="btn btn-warning btn-sm">@Model.userList.Rows[i]["associateId"].ToString()</label>
+                    </td>
+                    <td>
+                        @Model.userList.Rows[i]["customerName"].ToString()
+                        <br />
+                        <label class="btn btn-warning btn-sm">@Model.userList.Rows[i]["customerId"].ToString()</label>
+                    </td>
+                    <td> @Model.userList.Rows[i]["PaymentMode"].ToString()</td>
+                    <td> @Model.userList.Rows[i]["TransactionNo"].ToString()</td>
+                    <td> @Model.userList.Rows[i]["TransactionDate"].ToString()</td>
+                    <td> @Model.userList.Rows[i]["PlotNumber"].ToString()</td>
+
+                    <td> @Model.userList.Rows[i]["PaidAmount"].ToString()</td>
+                    <td> @Model.userList.Rows[i]["BankName"].ToString()</td>
+                    <td>
+                        <a class="btn btn-success btn-sm" href="/Admin/ApprovePendingPayment?id=@JvHomes.Crypto.Encrypt(Model.userList.Rows[i]["PK_BookingDetailsId"].ToString())"
+                           onclick="return confirm('Are you sure you want to approve payment?');">
+                            Approve Payment
+                        </a>
+                        <a class="btn btn-success btn-sm" href="/Admin/RejectPendingPayment?id=@JvHomes.Crypto.Encrypt(Model.userList.Rows[i]["PK_BookingDetailsId"].ToString())"
+                           onclick="return confirm('Are you sure you want to reject payment?');">
+                            Reject Payment
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="/Admin/DeletePayment?id=@JvHomes.Crypto.Encrypt(Model.userList.Rows[i]["PK_BookingDetailsId"].ToString())"
+                           onclick="return confirm('Are you sure you want to delete payment?');">
+                            Delete Payment
+                        </a>
+                    </td>
+                </tr>
+                            }
+
+                        }
+                    }
+                }
+            </tbody>
+          
+        </table>
+    </div>
+</div>
+     
+}

@@ -1,0 +1,64 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "PLCList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Masters</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">PLC List</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row gutters table-responsive">
+            <table id="example23" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>PLC Name</th>
+                        <th>PLC Charge</th>
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.dtPLC != null)
+                        {
+                            if (Model.dtPLC.Rows.Count > 0)
+                            {
+                                for (int i = 0; i <= Model.dtPLC.Rows.Count - 1; i++)
+                                {
+                                    <tr>
+                                        <td>@Model.dtPLC.Rows[i]["PLCName"].ToString()</td>
+                                        <td>@Model.dtPLC.Rows[i]["PLCCharge"].ToString()</td>
+                                        <td>
+                                            <a href="/Masters/PLCMaster?plcid=@Model.dtPLC.Rows[i]["PK_PLCID"].ToString()" class="btn btn-info btn-sm">Edit</a>
+                                            <a href="/Masters/DeletePLC?id=@Model.dtPLC.Rows[i]["PK_PLCID"].ToString()" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you wish to delete this PLC?');">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+      
+

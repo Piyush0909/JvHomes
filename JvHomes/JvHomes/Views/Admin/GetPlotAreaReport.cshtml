@@ -1,0 +1,164 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "GetPlotAreaReport";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@using (Html.BeginForm("GetPlotAreaReport", "Admin", FormMethod.Post, new { @id = "form1" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Plot Area Report</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    Side Name
+                    @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    From Date
+                    @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @Placeholder = "From Date" })
+                </div>
+                <div class="col-sm-3">
+                    To Date
+                    @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @Placeholder = "To Date" })
+
+
+                </div>
+                <div class="col-sm-3">
+                    Status
+                    @Html.DropDownListFor(m => m.Status, new SelectList(ViewBag.ddlPlotStatus, "Value", "Text"), new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    <br />
+                    <input type="submit" value="Get Details" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="dt-responsive table-responsive">
+                <table id="example23" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr No</th>
+                            <th>Booking Date</th>
+                            <th>Side Name</th>
+
+                            <th>Plot No.</th>
+                            <th>Associate Id</th>
+                            <th>Associate Name</th>
+                            <th>LoginId</th>
+                            <th>Name</th>
+                            <th>Mobile No</th>
+
+                            <th>Area</th>
+                            <th>Plot Amt</th>
+                            <th>Paid Amt</th>
+                            <th>Due Amt</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.lstDetails != null)
+                            {
+                                int j = 1;
+                                if (Model.lstDetails.Rows.Count > 0)
+                                {
+                                    for (int i = 0; i <= Model.lstDetails.Rows.Count - 1; i++)
+                                    {
+                                        <tr>
+                                            <td>@j</td>
+                                            <td>
+
+                                                @Model.lstDetails.Rows[i]["BookingDate"].ToString()
+                                            </td>
+                                            <td>@Model.lstDetails.Rows[i]["SiteName"].ToString()</td>
+
+
+                                            <td>@Model.lstDetails.Rows[i]["PlotNumber"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["AssociateId"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["AssocaiteName"].ToString()</td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["LoginId"].ToString()
+
+                                            </td>
+                                            <td>
+
+                                                @Model.lstDetails.Rows[i]["Name"].ToString()
+                                            </td>
+                                            <td>
+
+                                                @Model.lstDetails.Rows[i]["Mobile"].ToString()
+                                            </td>
+
+                                            <td>@Model.lstDetails.Rows[i]["PaidSqft"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["NetPlotAmount"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["PaidAMount"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["DueAmount"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["BookingStatus"].ToString()</td>
+                                        </tr>
+                                        j++;
+                                    }
+
+                                }
+                            }
+                        }
+
+                    </tbody>
+                    <thead>
+                        <tr>
+
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>Total</th>
+                            <th style="color:blue">@ViewBag.TotalPaidSqft</th>
+                            <th style="color:green">@ViewBag.TotalNetPlotAmount</th>
+                            <th style="color:darkblue">@ViewBag.TotalPaidAMount</th>
+                            <th style="color:red">@ViewBag.TotalDueAmount</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+<script src="../../assets/js/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js"></script>
+<script>
+
+    $('#FromDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        maxDate: 0,
+        changeMonth: true
+    });
+    $('#Todate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: 0,
+        changeYear: true,
+        changeMonth: true
+    });
+</script>

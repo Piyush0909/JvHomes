@@ -1,0 +1,146 @@
+﻿@model JvHomes.Models.Dashboard
+
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/CustomerLayout.cshtml";
+}
+
+
+
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">DashBoard</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">DashBoard</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="main-content">
+            @if (Model != null)
+            {
+                if (Model.bageDetails != null)
+                {
+                    if (Model.bageDetails.Rows.Count > 0)
+                    {
+                        <div class="row gutters">
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2" style="background-color:#02c58d">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                    Total Booking
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff">@Model.bageDetails.Rows[0]["TotalBooking"].ToString()</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2" style="background-color:#990099">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                    Cancelled Booking
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.bageDetails.Rows[0]["CancelledBooking"].ToString()</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2" style="background-color:#fcbe2d">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                    Alloted Booking
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.bageDetails.Rows[0]["AllotedBooking"].ToString()</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2" style="background-color:#8893cc">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                    Registered Booking
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.bageDetails.Rows[0]["RegisteredBooking"].ToString()</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                        <div class="row gutters">
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2" style="background-color:#30419b">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                    Due Amount
+                                                </div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff">@Model.bageDetails.Rows[0]["DueAmount"].ToString()</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+                    }
+                }
+            }
+
+            
+
+
+
+
+            
+        </div>
+    </div>
+</div>
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+    });
+
+</script>

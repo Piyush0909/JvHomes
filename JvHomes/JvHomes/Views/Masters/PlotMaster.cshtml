@@ -1,0 +1,442 @@
+﻿@model JvHomes.Models.Master
+@{
+    ViewBag.Title = "Plot Master";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("PlotMaster", "Masters", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Masters</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Add Plots</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                @if (ViewBag.RegularPlot == "1")
+                {
+                    <input type="radio" id="rdbregular" name="plottype" checked="checked" onclick="return getdetails('RegularPlot')" /> <label>Regular Plot</label>
+                    <input type="radio" id="rdbnonregular" name="plottype" onclick="return getdetails('NonRegularPlot')" />
+                    <label>Non - Regular Plot</label>
+
+                }
+                else
+                {
+                    <input type="radio" id="rdbregular" name="plottype" onclick="return getdetails('RegularPlot')" /> <label>Regular Plot</label>
+                    <input type="radio" id="rdbnonregular" name="plottype" checked="checked" onclick="return getdetails('NonRegularPlot')" />
+                    <label>Non - Regular Plot</label>
+                }
+
+
+            </div>
+        </div>
+
+        <div class="row gutters">
+            <div class="col-sm-3">
+                <label class="float-label">Project Name<span style="color:red">*</span></label>
+                @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                <span class="form-bar"></span>
+            </div>
+            <div class="col-sm-3" style="display:none">
+                <label class="float-label">Rate<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.Rate, new { @class = "form-control", @Placeholder = "Rate", @ReadOnly = "ReadOnly" })
+                <span class="form-bar"></span>
+            </div>
+            <div class="col-sm-3">
+                <label class="float-label">Sector Name<span style="color:red">*</span></label>
+                @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control", @onchange = "return onSectorChange();" })
+                <span class="form-bar"></span>
+            </div>
+            <div class="col-sm-3">
+                <label class="float-label">Block Name<span style="color:red">*</span></label>
+                @Html.DropDownListFor(m => m.BlockID, new SelectList(ViewBag.ddlBlock, "Value", "Text"), new { @class = "form-control" })
+                <span class="form-bar"></span>
+            </div>
+        </div>
+
+
+        <div class="row gutters">
+            <div class="col-sm-3">
+                <label class="float-label">Plot Rate<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.PlotRate, new { @class = "form-control", @Placeholder = "Plot Rate", @onkeypress = "return isNumberOrDecimal(event);", @onchange = "return calculatePlotAmount();", @maxlength = "20" })
+                <span class="form-bar"></span>
+            </div>
+
+            <div class="col-sm-3" id="plotsize">
+                <label class="float-label">Plot Size<span style="color:red">*</span></label>
+                @Html.DropDownListFor(m => m.PlotSizeID, new SelectList(ViewBag.ddlPlotSize, "Value", "Text"), new { @class = "form-control", @onchange = "return calculatePlotAmount();" })
+                <span class="form-bar"></span>
+            </div>
+
+            <div class="col-sm-3" id="plotarea" style="display:none">
+                <label class="float-label">Plot Area<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.PlotArea, new { @class = "form-control", @Placeholder = "Plot Area", @onkeypress = "return isNumberOrDecimal(event);", @onchange = "return calculatePlotAmount();" })
+                <span class="form-bar"></span>
+            </div>
+
+
+            <div class="col-sm-3">
+                <label class="float-label">Booking Amount<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.BookingPercent, new { @class = "form-control", @Placeholder = "Booking Amount", @onkeypress = "return isNumberOrDecimal(event);", @maxlength = "20" })
+                <span class="form-bar"></span>
+            </div>
+            <div class="col-sm-3">
+                <label class="float-label">Plot Amount<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.PlotAmount, new { @class = "form-control", @Placeholder = "Plot Amount", @Readonly = "readonly", @onkeypress = "return isNumberOrDecimal(event);" })
+                <span class="form-bar"></span>
+            </div>
+        </div>
+
+        <div class="row gutters">
+            <div class="col-sm-3">
+                <label class="float-label">Allotment Percentage<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.AllottmentPercent, new { @class = "form-control", @Placeholder = "Allottment Percent", @onkeypress = "return isNumberOrDecimal(event);", @maxlength = "20" })
+                <span class="form-bar"></span>
+            </div>
+            <div class="col-sm-3">
+                <label class="float-label">Plot Prefix</label>
+                @Html.TextBoxFor(m => m.PlotPrefix, new { @class = "form-control", @Placeholder = "Plot Prefix", @maxlength = "20" })
+                <span class="form-bar"></span>
+            </div>
+            <div class="col-sm-3">
+                <label class="float-label">From Plot<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.FromPlot, new { @class = "form-control", @Placeholder = "From Plot", @onkeypress = "return isNumberOrDecimal(event);" })
+                <span class="form-bar"></span>
+            </div>
+            <div class="col-sm-3">
+                <label class="float-label">To Plot<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.ToPlot, new { @class = "form-control", @Placeholder = "To Plot", @onkeypress = "return isNumberOrDecimal(event);" })
+                @Html.HiddenFor(m => m.PlotID)
+                <span class="form-bar"></span>
+            </div>
+        </div>
+        <div class="row gutters">
+            <div class="col-sm-3">
+                <label class="float-label">Plot PostFix</label>
+                @Html.TextBoxFor(m => m.PlotPostfix, new { @class = "form-control", @Placeholder = "Plot PostFix", @maxlength = "20" })
+                <span class="form-bar"></span>
+            </div>
+        </div>
+        <div class="row gutters">
+            <div class="col-sm-12">
+                <table id="basicExample123" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Location</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.dtPLC != null)
+                            {
+                                if (Model.dtPLC.Rows.Count > 0)
+                                {
+                                    int j = 1;
+                                    for (int i = 0; i <= Model.dtPLC.Rows.Count - 1; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @if (@Model.dtPLC.Rows[i]["Item"].ToString() != "")
+                                                {
+                                                    <input type="checkbox" id="chk_@j" name="chk_@j" checked />
+                                                }
+                                                else
+                                                {
+                                                    <input type="checkbox" id="chk_@j" name="chk_@j" />
+                                                }
+                                                <input type="hidden" id="plcid_@j" name="plcid_@j" value="@Model.dtPLC.Rows[i]["PK_PLCID"].ToString()" />
+                                            </td>
+                                            <td>@Model.dtPLC.Rows[i]["PLCName"].ToString()</td>
+
+                                        </tr>
+                                        j++;
+                                    }
+                                    <input type="hidden" id="hdRows" name="hdRows" value="@j" />
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+        <div class="form-group row">
+            <div class="col-md-6">
+                @if (Model.PlotID == null)
+                {
+                    <input class="btn btn-success pull-right" type="submit" onclick="return validateform();" value="Save" id="btnSave" name="btnSave" />
+
+                }
+                else
+                {
+
+                    <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Update" id="btnUpdate" name="btnUpdate" />
+                }
+
+                <a class="btn btn-info" href="/Masters/PlotList">Back To List</a>
+                <p style="color:red">@TempData["Plot"]</p>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+      
+    @Html.HiddenFor(m => m.PlotStatus)
+
+
+
+}
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        if ($("#rdbregular").prop("checked", true)) {
+            $('#plotsize').css({ 'display': '' });
+            $('#plotarea').css({ 'display': 'none' });
+            $('#PlotStatus').val('RegularPlot');
+        }
+        else {
+            $('#plotsize').css({ 'display': 'none' });
+            $('#plotarea').css({ 'display': '' });
+            $('#PlotStatus').val('NonRegularPlot');
+        }
+
+    });
+    function calculatePlotAmount() {
+        if ($('#PlotStatus').val() == "RegularPlot") {
+            var ddlSize = document.getElementById("PlotSizeID");
+            var selectedPlotSize = ddlSize.options[ddlSize.selectedIndex].text;
+
+            var plotSize = selectedPlotSize.split(" ");
+            var plotRate = $("#PlotRate").val();
+
+            var plotAmount = Number(plotSize[0]) * Number(plotRate);
+            //alert(plotArea);
+            document.getElementById("PlotAmount").value = plotAmount;
+        }
+        else {
+            var plotAmount = Number($('#PlotArea').val()) * Number($("#PlotRate").val());
+            document.getElementById("PlotAmount").value = plotAmount;
+        }
+    }
+    function getdetails(plottype) {
+        if (plottype == "RegularPlot") {
+            $('#plotsize').css({ 'display': '' });
+            $('#plotarea').css({ 'display': 'none' });
+            $('#PlotStatus').val('RegularPlot');
+        }
+        else {
+            $('#plotsize').css({ 'display': 'none' });
+            $('#plotarea').css({ 'display': '' });
+            $('#PlotStatus').val('NonRegularPlot');
+        }
+    }
+    function onSiteChange() {
+        $("#divload").css({ 'display': '' });
+        var value = $('#SiteID').val();
+        var values = $('#SectorID').val();
+        var tr = [];
+        $.ajax({
+            url: "/Masters/GetSiteDetails",
+            Type: "Get",
+            DataType: "JSON",
+            data: { SiteID: value },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                var j = 1;
+                //alert(data.Result);
+                if (data.Result == "yes") {
+                    //alert(data.Rate);
+
+                    $("#SectorID").html(""); // clear before appending new list
+                    $("#SectorID").empty();
+                    $("#BlockID").empty();
+                    $("#SectorID").append(
+                        $('<option></option>').val(0).html('Select Sector'));
+                    $.each(data.ddlSector, function (index, Sectorcount) {
+                        $("#SectorID").append(
+                            $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+
+                    });
+
+
+
+                }
+                else {
+                    $('#Rate').val('');
+                }
+            }
+
+        });
+
+    }
+
+    function onSectorChange() {
+        debugger;
+        $("#divload").css({ 'display': '' });
+        var siteID = $('#SiteID').val();
+        var sectorID = $('#SectorID').val();
+        $.ajax({
+            url: '/Masters/GetBlockList', type: 'post', dataType: 'json',
+            data: { 'SiteID': siteID, 'sectorID': sectorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                $("#BlockID").html(""); // clear before appending new list
+                $("#BlockID").empty();
+                $("#BlockID").append(
+                    $('<option></option>').val(0).html('Select Block'));
+                $.each(data.lstBlock, function (index, BlockCount) {
+                    $("#BlockID").append(
+                        $('<option></option>').val(BlockCount.Value).html(BlockCount.Text));
+                });
+
+            }
+
+        });
+    }
+
+    function validateform() {
+        $(".errortext").removeClass("errortext");
+        if ($('#SiteID').val() == '0') {
+            $("#SiteID").addClass('errortext');
+            $('#SiteID').focus();
+            return false;
+        }
+        if ($('#SectorID').val() == '0') {
+            $("#SectorID").addClass('errortext');
+            $('#SectorID').focus();
+            return false;
+        }
+
+        if ($('#BlockID').val() == '0') {
+            $("#BlockID").addClass('errortext');
+            $('#BlockID').focus();
+            return false;
+        }
+
+        if ($('#PlotRate').val() == '') {
+            $("#PlotRate").addClass('errortext');
+            $('#PlotRate').focus();
+            return false;
+        }
+        if ($('#PlotStatus').val() == "RegularPlot") {
+            if ($('#PlotSizeID').val() == '0') {
+                $("#PlotSizeID").addClass('errortext');
+                $('#PlotSizeID').focus();
+                return false;
+            }
+        }
+        else {
+            if ($('#PlotArea').val() == '') {
+                $("#PlotArea").addClass('errortext');
+                $('#PlotArea').focus();
+                return false;
+            }
+        }
+        if ($('#BookingPercent').val() == '') {
+            $("#BookingPercent").addClass('errortext');
+            $('#BookingPercent').focus();
+            return false;
+        }
+        if ($('#AllottmentPercent').val() == '') {
+            $("#AllottmentPercent").addClass('errortext');
+            $('#AllottmentPercent').focus();
+            return false;
+        }
+
+        //if ($('#PlotPrefix').val() == '') {
+        //    $("#PlotPrefix").addClass('errortext');
+        //    $('#PlotPrefix').focus();
+        //    return false;
+        //}
+        if ($('#FromPlot').val() == '') {
+            $("#FromPlot").addClass('errortext');
+            $('#FromPlot').focus();
+            return false;
+        }
+        if ($('#ToPlot').val() == '') {
+            $("#ToPlot").addClass('errortext');
+            $('#ToPlot').focus();
+            return false;
+        }
+       
+        var allottmentPercentage = $('#AllottmentPercent').val();
+        if ((Number)(allottmentPercentage) > 100) {
+            $('#AllottmentPercent').val('');
+            $("#AllottmentPercent").addClass('errortext');
+            $('#AllottmentPercent').focus();
+            return false;
+        }
+
+        var fromPlot = $('#FromPlot').val();
+        var toPlot = $('#ToPlot').val();
+        if ((Number)(toPlot) < (Number)(fromPlot)) {
+            $("#FromPlot").addClass('errortext');
+            $("#ToPlot").addClass('errortext');
+            $('#FromPlot').val('');
+            $('#ToPlot').val('');
+            return false;
+        }
+
+        return true;
+    }
+
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+</script>
+
+
+<style>
+    .errortext {
+        border: 1px solid red !important;
+        background-color: #fff0f0 !important;
+    }
+</style>

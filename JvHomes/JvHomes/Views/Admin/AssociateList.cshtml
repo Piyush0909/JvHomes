@@ -1,0 +1,140 @@
+﻿@model JvHomes.Models.Reports
+@{
+    ViewBag.Title = "AssociateList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("AssociateList", "Admin", FormMethod.Post, new { @id = "form1" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Associate</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Associate List</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    LoginId
+                    @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @Placeholder = "LoginId" })
+                </div>
+                <div class="col-sm-3">
+                    Mobile No
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @Placeholder = "Mobile No" })
+                </div>
+                <div class="col-sm-3">
+                    SponsorId
+                    @Html.TextBoxFor(m => m.SponsorId, new { @class = "form-control", @Placeholder = "Sponsor Id" })
+                </div>
+                <div class="col-sm-3">
+                    From Joining Date
+                    @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @Placeholder = "From Date" })
+                </div>
+                <div class="col-sm-3">
+                    To Joining Date
+                    @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @Placeholder = "To Date" })
+                </div>
+                <div class="col-sm-3">
+                    <br />
+                    <input type="submit" value="Get Details" class="btn btn-primary" />
+                </div>
+            </div>
+            <table id="example23" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>LoginId</th>
+                        <th>Name</th>
+                        @if (Session["RoleName"].ToString() == "Admin")
+                        {
+                            <th>Password</th>
+                        }
+
+                        <th>Sponsor Details</th>
+                        <th>Joining Date</th>
+                        <th>Mobile</th>
+                        @if (Session["RoleName"].ToString() == "Admin")
+                        {
+                            <th>Action</th>
+                        }
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.userList != null)
+                        {
+                            if (Model.userList.Rows.Count > 0)
+                            {
+                                int j = 1;
+                                for (int i = 0; i <= Model.userList.Rows.Count - 1; i++)
+                                {
+                                    <tr>
+                                        <td>@j</td>
+                                        <td>@Model.userList.Rows[i]["AssociateId"].ToString()</td>
+                                        <td>@Model.userList.Rows[i]["AssociateName"].ToString()</td>
+                                        @if (Session["RoleName"].ToString() == "Admin")
+                                        {
+                                            <td><span style="font-size:14px;font-weight:600;" id="@i" onclick="fn_showPWD('@i','@JvHomes.Crypto.Decrypt(Model.userList.Rows[i]["Password"].ToString())')">******</span></td>
+                                        }
+
+                                        <td>
+                                            @Model.userList.Rows[i]["SponsorId"].ToString()
+                                            <br />
+                                            @Model.userList.Rows[i]["SponsorName"].ToString()
+                                        </td>
+                                        <td>@Model.userList.Rows[i]["JoiningDate"].ToString()</td>
+                                        <td>@Model.userList.Rows[i]["Mobile"].ToString()</td>
+                                        @if (Session["RoleName"].ToString() == "Admin")
+                                        {
+                                            <td>
+                                                <a href="/Admin/GetKYC?LoginId=@JvHomes.Crypto.Encrypt(Model.userList.Rows[i]["AssociateId"].ToString())" class="btn btn-primary btn-sm">View KYC</a>
+
+                                                <a href="/Admin/AssociateRegistration?UserID=@JvHomes.Crypto.Encrypt(Model.userList.Rows[i]["PK_UserId"].ToString())" class="btn btn-info btn-sm">Edit</a>
+                                                <a href="/Admin/DeleteAssociate?UserID=@JvHomes.Crypto.Encrypt(Model.userList.Rows[i]["PK_UserId"].ToString())" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Associate?');">Delete</a>
+                                                @if (Model.userList.Rows[i]["IsBlocked"].ToString() == "True")
+                                                {
+                                                    <a href="/Admin/UnBlockMember?UserID=@JvHomes.Crypto.Encrypt(Model.userList.Rows[i]["PK_UserId"].ToString())" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to UnBlock this Associate?');">UnBlock</a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="/Admin/UnBlockMember?UserID=@JvHomes.Crypto.Encrypt(Model.userList.Rows[i]["PK_UserId"].ToString())" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to Block this Associate?');">Block</a>
+                                                }
+
+                                            </td>
+                                        }
+                                    </tr>
+                                    j++;
+                                }
+
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<script>
+    function fn_showPWD(id, pwd) {
+
+        if ($('#' + id).html() != '******') {
+            $('#' + id).html('******');
+        }
+        else {
+            $('#' + id).html(pwd);
+        }
+    }
+</script>

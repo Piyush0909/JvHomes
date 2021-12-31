@@ -1,0 +1,75 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "Block List";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Masters</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Block List</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row gutters table-responsive">
+            <table id="example23" class="table table-bordered">
+              
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>SiteName</th>
+                            <th>Sector Name</th>
+                            <th>Block Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.lstBlock1 != null)
+                            {
+                                int i = 1;
+                                foreach (var Item in Model.lstBlock1)
+                                {
+                                    <tr class="text-left">
+                                        <td>@i</td>
+                                        <td>@Item.SiteName</td>
+                                        <td>@Item.SectorName</td>
+                                        <td>@Item.BlockName</td>
+                                        <td>
+                                            <a href="/Masters/BlockMaster?BlockID=@Item.EncryptKey" class="btn btn-info btn-sm">Edit</a>
+                                            <a href="/Masters/DeleteBlock?id=@Item.BlockID" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you wish to delete this Block?');">Delete</a>
+                                        </td>
+
+                                    </tr>
+
+                                    i++;
+                                }
+                            }
+                        }
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>S No.</th>
+                            <th>SiteName</th>
+                            <th>Sector Name</th>
+                            <th>Block Name</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+        </div>
+    </div>
+</div>
+    

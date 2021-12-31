@@ -1,0 +1,173 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "BalanceSheet";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Reports</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Balance Sheet</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+            <table id="basicExample23323" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Particular</th>
+                        <th>Transaction No</th>
+                        <th>Transaction Date</th>
+                        <th>Debit</th>
+                        <th>Credit</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.lstDetails != null)
+                        {
+                            if (Model.lstDetails.Rows.Count > 0)
+                            {
+                                int k = 1;
+                                for (int i = 0; i <= Model.lstDetails.Rows.Count - 1; i++)
+                                {
+                                    int l = 1;
+                                    if (Model.lstDetails.Rows[i]["Pk_HeadId"].ToString() == "6")
+                                    {
+                                        <tr style="background-color: antiquewhite;">
+                                            <td>
+                                                @k
+                                            </td>
+                                            <td>
+                                                <a data-toggle="collapse" href="#collapseExample_@Model.lstDetails.Rows[i]["Pk_HeadId"].ToString()" role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
+                                                    @Model.lstDetails.Rows[i]["AccountHead"].ToString()
+                                                </a>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["Debit"].ToString()
+                                            </td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["Credit"].ToString()
+                                            </td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["Balance"].ToString()
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        <tr style="background-color: aquamarine;">
+                                            <td>
+                                                @k
+                                            </td>
+                                            <td>
+                                                <a data-toggle="collapse" href="#collapseExample_@Model.lstDetails.Rows[i]["Pk_HeadId"].ToString()" role="button" aria-expanded="false" aria-controls="collapseExample" style="color:blue">
+                                                    @Model.lstDetails.Rows[i]["AccountHead"].ToString()
+                                                </a>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["Debit"].ToString()
+                                            </td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["Credit"].ToString()
+                                            </td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["Balance"].ToString()
+                                            </td>
+                                        </tr>
+                                    }
+
+                                    for (int j = 0; j <= Model.dtDetails.Rows.Count - 1; j++)
+                                    {
+                                        if (Model.lstDetails.Rows[i]["Pk_HeadId"].ToString() == Model.dtDetails.Rows[j]["FK_HeadID"].ToString())
+                                        {
+                                            if (Model.dtDetails.Rows[j]["FK_HeadID"].ToString() == "6")
+                                            {
+                                                <tr class="collapse" id="collapseExample_@Model.dtDetails.Rows[j]["FK_HeadID"].ToString()" style="background-color: beige;">
+
+                                                    <td>
+                                                        @l
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["Narration"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["TransactionNo"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["TransactionDate"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["DrAmount"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["CrAmount"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["Balance"].ToString()
+                                                    </td>
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr class="collapse" id="collapseExample_@Model.dtDetails.Rows[j]["FK_HeadID"].ToString()" style="background-color: darkkhaki;">
+
+                                                    <td>
+                                                        @l
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["Narration"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["TransactionNo"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["TransactionDate"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["DrAmount"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["CrAmount"].ToString()
+                                                    </td>
+                                                    <td>
+                                                        @Model.dtDetails.Rows[j]["Balance"].ToString()
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                            l++;
+                                        }
+
+                                    }
+                                    k++;
+
+                                }
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+

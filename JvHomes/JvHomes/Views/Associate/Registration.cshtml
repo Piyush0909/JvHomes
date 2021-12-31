@@ -1,0 +1,140 @@
+﻿@model JvHomes.Models.Registration
+
+@{
+    ViewBag.Title = "Registration";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+
+    @using (Html.BeginForm("Registration", "Associate", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+    {
+
+
+        <div class="app-main">
+            <!-- BEGIN .profile-header -->
+            <header class="main-heading">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="page-icon">
+                                <i class="icon-laptop_windows"></i>
+                            </div>
+                            <div class="page-title">
+                                <h3>Registration</h3>
+                                @*<h6 class="sub-heading">Welcome to Kingfisher Admin Template</h6>*@
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                            <div class="daterange-container">
+                                <div id="reportrange1" class="form-control">
+                                    <span> @DateTime.Now.ToString("MMM dd yyyy") </span> <i class="icon-chevron-down down-arrow"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- END: .profile-header -->
+            <div class="main-content">
+                <div class="row gutters">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="card custom-bdr">
+                            <div class="card-header">Registration</div>
+                            <div class="card-body">
+                                <div class="row gutters">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.sponserId, new { @class = "form-control", @placeHolder = "Refer By", @onchange = "return GetMemberName();" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.sponsorName, new { @class = "form-control", @Disabled = "true" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            @Html.HiddenFor(m => m.leg)
+                                            <input type="radio" value="Left" @ViewBag.LeftChecked id="left" name="Leg" /> Left
+
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="radio" value="Right" id="right" name="Leg" @ViewBag.RightChecked /> Right
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.firstName, new { @class = "form-control", @placeHolder = "First Name" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.lastName, new { @class = "form-control", @placeHolder = "Last Name" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", @placeHolder = "Email Id" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @placeHolder = "Mobile No" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            @Html.DropDownListFor(q => q.gender, new SelectList(ViewBag.ddlGender, "Value", "Text"), new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.panCard, new { @class = "form-control", @placeHolder = "Pan Card", @onchage = "return validatepan();" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            @Html.TextAreaFor(m => m.address, new { @class = "form-control", @placeHolder = "Address" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", @placeHolder = "Pincode", @onchange = "return getstatecity();" })
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="State" placeholder="State" readonly="readonly" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="City" placeholder="City" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="actions clearfix">
+                                    <input type="submit" class="btn btn-primary btn-block" value="Sign Up" onclick="return fvalidate();" />
+                                </div>
+
+                                @*<a href="login.html" class="additional-link">Have an Account? <span>Login Now</span></a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+
+        </div>
+    }
+
+

@@ -1,0 +1,165 @@
+﻿@model JvHomes.Models.Master
+@{
+    ViewBag.Title = "Block Master";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("BlockMaster", "Masters", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Masters</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Add Block</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+          
+                <div class="col-sm-6">
+                    <label class="float-label">Project Name<span style="color:red">*</span></label>
+                    @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-6">
+                    <label class="float-label">Sector Name<span style="color:red">*</span></label>
+                    @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control" })
+                </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <label class="float-label">Block Name<span style="color:red">*</span></label>
+                @Html.TextBoxFor(m => m.BlockName, new { @class = "form-control", @Placeholder = "Block Name" })
+                <span class="form-bar"></span>
+            </div>
+            <div class="col-md-6">
+                <br />
+                @if (Model.BlockID == null)
+                {
+                    <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Save" id="btnSave" name="btnSave" />
+                }
+                else
+                {
+                    @Html.HiddenFor(m => m.BlockID, new { @Value = @Model.BlockID })
+                    <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Update" id="btnUpdate" name="btnUpdate" />
+                }
+                <a class="btn btn-info" href="/Masters/BlockList">Back To List</a>
+                <p style="color:red">@TempData["BlockMaster"]</p>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+       
+
+}
+
+<script>
+    function validateform() {
+        $(".errortext").removeClass("errortext");
+
+        if ($('#SiteID').val() == '0') {
+            $("#SiteID").addClass('errortext');
+            $('#SiteID').focus();
+            return false;
+        }
+        if ($('#SectorID').val() == '0') {
+            $("#SectorID").addClass('errortext');
+            $('#SectorID').focus();
+            return false;
+        }
+        if ($('#BlockName').val() == '') {
+            $("#BlockName").addClass('errortext');
+            $('#BlockName').focus();
+            return false;
+        }
+
+        return true;
+    }
+    function onSiteChange() {
+        $("#divload").css({ 'display': '' });
+        var value = $('#SiteID').val();
+        var values = $('#SectorID').val();
+        var tr = [];
+        $.ajax({
+            url: "/Masters/GetSiteDetails",
+            Type: "Get",
+            DataType: "JSON",
+            data: { SiteID: value },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                var j = 1;
+                if (data.Result == "yes") {
+                 
+                    $("#SectorID").html(""); // clear before appending new list 
+                    $("#SectorID").empty();
+                    $("#SectorID").append(
+                        $('<option></option>').val(0).html('Select Sector'));
+                    $.each(data.ddlSector, function (index, Sectorcount) {
+                        $("#SectorID").append(
+                            $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+
+                    });
+
+                }
+                else {
+                    $("#SectorID").empty();
+                    $('#Rate').val('');
+                }
+
+
+            }
+
+        });
+
+    }
+
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+</script>
+
+
+<style>
+    .errortext {
+        border: 1px solid red !important;
+        background-color: #fff0f0 !important;
+    }
+</style>

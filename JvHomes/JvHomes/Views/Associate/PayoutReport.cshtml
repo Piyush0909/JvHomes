@@ -1,0 +1,143 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "PayoutReport";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@using (Html.BeginForm("PayoutReport", "Associate", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Payout</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Payout Report</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <h6 style="color: red">
+
+                @TempData["PayoutReport"]
+
+            </h6>
+            <div class="row">
+
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    <div class="form-group">
+                        <label>Payout No  </label>
+                        @Html.TextBoxFor(m => m.PayoutNo, new { @class = "form-control", @onclick = "return isNumberOrDecimal(event);" })
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    <div class="form-group">
+                        <label>From Date  </label>
+                        @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    <div class="form-group">
+                        <label>To Date  </label>
+                        @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    <div class="form-group">
+                        <br />
+                        <input type="submit" id="btnSearch" class="btn btn-success pull-left" name="Search" value="Search" />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row gutters table-responsive">
+                <table id="example23" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Login Id</th>
+                            <th>First Name</th>
+                            <th>Payout No</th>
+                            <th>Closing Date</th>
+                            <th>Direct Income</th>
+                            @if (Session["CommissionType"].ToString() == "Level")
+                            {
+                                <th>Level Income</th>
+                            }
+                            <th>Team Income</th>
+
+                            <th>Gross Amount</th>
+                            <th>TDS Amount</th>
+                            <th>Admin Charges</th>
+
+                            <th>NET Payable Amount</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.payoutData != null)
+                            {
+                                if (Model.payoutData.Rows.Count > 0)
+                                {
+                                    int j = 1;
+                                    for (int i = 0; i <= Model.payoutData.Rows.Count - 1; i++)
+                                    {
+                                        <tr class="text-left">
+                                            <td>@j</td>
+
+                                            <td>@Model.payoutData.Rows[i]["LoginId"].ToString()</td>
+                                            <td>@Model.payoutData.Rows[i]["FirstName"].ToString()</td>
+                                            <td>@Model.payoutData.Rows[i]["PayoutNo"].ToString()</td>
+                                            <td>@Model.payoutData.Rows[i]["ClosingDate"].ToString()</td>
+                                            <td>@Model.payoutData.Rows[i]["DirectAmount"].ToString()</td>
+                                            @if (Session["CommissionType"].ToString() == "Level")
+                                            {
+                                                <td>@Model.payoutData.Rows[i]["LevelIncome"].ToString()</td>
+                                            }
+                                            <td>@Model.payoutData.Rows[i]["DifferenceIncome"].ToString()</td>
+                                            <td>@Model.payoutData.Rows[i]["GrossAmount"].ToString()</td>
+                                            <td>@Model.payoutData.Rows[i]["TDSAmount"].ToString()</td>
+                                            <td>@Model.payoutData.Rows[i]["AdminCharges"].ToString()</td>
+                                            <td>@Model.payoutData.Rows[i]["NetAmount"].ToString()</td>
+                                        </tr>
+                                        j++;
+                                    }
+                                }
+
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+}
+
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script>
+
+    $('#FromDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+    });
+    $('#ToDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+    });
+</script>
+
+

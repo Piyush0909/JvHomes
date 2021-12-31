@@ -1,0 +1,187 @@
+﻿@model JvHomes.Models.HRManagement
+
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <style>
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .auto-style1 {
+            width: 100%;
+        }
+
+        .auto-style2 {
+            height: 85px;
+            width: 183px;
+        }
+
+        .auto-style3 {
+            width: 416px;
+            border: 1px solid black;
+        }
+    </style>
+
+</head>
+<body>
+    <table class="auto-style1">
+        <tr>
+            <td class="auto-style3">
+                <img src="~/AdminPanelCss/img/logo-dark1.png" class="auto-style2" />
+            
+            </td>
+            <td style="text-align: center; font-size: 30px; border: 1px solid black;">@ViewBag.CompanyName</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center; font-size: 18px; border: 1px solid black;text-transform:uppercase">
+                <b>@ViewBag.CompanyAddress @ViewBag.AddressLine1 @ViewBag.City1 (@ViewBag.State1)</b>
+            </td>
+
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center; font-size: 18px; border: 1px solid black;text-transform:uppercase">
+                <b >PAY SLIP FOR THE MONTH OF @Model.MonthName-@Model.Year</b>
+            </td>
+
+        </tr>
+        
+    </table>
+    <table class="auto-style1">
+                    <tr>
+                        <td style="border: 1px solid black;">EMP CODE</td>
+                        <td style="border: 1px solid black;text-transform:uppercase">@Model.EmployeeCode</td>
+                        <td style="border: 1px solid black;">EMP NAME</td>
+                        <td style="border: 1px solid black;text-transform:uppercase">@Model.EmployeeName</td>
+                    </tr>
+                    <tr>
+
+                        <td style="border: 1px solid black;">BANK NAME</td>
+                        <td style="border: 1px solid black;text-transform:uppercase">@Model.BankName</td>
+                        <td style="border: 1px solid black;">BANK A/C NO.</td>
+                        <td style="border: 1px solid black;text-transform:uppercase">@Model.BankAccountNo</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black;">BANK IFSC CODE</td>
+                        <td style="border: 1px solid black;text-transform:uppercase">@Model.IFSCCOde</td>
+                        <td style="border: 1px solid black;">DEPARTMENT</td>
+                        <td style="border: 1px solid black;text-transform:uppercase">@Model.Fk_DepartmentId</td>
+
+                    </tr>
+
+                    <tr>
+                        <td style="border: 1px solid black;">DATE OF JOINING</td>
+                        <td style="border: 1px solid black;">@Model.DateOfJoining</td>
+                        <td style="border: 1px solid black;">LOCATION</td>
+                        <td style="border: 1px solid black;text-transform:uppercase">@Model.Address</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black;">PAN NUMBER</td>
+                        <td style="border: 1px solid black;text-transform:uppercase">@Model.PAN</td>
+                        <td style="border: 1px solid black;">&nbsp;</td>
+                        <td style="border: 1px solid black;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <table class="auto-style1">
+                                <tr>
+                                    <td style="border: 1px solid black;" colspan="2"><b>EARNINGS </b></td>
+                                    <td style="border: 1px solid black;" colspan="2"><b>DEDUCTION</b></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black;" scope="row">Basic Salary</td>
+                                    <td style="border: 1px solid black;">@Model.Basic</td>
+                                    <td style="border: 1px solid black;" scope="row">EMP  Cont</td>
+                                    <td style="border: 1px solid black;">@Model.ContributionTosociety</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black;" scope="row">HRA</td>
+                                    <td style="border: 1px solid black;">@Model.HRA</td>
+                                    <td style="border: 1px solid black;" scope="row">TDS</td>
+                                    <td style="border: 1px solid black;">@Model.TDS</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row" style="border: 1px solid black;">CA</td>
+                                    <td style="border: 1px solid black;">@Model.CA</td>
+                                    <td style="border: 1px solid black;" scope="row">Insurance</td>
+                                    <td style="border: 1px solid black;">@Model.Insurance</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black;" scope="row">MA</td>
+                                    <td style="border: 1px solid black;">@Model.MA</td>
+                                    <td style="border: 1px solid black;" scope="row">Advance</td>
+                                    <td style="border: 1px solid black;">@Model.Advance</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid black;" scope="row">PA</td>
+                                    <td style="border: 1px solid black;">@Model.PA</td>
+                                    <td style="border: 1px solid black;" scope="row">PF</td>
+                                    <td style="border: 1px solid black;">@Model.PF</td>
+                                </tr>
+
+
+                                <tr>
+                                    <td style="border: 1px solid black;" scope="row"><b>GROSS EARNING </b></td>
+                                    <td style="border: 1px solid black;">@Model.TotalIncome</td>
+                                    <td style="border: 1px solid black;" scope="row"><b>GROSS DEDUCTION</b></td>
+                                    <td style="border: 1px solid black;">@Model.TotalDeduction</td>
+                                </tr>
+                                <tr>
+                                  
+                                    <td style="border: 1px solid black;" scope="row"><b>NETPAY</b></td>
+                                    <td style="border: 1px solid black;">@Model.NetSalary</td>
+                                    <td style="border: 1px solid black;" colspan="2"></td>
+                                </tr>
+                                <tr>
+
+                                    <td style="border: 1px solid black;" scope="row"><b>IN WORDS</b></td>
+                                    <td style="border: 1px solid black;">@Model.AmountInWords</td>
+                                    <td style="border: 1px solid black;" colspan="2"></td>
+                                </tr>
+                                <tr>
+
+                                 
+                                    <td style="border: 1px solid black;text-align:left" colspan="4">
+                                        <b>In Case of any clarification,please contact Help Desk by email: @ViewBag.EmailID / Call @ViewBag.ContactNo </b>
+                                    </td>
+                                </tr>
+                                <tr>
+
+
+                                    <td style="border: 1px solid black;text-align:left" colspan="4">
+                                        <b>Important Message:</b>
+                                    </td>
+                                </tr>
+                                <tr>
+
+
+                                    <td style="border: 1px solid black;text-align:left" colspan="4">
+                                        <b> From 1 April 2010 as per S/206AA of Income Tax Act,if salary is taxable and PAN No is not shared,TDS 20% will be deducted.</b>
+                                    </td>
+                                </tr>
+                                <tr>
+
+
+                                    <td style="border: 1px solid black;text-align:left" colspan="4">
+                                        <b>No refund of TDS will be made once TDS is deducted.</b>
+                                    </td>
+                                </tr>
+                                <tr>
+
+
+                                    <td style="border: 1px solid black;text-align:left" colspan="4">
+                                        <b> This is computer generated documents,hence no signature required.</b>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+</body>
+</html>

@@ -1,0 +1,91 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "AccountSubHeadMaster";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("AccountSubHeadMaster", "Masters", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Masters</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Add AccountHead</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+
+                <div class="col-sm-6">
+                    <label class="float-label">Head Name<span style="color:red">*</span></label>
+                    @Html.TextBoxFor(m => m.AccountHead, new { @class = "form-control", @placeholder = "Head Name" })
+
+                    @*SaveSubHead @SubAccountHead DeleteAccountHead @AccountId*@
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-6">
+                    <label class="float-label">Head Type<span style="color:red">*</span></label>
+                    @Html.DropDownListFor(m => m.HeadType, new SelectList(ViewBag.ddlHeadtTyppe, "Value", "Text"), new { @class = "form-control" })
+
+                    @*SaveSubHead @SubAccountHead DeleteAccountHead @AccountId*@
+                    <span class="form-bar"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-md-6">
+                    <br />
+                    
+                        <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Save" id="btnSave" name="btnSave" />
+                 
+                    <a class="btn btn-info" href="/Masters/AccountHeadList">Back To List</a>
+                    <p style="color:red">@TempData["AccountHeadMaster"]</p>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+<script src="../../assets/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+
+
+<script>
+    function validateform() {
+        $(".errortext").removeClass("errortext");
+
+        if ($('#AccountHead').val() == '') {
+            $("#AccountHead").addClass('errortext');
+            $('#AccountHead').focus();
+            $('#AccountHead').val('');
+            //   alert("Please Fill Sponsor ID .")
+            return false;
+        }
+
+        $("#divload").css({ 'display': '' });
+        return true;
+    }
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+    });
+</script>

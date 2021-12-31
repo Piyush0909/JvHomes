@@ -1,0 +1,401 @@
+﻿@model JvHomes.Models.Plot
+
+@{
+    ViewBag.Title = "PlotAllotment";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("PlotAllotment", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Plot</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Plot Allotment</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    Select Site <span style="color: red">*</span>
+                    @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                </div>
+                <div class="col-sm-3">
+                    Select Sector <span style="color: red">*</span>
+                    @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control", @onchange = "return onSectorChange();" })
+                </div>
+                <div class="col-sm-3">
+                    Select Block <span style="color: red">*</span>
+                    @Html.DropDownListFor(m => m.BlockID, new SelectList(ViewBag.ddlBlock, "Value", "Text"), new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    Plot Number <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.PlotNumber, new { @class = "form-control", @Placeholder = "Plot Number" })
+                </div>
+            </div>
+
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    <br />
+                    <input type="submit" id="GetDetails" name="GetDetails" value="GetDetails" class="btn btn-primary" />
+
+
+                </div>
+                <div class="col-sm-3">
+                    <br />
+                    <p style="color:red">@TempData["PlotAllotment"]</p>
+                </div>
+            </div>
+            @if (Model != null)
+            {
+
+                if (Model.AssociateLoginID != null)
+                {
+                    <div class="row" id="Details1">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Plot Details @*<small>List Of Sites</small>*@</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Associate ID :</b></label>
+                                            <input type="text" class="form-control" value="@Model.AssociateLoginID" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Associate Name :</b></label>
+                                            <input type="text" class="form-control" value="@Model.AssociateName" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b> Customer ID :</b></label>
+                                            <input type="text" class="form-control" value="@Model.CustomerLoginID" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label> <b>Customer Name :</b></label>
+                                            <input type="text" class="form-control" value="@Model.CustomerName" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Plot Rate :</b></label>
+                                            <input type="text" class="form-control" value="@Model.PlotRate" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Plot Area :</b></label>
+                                            <input type="text" class="form-control" value="@Model.PlotArea" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Actual Plot Amount :</b></label>
+                                            <input type="text" class="form-control" value="@Model.PlotAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Discount :</b></label>
+                                            <input type="text" class="form-control" value="@Model.Discount" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Booking Amount :</b></label>
+                                            <input type="text" class="form-control" value="@Model.BookingAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Booking Date :</b></label>
+                                            <input type="text" class="form-control" value="@Model.BookingDate" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Paid Amount:</b></label>
+                                            <input type="text" class="form-control" value="@Model.PaidAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Payment Date:</b></label>
+                                            <input type="text" class="form-control" value="@Model.PaymentDate" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Payment Plan :</b></label>
+                                            <input type="text" class="form-control" value="@Model.PlanName" disabled="disabled" />
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Total Allotment Amount:</b></label>
+                                            <input type="text" class="form-control" value="@Model.TotalAllotmentAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Paid Allotment Amount:</b></label>
+                                            <input type="text" class="form-control" value="@Model.PaidAllotmentAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Balance Allotment Amount :</b></label>
+                                            <input type="text" class="form-control" value="@Model.BalanceAllotmentAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>PLC Charge :</b></label>
+                                            <input type="text" class="form-control" value="@Model.PLCAmount" disabled="disabled" />
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Net Plot Amount:</b></label>
+                                            <input type="text" class="form-control" value="@Model.NetPlotAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Remaining Amount:</b></label>
+                                            <input type="text" class="form-control" value="@Model.Balance" disabled="disabled" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            Pay Amount<span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.PaidAmount, new { @class = "form-control", @Placeholder = "Pay Amount", @onkeypress = "return isNumberOrDecimal(event);", @onchange = "return validatePayAmount()" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            Payment Date<span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.PaymentDate, new { @class = "form-control", @Placeholder = "select Payment Date" })
+                                        </div>
+                                        @Html.HiddenFor(m => m.hdBookingNo)
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            Payment Mode <span style="color: red">*</span>
+                                            @Html.DropDownListFor(m => m.PaymentMode, new SelectList(ViewBag.ddlPaymentMode, "Value", "Text"), new { @class = "form-control", @onchange = "return CheckPayMode()" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label id="creditdebit">Debit To</label>
+                                        @Html.DropDownListFor(m => m.CreditTo, new SelectList(ViewBag.ddlBank, "Value", "Text"), new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="row" id="divPaymentMode" style="display: none">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            Cheque/Transaction Number <span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.TransactionNumber, new { @class = "form-control", @Placeholder = "Cheque/Transaction Number", @maxlength = "50" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            Cheque/Transaction Date <span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.TransactionDate, new { @class = "form-control", @Placeholder = "Cheque/Transaction Date", @Readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            Bank Name <span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @Placeholder = "Bank Name" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            Bank Branch <span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.BankBranch, new { @class = "form-control", @Placeholder = "Bank Branch" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="submit" name="Save" value="Save" id="btnSave" class="btn btn-success" onclick="return validateform();" />
+                                            @*<input type="submit" name="SaveAndPrint" value="Save And Print" id="SaveAndPrint" class="btn btn-primary" onclick="return validateform();" formtarget="_blank" />*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p style="color:red">@TempData["PlotAllotment"]</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+
+
+        </div>
+    </div>
+  
+
+
+}
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script>
+    $('#PaymentDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: 0,
+        changeYear: true,
+        changeMonth: true
+    });
+    $('#TransactionDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true,
+
+    });
+    $('#BookingDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: 0,
+        changeYear: true,
+        changeMonth: true
+    });
+    function CheckPayMode() {
+        debugger
+        if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+            $("#divPaymentMode").show();
+            if ($('#PaymentMode').val() == '9') {
+                $('#creditdebit').html('Debit To');
+            }
+            else {
+                $('#creditdebit').html('Debit To');
+            }
+        }
+
+        else {
+            $("#divPaymentMode").hide();
+        }
+
+    }
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+
+
+
+
+
+    });
+    function onSiteChange() {
+        $("#divload").css({ 'display': '' });
+        var value = $('#SiteID').val();
+        var values = $('#SectorID').val();
+        var tr = [];
+        $.ajax({
+            url: "/Masters/GetSiteDetails",
+            Type: "Get",
+            DataType: "JSON",
+            data: { SiteID: value },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                var j = 1;
+                if (data.Result == "yes") {
+
+                    $("#SectorID").html(""); // clear before appending new list
+                    $("#SectorID").empty();
+                    $("#SectorID").append(
+                        $('<option></option>').val(0).html('Select Sector'));
+                    $.each(data.ddlSector, function (index, Sectorcount) {
+                        $("#SectorID").append(
+                            $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+
+                    });
+                }
+                else {
+                    $("#SectorID").empty();
+
+                }
+            }
+
+        });
+
+    }
+
+    function onSectorChange() {
+
+        $("#divload").css({ 'display': '' });
+        var siteID = $('#SiteID').val();
+        var sectorID = $('#SectorID').val();
+        $.ajax({
+            url: '/Masters/GetBlockList', type: 'post', dataType: 'json',
+            data: { 'SiteID': siteID, 'sectorID': sectorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                $("#BlockID").html(""); // clear before appending new list
+                $("#BlockID").empty();
+                $("#BlockID").append(
+                    $('<option></option>').val(0).html('Select Block'));
+                $.each(data.lstBlock, function (index, BlockCount) {
+                    $("#BlockID").append(
+                        $('<option></option>').val(BlockCount.Value).html(BlockCount.Text));
+                });
+
+            }
+
+        });
+    }
+</script>

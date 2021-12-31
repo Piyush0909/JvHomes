@@ -1,0 +1,118 @@
+﻿@model JvHomes.Models.Wallet
+
+@{
+    ViewBag.Title = "AdvancePaymentList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("AdvancePaymentList", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Associate List</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    LoginId
+                    @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @Placeholder = "LoginId" })
+                </div>
+
+                <div class="col-sm-3">
+                    From Joining Date
+                    @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @Placeholder = "From Date" })
+                </div>
+                <div class="col-sm-3">
+                    To Joining Date
+                    @Html.TextBoxFor(m => m.ToDate, new { @class = "form-control", @Placeholder = "To Date" })
+                </div>
+                <div class="col-sm-3">
+                    <br />
+                    <input type="submit" value="Get Details" class="btn btn-primary" />
+                </div>
+            </div>
+            <table id="example23" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Payment Date</th>
+                        <th>LoginId</th>
+                        <th>Name</th>
+                        <th>Payment Mode</th>
+                        <th>Bank Details</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.advancePayment != null)
+                        {
+                            if (Model.advancePayment.Rows.Count > 0)
+                            {
+                                for (int i = 0; i <= Model.advancePayment.Rows.Count - 1; i++)
+                                {
+                                    <tr>
+                                        <td>@Model.advancePayment.Rows[i]["PaymentDate"].ToString()</td>
+                                        <td>@Model.advancePayment.Rows[i]["LoginID"].ToString()</td>
+                                        <td>@Model.advancePayment.Rows[i]["FirstName"].ToString()</td>
+                                        <td>@Model.advancePayment.Rows[i]["PaymentMode"].ToString()</td>
+                                        <td>@Model.advancePayment.Rows[i]["PayMode"].ToString()</td>
+                                        <td>@Model.advancePayment.Rows[i]["Description"].ToString()</td>
+                                        <td>@Model.advancePayment.Rows[i]["Amount"].ToString()</td>
+
+
+
+
+
+                                    </tr>
+                                }
+
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+<script src="../../assets/js/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js"></script>
+<script>
+    $('#FromDate').datepicker({
+        format: 'dd/mm/yyyy',
+        changeYear: true,
+        changeMonth: true
+    });
+    $('#Todate').datepicker({
+        format: 'dd/mm/yyyy',
+        changeYear: true,
+        changeMonth: true
+    });
+
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+
+
+    });
+
+</script>
+
+

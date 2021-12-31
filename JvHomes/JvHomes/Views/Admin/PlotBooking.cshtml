@@ -1,0 +1,822 @@
+﻿@model JvHomes.Models.Plot
+
+@{
+    /**/
+
+    ViewBag.Title = "PlotBooking";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@using (Html.BeginForm("PlotBooking", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Plot</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Booking</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    Customer Id <span style="color: red">*</span>
+                    @if (Model.PK_BookingId == null)
+                    {
+                        @Html.TextBoxFor(m => m.CustomerID, new { @class = "form-control", @Placeholder = "Customer ID", @onchange = "return getCustomerName();" })
+
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.CustomerID, new { @class = "form-control", @Placeholder = "Customer ID", @onchange = "return getCustomerName();", @readonly = "d" })
+                    }
+                    @Html.HiddenFor(m => m.UserID)
+                </div>
+                <div class="col-sm-3">
+                    Customer Name
+                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", @Placeholder = "Customer Name", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+                    Associate ID
+                    @Html.TextBoxFor(m => m.AssociateID, new { @class = "form-control", @Placeholder = "Associate ID", @onchange = "return GetAssociateNameByAssociateID();", @readonly = "abc" })
+                </div>
+                <div class="col-sm-3">
+                    Associate Name
+                    @Html.TextBoxFor(m => m.AssociateName, new { @class = "form-control", @Placeholder = "Associate Name", @readonly = "readonly" })
+                </div>
+            </div>
+
+
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    Select Site <span style="color: red">*</span>
+                    @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                </div>
+                <div class="col-sm-3">
+                    Select Sector <span style="color: red">*</span>
+                    @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control", @onchange = "return onSectorChange();" })
+                </div>
+                <div class="col-sm-3">
+                    Select Block <span style="color: red">*</span>
+                    @Html.DropDownListFor(m => m.BlockID, new SelectList(ViewBag.ddlBlock, "Value", "Text"), new { @class = "form-control" })
+                </div>
+                <div class="col-sm-3">
+                    Plot Number <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.PlotNumber, new { @class = "form-control", @Placeholder = "Plot Number", @onchange = "return CheckPlotStatus();", @style = "text-transform:uppercase" })
+                    @Html.HiddenFor(m => m.PlotID)
+
+                    @Html.HiddenFor(m => m.BookingPercent)
+                </div>
+            </div>
+
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    Actual Plot Amount <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.PlotAmount, new { @class = "form-control", @Placeholder = "Actual Plot Amount", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+                    Actual Plot Rate <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.ActualPlotRate, new { @class = "form-control", @Placeholder = "Actual Plot Rate", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+                    Plot Size
+                    @Html.TextBoxFor(m => m.PlotSize, new { @class = "form-control", @Placeholder = "Plot Size", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+                    Dimension
+                    @Html.TextBoxFor(m => m.Dimension, new { @class = "form-control", @Placeholder = "Dimension", @readonly = "readonly" })
+                </div>
+
+            </div>
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    Plot Rate <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.PlotRate, new { @class = "form-control", @maxlength = "6", @Placeholder = "Plot Rate", @onchange = "return calculatePlotAmount();", onkeypress = "return isNumberOrDecimal(event);" })
+                </div>
+                <div class="col-sm-3">
+                    Development Charge <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.DevelopmentCharge, new { @class = "form-control", @maxlength = "6", @Placeholder = "Development Charge", @onchange = "return getPlotAmountafterDevelopment();", onkeypress = "return isNumberOrDecimal(event);" })
+                </div>
+                <div class="col-sm-3">
+                    Discount(In Rs) <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.Discount, new { @class = "form-control", @maxlength = "6", @Placeholder = "Discount", @onchange = "return getplotamountAfterDicount();", onkeypress = "return isNumberOrDecimal(event);" })
+                </div>
+                <div class="col-sm-3">
+                    PLC Charge
+                    @*<input type="radio" id="rdbplcYes" name="rdbplc" onclick="return getPlc('Yes')" /> Yes
+                        <input type="radio" id="rdbplcNo" name="rdbplc" checked="checked" onclick="return getPlc('No')" /> No*@
+                    @Html.TextBoxFor(m => m.TotalPLC, new { @class = "form-control", @Placeholder = "Total PLC", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="row gutters" id="plcmaster">
+                <table id="basicExample" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>PLC Name</th>
+                            <th>PLC Charge</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.dtPLC != null)
+                            {
+                                if (Model.dtPLC.Rows.Count > 0)
+                                {
+                                    int j = 1;
+                                    for (int i = 0; i <= Model.dtPLC.Rows.Count - 1; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="chkClass" id="chk_@j" name="chk_@j" onchange="return getPlcValue('@Model.dtPLC.Rows[i]["PLCCharge"].ToString()','@j')" />
+                                                <input type="hidden" id="plcid_@j" name="plcid_@j" value="@Model.dtPLC.Rows[i]["PK_PLCID"].ToString()" class="plccharge" />
+                                            </td>
+                                            <td>@Model.dtPLC.Rows[i]["PLCName"].ToString()</td>
+                                            <td class="tdplccharge">@Model.dtPLC.Rows[i]["PLCCharge"].ToString()</td>
+
+                                        </tr>
+                                        j++;
+                                    }
+                                    <input type="hidden" id="hdRows" name="hdRows" value="@j" />
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    NetPlotAmount<span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.NetPlotAmount, new { @class = "form-control", @Placeholder = "Net Plot Amount", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+                    Booking Amount <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.BookingAmount, new { @class = "form-control", @maxlength = "8", @Placeholder = "BookingAmount", @onkeypress = "return isNumberOrDecimal(event);", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+
+                    Booking Date <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.BookingDate, new { @class = "form-control", @Placeholder = "Booking Date", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+                    Pay Amount <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.PayAmount, new { @class = "form-control", @Placeholder = "PayAmount", onkeypress = "return isNumberOrDecimal(event);", @onchange = "return validatePayAmount();" })
+                </div>
+            </div>
+
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    Payment Date <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.PaymentDate, new { @class = "form-control", @Placeholder = "PaymentDate", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+                    Payment Mode <span style="color: red">*</span>
+                    @Html.DropDownListFor(m => m.PaymentMode, new SelectList(ViewBag.ddlPaymentMode, "Value", "Text"), new { @class = "form-control", @onchange = "return CheckPayMode()" })
+                </div>
+                <div class="col-sm-3">
+                    Payment Plan <span style="color: red">*</span>
+                    @Html.DropDownListFor(m => m.PaymentPlan, new SelectList(ViewBag.BindPaymentPlan, "Value", "Text"), new { @class = "form-control", @onchange = "return shownoofEMI()" })
+                </div>
+                <div class="col-sm-3">
+                    No of EMI <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.NoofEMI, new { @class = "form-control", @Placeholder = "No of EMI" })
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label id="creditdebit">Debit To</label>
+                    @Html.DropDownListFor(m => m.CreditTo, new SelectList(ViewBag.ddlBank, "Value", "Text"), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row" id="divPaymentMode" style="display: none">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Cheque/Transaction Number <span style="color: red">*</span>
+                        @Html.TextBoxFor(m => m.TransactionNumber, new { @class = "form-control", @Placeholder = "Cheque/Transaction Number", @maxlength = "50" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Cheque/Transaction Date <span style="color: red">*</span>
+                        @Html.TextBoxFor(m => m.TransactionDate, new { @class = "form-control", @Placeholder = "Cheque/Transaction Date", @Readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Bank Name <span style="color: red">*</span>
+                        @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Name" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Bank Branch <span style="color: red">*</span>
+                        @Html.TextBoxFor(m => m.BankBranch, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Branch" })
+                    </div>
+                    @Html.HiddenFor(m => m.PK_BookingId)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="checkbox" id="chksendmsg" name="chksendmsg" checked="checked" /> Please check for send Message
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @if (Model.PK_BookingId == null)
+                        {
+                            <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Save" id="Save" name="Save" />
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.PK_BookingId, new { @Value = @Model.PK_BookingId })
+                            <input class="btn btn-success pull-left" onclick="return validateform();" type="submit" value="Update" id="btnUpdate" name="Update" />
+                        }
+
+
+                    </div>
+
+
+                </div>
+                <br />
+                <a style="color:red">
+                    @TempData["Plot"]
+                    <br />
+                    @TempData["Booking"]
+                </a>
+            </div>
+        </div>
+    </div>
+   
+
+}
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script>
+    $('#PaymentDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: 0,
+        changeYear: true,
+        changeMonth: true
+    });
+    $('#TransactionDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true,
+
+    });
+    $('#BookingDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: 0,
+        changeYear: true,
+        changeMonth: true
+    });
+    function getplotamountAfterDicount() {
+        if ($('#DevelopmentCharge').val() == "") {
+            $('#DevelopmentCharge').val("0.00");
+        }
+
+        var totalamtafterDevelopmentCharge = Number($('#PlotAmount').val()) + Number($('#DevelopmentCharge').val());
+        if ($('#TotalPLC').val() != "") {
+            if ($('#TotalPLC').val() != "0.00") {
+                var plcamount = ($('#PlotAmount').val() * $('#TotalPLC').val()) / 100;
+                var totalamtafterplc = Number(plcamount);
+                totalamtafterDevelopmentCharge = totalamtafterDevelopmentCharge + totalamtafterplc;
+            }
+        }
+        if ($('#Discount').val() != "0") {
+            totalamtafterDevelopmentCharge = Number(totalamtafterDevelopmentCharge) - Number($('#Discount').val());
+        }
+        //var totalamtafterplc = Number($('#NetPlotAmount').val()) + Number(plcamount);
+        $('#NetPlotAmount').val(totalamtafterDevelopmentCharge);
+    }
+    function getPlotAmountafterDevelopment() {
+        if ($('#DevelopmentCharge').val() == "") {
+            $('#DevelopmentCharge').val("0.00");
+        }
+
+        var totalamtafterDevelopmentCharge = Number($('#PlotAmount').val()) + Number($('#DevelopmentCharge').val());
+        if ($('#TotalPLC').val() != "") {
+            if ($('#TotalPLC').val() != "0.00") {
+                var plcamount = ($('#PlotAmount').val() * $('#TotalPLC').val()) / 100;
+                var totalamtafterplc =  Number(plcamount);
+                totalamtafterDevelopmentCharge = totalamtafterDevelopmentCharge + totalamtafterplc;
+            }
+        }
+        if ($('#Discount').val() != "0") {
+            totalamtafterDevelopmentCharge = Number(totalamtafterDevelopmentCharge) - Number($('#Discount').val());
+        }
+        //var totalamtafterplc = Number($('#NetPlotAmount').val()) + Number(plcamount);
+        $('#NetPlotAmount').val(totalamtafterDevelopmentCharge);
+    }
+
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+        $('#creditdebit').html('Debit To');
+        $('#Discount').val(0);
+        if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+            if ($('#TransactionNumber').val() == '') {
+                $("#TransactionNumber").addClass('errortext');
+                $('#TransactionNumber').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#TransactionDate').val() == '') {
+                $("#TransactionDate").addClass('errortext');
+                $('#TransactionDate').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#BankName').val() == '') {
+                $("#BankName").addClass('errortext');
+                $('#BankName').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#BankBranch').val() == '') {
+                $("#BankBranch").addClass('errortext');
+                $('#BankBranch').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+        }
+        else {
+            $('#TransactionNumber').val('');
+            $('#TransactionDate').val('');
+            $('#BankName').val('');
+            $('#BankBranch').val('');
+        }
+
+
+
+    });
+    function getPlcValue() {
+        var totalPLc = "";
+        $('#basicExample tbody tr').each(function () {
+            if ($(this).find('.chkClass').is(":checked") == true)
+                totalPLc = Number(totalPLc) + Number($(this).find('.tdplccharge').text());
+        });
+        if (totalPLc == "") {
+            $('#TotalPLC').val("0.00");
+        }
+        else {
+            $('#TotalPLC').val(totalPLc);
+        }
+
+        var plcamount = ($('#PlotAmount').val() * $('#TotalPLC').val()) / 100;
+        var totalamtafterplc = Number($('#PlotAmount').val()) + Number(plcamount);
+        if ($('#DevelopmentCharge').val() != "") {
+            if ($('#DevelopmentCharge').val() != "0") {
+                var totalamtafterDevelopmentCharge = Number($('#DevelopmentCharge').val());
+                totalamtafterplc = totalamtafterplc + totalamtafterDevelopmentCharge;
+            }
+        }
+        if ($('#Discount').val() != "0") {
+            totalamtafterplc = Number(totalamtafterplc) - Number($('#Discount').val());
+        }
+        $('#NetPlotAmount').val(totalamtafterplc);
+
+    }
+    function shownoofEMI() {
+        if ($('#PaymentPlan').val() == "EMI PLAN") {
+            $("#NoofEMI").css({ 'display': '' });
+        }
+        else {
+            $("#NoofEMI").css({ 'display': 'none' });
+        }
+    }
+    function getPlc(plcstatus) {
+        if (plcstatus == "No") {
+            $('#TotalPLC').val('0');
+            $("#plcmaster").css({ 'display': 'none' });
+        }
+        else {
+            $("#plcmaster").css({ 'display': '' });
+        }
+    }
+    function calculatePlotAmount() {
+        var plotSize = $('#PlotSize').val();
+        var plotRate = $('#PlotRate').val();
+        var bookingPercent = $('#BookingPercent').val();
+        var plc = $('#TotalPLC').val();
+        var actplotamt = $('#PlotAmount').val();
+
+        var plotAmount = (Number)(plotSize) * (Number)(plotRate);
+        var bookingAmount = plotAmount * bookingPercent / 100;
+        if ($('#TotalPLC').val() == "0" || $('#TotalPLC').val() == "" || $('#TotalPLC').val() == "0.00") {
+            $("#NetPlotAmount").val(plotAmount);
+
+        }
+        else {
+            var actplotamtplc = (Number)(plotAmount) + (Number)(((Number)(plotAmount) * (Number)(plc)) / 100);
+            $("#NetPlotAmount").val(actplotamtplc);
+        }
+
+
+        $("#PlotAmount").val(plotAmount);
+        $("#BookingAmount").val(bookingAmount);
+    }
+
+    function validatePayAmount() {
+        debugger
+        var payAmount = $('#PayAmount').val();
+        var actualAmount = $('#NetPlotAmount').val();
+        var disc = $('#Discount').val();
+        if ((Number)(payAmount) > (Number)(actualAmount)) {
+            $("#PayAmount").addClass('errortext');
+            $('#PayAmount').focus();
+            $("#PayAmount").val('');
+            alert("Pay Amount cannot be greater than Actual Plot Amount.");
+            return false;
+        }
+        else if ((Number)(payAmount) > ((Number)(actualAmount))) {
+            $("#PayAmount").addClass('errortext');
+            $('#PayAmount').focus();
+            $("#PayAmount").val('');
+            alert("Pay Amount cannot be greater than Actual Plot Amount after discount");
+            return false;
+        }
+
+        else {
+            $("#PayAmount").removeClass('errortext');
+            return true;
+        }
+    }
+
+
+
+
+    function GetAssociateNameByAssociateID() {
+        $("#divload").css({ 'display': '' });
+
+        var Associate = $('#AssociateID').val();
+        $.ajax({
+            url: '/Admin/GetAssociateName', type: 'post', dataType: 'json',
+            data: { 'AssociateID': Associate },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "yes") {
+                    $("#AssociateName").val(data.AssociateName);
+                    $("#UserID").val(data.UserID);
+                    $("#AssociateName").removeClass('errortext');
+                    $("#AssociateID").removeClass('errortext');
+                }
+                else if (data.Result == "no") {
+                    $("#AssociateName").val('');
+                    $("#AssociateName").addClass('errortext');
+                    $("#AssociateID").addClass('errortext');
+                    $('#AssociateID').focus();
+
+                    alert("Invalid Associate ID");
+                    $('#AssociateID').val('');
+                }
+            }
+
+        });
+    }
+
+    function getCustomerName() {
+
+        $("#divload").css({ 'display': '' });
+        var sponsorID = $('#CustomerID').val();
+        $.ajax({
+            url: '/Admin/GetCustomerNameFromCustomerID', type: 'post', dataType: 'json',
+            data: { 'CustomerID': sponsorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "yes") {
+                    $("#CustomerName").val(data.CustomerName);
+                    $("#AssociateName").val(data.AssociateName);
+                    $("#AssociateID").val(data.AssociateID);
+                    $("#CustomerName").removeClass('errortext');
+                    $("#CustomerID").removeClass('errortext');
+                }
+                else if (data.Result == "no") {
+                    $("#CustomerName").val('');
+                    $("#CustomerName").addClass('errortext');
+                    $("#CustomerID").addClass('errortext');
+                    $('#CustomerID').focus();
+                    alert("Invalid Customer ID");
+                    $('#CustomerID').val('');
+                }
+            }
+
+        });
+    }
+
+
+    function validateform() {
+        debugger
+        $("#divload").css({ 'display': '' });
+
+        $(".errortext").removeClass("errortext");
+
+        if ($('#BranchID').val() == '0') {
+            $("#BranchID").addClass('errortext');
+            $('#BranchID').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        if ($('#CustomerID').val() == '') {
+            $("#CustomerID").addClass('errortext');
+            $('#CustomerID').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        if ($('#AssociateID').val() == '') {
+            $("#AssociateID").addClass('errortext');
+            $('#AssociateID').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        //if ($('#MLMLoginId').val() == '') {
+        //    $("#MLMLoginId").addClass('errortext');
+        //    $('#MLMLoginId').focus();
+        //    $("#divload").css({ 'display': 'none' });
+        //    return false;
+        //}
+
+        if ($('#SiteID').val() == '0') {
+            $("#SiteID").addClass('errortext');
+            $('#SiteID').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+        if ($('#SectorID').val() == '0') {
+            $("#SectorID").addClass('errortext');
+            $('#SectorID').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+
+        if ($('#BlockID').val() == '0') {
+            $("#BlockID").addClass('errortext');
+            $('#BlockID').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+
+        if ($('#PlotNumber').val() == '') {
+            $("#PlotNumber").addClass('errortext');
+            $('#PlotNumber').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+
+        if ($('#PlotRate').val() == '') {
+            $("#PlotRate").addClass('errortext');
+            $('#PlotRate').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+
+        if ($('#PaymentPlanID').val() == '0') {
+            $("#PaymentPlanID").addClass('errortext');
+            $('#PaymentPlanID').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+
+        if ($('#BookingDate').val() == '') {
+            $("#BookingDate").addClass('errortext');
+            $('#BookingDate').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+
+
+        if ($('#PayAmount').val() == '') {
+            $("#PayAmount").addClass('errortext');
+            $('#PayAmount').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+
+        if ($('#PaymentDate').val() == '') {
+            $("#PaymentDate").addClass('errortext');
+            $('#PaymentDate').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+
+        if ($('#PaymentMode').val() == '0') {
+            $("#PaymentMode").addClass('errortext');
+            $('#PaymentMode').focus();
+            $("#divload").css({ 'display': 'none' });
+            return false;
+        }
+
+
+        if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+            if ($('#TransactionNumber').val() == '') {
+                $("#TransactionNumber").addClass('errortext');
+                $('#TransactionNumber').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#TransactionDate').val() == '') {
+                $("#TransactionDate").addClass('errortext');
+                $('#TransactionDate').focus();
+                $("#divload").css({ 'display': 'none' });
+                return false;
+            }
+            if ($('#PaymentMode').val() != '4' && $('#PaymentMode').val() != '9') {
+                if ($('#BankName').val() == '') {
+                    $("#BankName").addClass('errortext');
+                    $('#BankName').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
+                if ($('#BankBranch').val() == '') {
+                    $("#BankBranch").addClass('errortext');
+                    $('#BankBranch').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
+               // $('#creditdebit').html('Debit To');
+            }
+
+        }
+        else {
+            $('#TransactionNumber').val('');
+            $('#TransactionDate').val('');
+            $('#BankName').val('');
+            $('#BankBranch').val('');
+        }
+
+        $("#divload").css({ 'display': '' });
+
+        return true;
+    }
+
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+    function onSiteChange() {
+        $("#divload").css({ 'display': '' });
+        var value = $('#SiteID').val();
+        var values = $('#SectorID').val();
+        var tr = [];
+        $.ajax({
+            url: "/Masters/GetSiteDetails",
+            Type: "Get",
+            DataType: "JSON",
+            data: { SiteID: value },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                var j = 1;
+                if (data.Result == "yes") {
+
+                    $("#SectorID").html(""); // clear before appending new list
+                    $("#SectorID").empty();
+                    $("#SectorID").append(
+                        $('<option></option>').val(0).html('Select Sector'));
+                    $.each(data.ddlSector, function (index, Sectorcount) {
+                        $("#SectorID").append(
+                            $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+
+                    });
+                }
+                else {
+                    $("#SectorID").empty();
+
+                }
+            }
+
+        });
+
+    }
+
+    function onSectorChange() {
+
+        $("#divload").css({ 'display': '' });
+        var siteID = $('#SiteID').val();
+        var sectorID = $('#SectorID').val();
+        $.ajax({
+            url: '/Masters/GetBlockList', type: 'post', dataType: 'json',
+            data: { 'SiteID': siteID, 'sectorID': sectorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                $("#BlockID").html(""); // clear before appending new list
+                $("#BlockID").empty();
+                $("#BlockID").append(
+                    $('<option></option>').val(0).html('Select Block'));
+                $.each(data.lstBlock, function (index, BlockCount) {
+                    $("#BlockID").append(
+                        $('<option></option>').val(BlockCount.Value).html(BlockCount.Text));
+                });
+
+            }
+
+        });
+    }
+
+    function CheckPlotStatus() {
+        debugger
+        $("#divload").css({ 'display': '' });
+        var siteID = $('#SiteID').val();
+        var sectorID = $('#SectorID').val();
+        var block = $('#BlockID').val();
+        var plotno = $('#PlotNumber').val();
+
+        $.ajax({
+            url: '/Admin/CheckPlot', type: 'get', dataType: 'json',
+            data: { 'SiteID': siteID, 'SectorID': sectorID, 'BlockID': block, 'PlotNumber': plotno },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "yes") {
+                    $("#PlotNumber").removeClass('errortext');
+                    $("#PlotID").val(data.PlotID);
+                    $("#BookingPercent").val(data.BookingPercent);
+                    $("#PlotSize").val(data.PlotSize);
+                    $("#PlotAmount").val(data.PlotAmount);
+                    $("#ActualPlotRate").val(data.ActualPlotRate);
+                    $("#PlotRate").val(data.ActualPlotRate);
+                    $("#BookingAmount").val(data.BookingAmount);
+                    $("#TotalPLC").val(data.TotalPLC);
+                    $("#NetPlotAmount").val(data.NetPlotAmount);
+                    $("#Dimension").val(data.Dimension);
+                    $("#PlotSize").val(data.PlotSize);
+                }
+                else if (data.Result == "no") {
+                    alert('Invalid Plot Number !');
+                    $("#PlotNumber").addClass('errortext');
+                    $('#PlotNumber').focus();
+                    $("#PlotNumber").val('');
+                    $("#ActualPlotRate").val('');
+                    $("#BookingAmount").val('');
+                    $("#TotalPLC").val('');
+                    $("#PlotAmount").val('');
+                }
+                else {
+                    alert('Plot not available !');
+                    $("#PlotNumber").addClass('errortext');
+                    $("#PlotNumber").val('');
+                    $("#PlotAmount").val('');
+                    $("#ActualPlotRate").val('');
+                    $("#BookingAmount").val('');
+                    $("#TotalPLC").val('');
+                    $("#PlotAmount").val('');
+                }
+            }
+
+        });
+
+    }
+
+    function CheckPayMode() {
+        debugger
+        if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+            $("#divPaymentMode").show();
+            if ($('#PaymentMode').val() == '9') {
+                $('#creditdebit').html('Debit To');
+            }
+            else {
+                $('#creditdebit').html('Debit To');
+            }
+        }
+
+        else {
+            $("#divPaymentMode").hide();
+        }
+
+    }
+</script>

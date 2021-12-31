@@ -1,0 +1,201 @@
+﻿@model JvHomes.Models.SiteManagement
+
+@{
+    ViewBag.Title = "RecievePayment";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("RecievePayment", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Site Management</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Recieve Payment</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <h6 style="color: red">
+
+                @TempData["RecievePayment"]
+
+            </h6>
+            <div class="row">
+                <div class="col-sm-4">
+                    Side Name
+                    @Html.DropDownListFor(m => m.Fk_SiteId, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control" })
+                </div>
+                <div class="col-sm-4">
+                    Name
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @Placeholder = "Name" })
+                </div>
+                <div class="col-sm-4">
+                    Amount
+                    @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @Placeholder = "Amount", @onkeypress = "return isNumberOrDecimal(event);" })
+                </div>
+
+
+
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        Date <span style="color: red">*</span>
+                        @Html.TextBoxFor(m => m.TransactionDate, new { @class = "form-control", @Placeholder = "Date", @Readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    Payment Mode
+                    @Html.DropDownListFor(m => m.PaymentMode, new SelectList(ViewBag.ddlPaymentMode, "Value", "Text"), new { @class = "form-control", @onchange = "return CheckPayMode()" })
+
+
+                </div>
+                <div class="col-sm-4">
+                    Narration
+                    @Html.TextBoxFor(m => m.Narration, new { @class = "form-control", @Placeholder = "Narration" })
+                </div>
+
+            </div>
+            <div class="row" id="divPaymentMode" style="display: none">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        Cheque/Transaction Number <span style="color: red">*</span>
+                        @Html.TextBoxFor(m => m.TransactionNo, new { @class = "form-control", @Placeholder = "Cheque/Transaction Number", @maxlength = "50" })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        Bank Name <span style="color: red">*</span>
+                        @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Name" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        Bank Branch <span style="color: red">*</span>
+                        @Html.TextBoxFor(m => m.BankBranch, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Branch" })
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Credit To</label>
+
+                        @Html.DropDownListFor(m => m.CreditTo, new SelectList(ViewBag.ddlBank, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12">
+                    <br />
+                    <input type="submit" class="btn btn-success" value="Recieve Payment" onclick="return favlaidate();" />
+                </div>
+
+
+            </div>
+            
+        </div>
+    </div>
+}
+    <script src="../../Scripts/jquery-1.10.2.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+    <script>
+        function isNumberOrDecimal(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+
+            return true;
+        }
+        $('#TransactionDate').datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeYear: true,
+            changeMonth: true,
+
+        });
+        function favlaidate() {
+            $(".errortext").removeClass("errortext");
+            if ($('#Fk_SiteId').val() == '0') {
+                $("#Fk_SiteId").addClass('errortext');
+                $('#Fk_SiteId').focus();
+                return false;
+
+            }
+            if ($('#Name').val() == '') {
+                $("#Name").addClass('errortext');
+                $('#Name').focus();
+                return false;
+            }
+            if ($('#Amount').val() == '') {
+                $("#Amount").addClass('errortext');
+                $('#Amount').focus();
+                return false;
+            }
+            if ($('#Amount').val() == '0') {
+                $("#Amount").addClass('errortext');
+                $('#Amount').focus();
+                return false;
+            }
+
+
+            if ($('#TransactionDate').val() == '') {
+                $("#TransactionDate").addClass('errortext');
+                $('#TransactionDate').focus();
+                return false;
+            }
+            if ($('#PaymentMode').val() == '0') {
+                $("#PaymentMode").addClass('errortext');
+                $('#PaymentMode').focus();
+                return false;
+            }
+
+            if ($('#PaymentMode').val() != "1") {
+                if ($('#TransactionNo').val() == '') {
+                    $("#TransactionNo").addClass('errortext');
+                    $('#TransactionNo').focus();
+                    return false;
+                }
+
+                if ($('#BankName').val() == '') {
+                    $("#BankName").addClass('errortext');
+                    $('#BankName').focus();
+                    return false;
+                }
+               
+                if ($('#BankBranch').val() == '') {
+                    $("#BankBranch").addClass('errortext');
+                    $('#BankBranch').focus();
+                    return false;
+                }
+            }
+        }
+        function CheckPayMode() {
+            debugger
+            if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+                $("#divPaymentMode").show();
+                if ($('#PaymentMode').val() == '9') {
+                    $('#creditdebit').html('Debit To');
+                }
+                else {
+                    $('#creditdebit').html('Debit To');
+                }
+            }
+
+            else {
+                $("#divPaymentMode").hide();
+            }
+
+        }
+    </script>

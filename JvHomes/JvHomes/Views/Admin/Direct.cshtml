@@ -1,0 +1,98 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "Direct";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@using (Html.BeginForm("Direct", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Team</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Direct</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                LoginId
+                @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @Placeholder = "Associate Id" })
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <input type="submit" value="Get Details" class="btn btn-primary" />
+            </div>
+        </div>
+        <table id="example23" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>LoginId</th>
+
+                    <th>Name</th>
+                    <th>Password</th>
+                    <th>Joining Date</th>
+                    <th>Mobile</th>
+                    <th>Status</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.directList != null)
+                    {
+                        if (Model.directList.Rows.Count > 0)
+                        {
+                            for (int i = 0; i <= Model.directList.Rows.Count - 1; i++)
+                            {
+                                <tr>
+                                    <td>@Model.directList.Rows[i]["LoginId"].ToString()</td>
+
+                                    <td>@Model.directList.Rows[i]["Name"].ToString()</td>
+                                    <td><span style="font-size:14px;font-weight:600;" id="@i" onclick="fn_showPWD('@i','@JvHomes.Crypto.Decrypt(Model.directList.Rows[i]["Password"].ToString())')">******</span></td>
+                                    <td>@Model.directList.Rows[i]["JoiningDate"].ToString()</td>
+                                    <td>@Model.directList.Rows[i]["Mobile"].ToString()</td>
+                                    <td>
+                                        @if (Model.directList.Rows[i]["Status"].ToString() == "Active")
+                                        {
+                                            <a class="btn btn-success btn-sm" style="cursor:none">Active</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-danger btn-sm" style="cursor:none">InActive</a>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+
+                        }
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+}
+    <script>
+        function fn_showPWD(id, pwd) {
+
+            if ($('#' + id).html() != '******') {
+                $('#' + id).html('******');
+            }
+            else {
+                $('#' + id).html(pwd);
+            }
+        }
+    </script>

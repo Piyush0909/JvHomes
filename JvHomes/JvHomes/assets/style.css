@@ -1,0 +1,98 @@
+body {
+    padding: 0px;
+    margin: 0px;
+}
+
+
+
+p {
+    margin: 0px;
+    font-size: 13px;
+}
+
+.barcode img {
+    max-width: 100%;
+    padding: 10px 0px;
+}
+
+.divider1 {
+    padding: 5px 0px;
+}
+
+.col-md-7.colon1 {
+    padding-left: 0px;
+    margin-left: -17px;
+    padding-right: 0px;
+}
+
+p.manufacture1 {
+    padding-top: 18px;
+}
+
+p.manufacture2 {
+    padding-top: 18px;
+}
+
+p.addres1 {
+    padding-top: 18px;
+}
+
+p.cust1 {
+    padding-top: 18px;
+}
+
+.name-section p {
+    font-size: 12px;
+}
+.col-md-4.fashio2 {
+    padding-right: 0px;
+}
+.col-md-4.fashio3 {
+    padding-left: 0px;
+    margin-left: -40px;
+}
+
+@media print {
+    /* All your print styles go here */
+    .barcode img {
+        margin-left: 0px;
+    }
+
+    p.manufacture1 {
+        padding-top: 15px;
+    }
+
+    p.manufacture2 {
+        padding-top: 15px;
+    }
+
+    .name-section p {
+        font-size: 11px;
+    }
+
+    .col-md-4.fashio1 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .col-md-4.fashio2 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .col-md-4.fashio3 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .col-md-5.colon2 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .col-md-7.colon1 {
+        padding-left: 0px;
+        margin-left: -28px !important;
+        padding-right: 0px;
+    }
+}

@@ -1,0 +1,168 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "PlotSizeMaster";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("PlotSizeMaster", "Masters", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Masters</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Add Plot Size</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                Width In Feet <span style="color: red">*</span>
+                @Html.TextBoxFor(m => m.WidthFeet, new { @class = "form-control", @onchange = "return calculatePlotArea();", @onkeypress = "return isNumberOrDecimal(event);", maxlength = "50", @placeholder = "Enter Width in Feet" })
+            </div>
+            <div class="col-sm-3">
+                Width In Inches <span style="color: red">*</span>
+                @Html.TextBoxFor(m => m.WidthInch, new { @class = "form-control", @onblur = "return calculatePlotArea();", @onkeypress = "return isNumberOrDecimal(event);", maxlength = "50", @placeholder = "Enter  width  in inches" })
+            </div>
+            <div class="col-sm-3">
+                Height In Width <span style="color: red">*</span>
+                @Html.TextBoxFor(m => m.HeightFeet, new { @class = "form-control", @onblur = "return calculatePlotArea();", @onkeypress = "return isNumberOrDecimal(event);", maxlength = "50", @placeholder = "Enter  Height in Feet" })
+            </div>
+            <div class="col-sm-3">
+                Height In Inches <span style="color: red">*</span>
+                @Html.TextBoxFor(m => m.HeightInch, new { @class = "form-control", @onblur = "return calculatePlotArea();", @onkeypress = "return isNumberOrDecimal(event);", maxlength = "50", @placeholder = "Enter  Height in Inches" })
+            </div>
+        </div>
+
+
+        <div class="row gutters">
+            <div class="col-sm-3">
+                Plot Area <span style="color: red">*</span>
+                @Html.TextBoxFor(m => m.PlotArea, new { @class = "form-control", @ReadOnly = "ReadOnly", @Placeholder = "Plot Area", @onkeypress = "return isNumberOrDecimal(event);" })
+            </div>
+            <div class="col-sm-3">
+                Unit <span style="color: red">*</span>
+                @Html.DropDownListFor(m => m.UnitID, new SelectList(ViewBag.ddlUnit, "Value", "Text"), new { @class = "select2-container form-control show-tick ms select2" })
+            </div>
+
+        </div>
+
+
+
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @if (Model.PlotSizeID == null)
+                    {
+                        <input class="btn btn-success pull-right" type="submit" onclick="return validateform();" value="Save" id="Save" name="Save" />
+
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(m => m.PlotSizeID, new { @Value = @Model.PlotSizeID })
+                        <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Update" id="btnUpdate" name="btnUpdate" />
+                    }
+                    <a class="btn btn-info" href="/Masters/PlotSizeList">Back To List</a>
+                    <p style="color:red">@TempData["PlotSize"]</p>
+
+                </div>
+
+
+            </div>
+            <br />
+
+        </div>
+    </div>
+</div>
+      
+}
+
+<script>
+
+    function calculatePlotArea() {
+        var widthFeet = Number($('#WidthFeet').val());
+        var widthInch = Number($('#WidthInch').val());
+        var totalWidth = widthFeet + (widthInch / 12);
+
+        var heightFeet = Number($('#HeightFeet').val());
+        var heightInch = Number($('#HeightInch').val());
+        var totalHeight = heightFeet + (heightInch / 12);
+
+        document.getElementById("PlotArea").value = totalHeight * totalWidth;
+    }
+
+    function validateform() {
+        $(".errortext").removeClass("errortext");
+        if ($('#WidthFeet').val() == '') {
+            $("#WidthFeet").addClass('errortext');
+            $('#WidthFeet').focus();
+            return false;
+        }
+        if ($('#WidthInch').val() == '') {
+            $("#WidthInch").addClass('errortext');
+            $('#WidthInch').focus();
+            return false;
+        }
+        if ($('#HeightFeet').val() == '') {
+            $("#HeightFeet").addClass('errortext');
+            $('#HeightFeet').focus();
+            return false;
+        }
+        if ($('#HeightInch').val() == '') {
+            $("#HeightInch").addClass('errortext');
+            $('#HeightInch').focus();
+            return false;
+        }
+        if ($('#PlotArea').val() == '') {
+            $("#PlotArea").addClass('errortext');
+            $('#PlotArea').focus();
+            return false;
+        }
+        if ($('#UnitID').val() == '0') {
+            $("#UnitID").addClass('errortext');
+            $('#UnitID').focus();
+            return false;
+        }
+        $("#divload").css({ 'display': '' });
+        return true;
+    }
+
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+</script>

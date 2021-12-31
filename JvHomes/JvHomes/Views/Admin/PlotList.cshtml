@@ -1,0 +1,278 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "PlotList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("PlotList", "Admin", FormMethod.Post, new { @id = "form1" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Plot List</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label class="float-label">Site</label>
+                    @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-3">
+                    <label class="float-label">Sector</label>
+                    @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control", @onchange = "return onSectorChange();" })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-3">
+                    <label class="float-label">Block</label>
+                    @Html.DropDownListFor(m => m.BlockID, new SelectList(ViewBag.ddlBlock, "Value", "Text"), new { @class = "form-control" })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-3">
+                    <label class="float-label">Plot No</label>
+                    @Html.TextBoxFor(m => m.PlotNumber, new { @class = "form-control", @Placeholder = "Plot Number" })
+                    @Html.HiddenFor(m => m.PlotID)
+                    <span class="form-bar"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-3">
+                    <label class="float-label">PLC</label>
+                    @Html.DropDownListFor(m => m.PLCName, new SelectList(ViewBag.ddlPLC, "Value", "Text"), new { @class = "form-control", })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-3">
+                    <br />
+                    <input type="submit" name="SearchPlot" value="Search" id="btnSearchPlot" class="btn btn-success" onclick="return load();" />
+                </div>
+            </div>
+
+
+
+            <table id="example23" class="table table-striped table-bordered nowrap table-responsive">
+                <thead>
+                    <tr>
+                        <th>S No.</th>
+                        <th>SiteName</th>
+                        <th>SectorName</th>
+                        <th>BlockName</th>
+                        <th>PlotNumber</th>
+                        <th>PlotArea</th>
+                        <th>PlotRate</th>
+                        <th>PlotAmount</th>
+                        <th>PLCCharge</th>
+                        <th>BookingPercent</th>
+                        <th>AllottmentPercent</th>
+                        <th>Status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.lstPlot != null)
+                        {
+                            int i = 1;
+                            foreach (var Item in Model.lstPlot)
+                            {
+                                if (Item.PlotStatus == "Available")
+                                {
+                                    <tr class="text-left" style="background-color:#69ce69">
+                                        <td>@i</td>
+                                        <td>@Item.SiteName</td>
+                                        <td>@Item.SectorName</td>
+                                        <td>@Item.BlockName</td>
+                                        <td>@Item.PlotNumber</td>
+                                        <td>@Item.PlotArea</td>
+                                        <td>@Item.PlotRate</td>
+                                        <td>@Item.PlotAmount</td>
+                                        <td>@Item.PLCCharge</td>
+                                        <td>@Item.BookingPercent</td>
+                                        <td>@Item.AllottmentPercent</td>
+
+                                        <td>
+                                            @Item.PlotStatus
+                                        </td>
+
+
+
+
+                                    </tr>
+                                }
+
+                                if (Item.PlotStatus == "Hold")
+                                {
+                                    <tr class="text-left" style="background-color:yellow">
+                                        <td>@i</td>
+                                        <td>@Item.SiteName</td>
+                                        <td>@Item.SectorName</td>
+                                        <td>@Item.BlockName</td>
+                                        <td>@Item.PlotNumber</td>
+                                        <td>@Item.PlotArea</td>
+                                        <td>@Item.PlotRate</td>
+                                        <td>@Item.PlotAmount</td>
+                                        <td>@Item.PLCCharge</td>
+                                        <td>@Item.BookingPercent</td>
+                                        <td>@Item.AllottmentPercent</td>
+
+                                        <td>
+                                            @Item.PlotStatus
+                                        </td>
+
+
+
+
+                                    </tr>
+                                }
+                                if (Item.PlotStatus == "Booked")
+                                {
+                                    <tr class="text-left" style="background-color:#e66b6b">
+                                        <td>@i</td>
+                                        <td>@Item.SiteName</td>
+                                        <td>@Item.SectorName</td>
+                                        <td>@Item.BlockName</td>
+                                        <td>@Item.PlotNumber</td>
+                                        <td>@Item.PlotArea</td>
+                                        <td>@Item.PlotRate</td>
+                                        <td>@Item.PlotAmount</td>
+                                        <td>@Item.PLCCharge</td>
+                                        <td>@Item.BookingPercent</td>
+                                        <td>@Item.AllottmentPercent</td>
+
+                                        <td>
+                                            @Item.PlotStatus
+                                        </td>
+
+
+
+
+                                    </tr>
+                                }
+                                if (Item.PlotStatus == "Alloted")
+                                {
+                                    <tr class="text-left" style="background-color:#e470e4">
+                                        <td>@i</td>
+                                        <td>@Item.SiteName</td>
+                                        <td>@Item.SectorName</td>
+                                        <td>@Item.BlockName</td>
+                                        <td>@Item.PlotNumber</td>
+                                        <td>@Item.PlotArea</td>
+                                        <td>@Item.PlotRate</td>
+                                        <td>@Item.PlotAmount</td>
+                                        <td>@Item.PLCCharge</td>
+                                        <td>@Item.BookingPercent</td>
+                                        <td>@Item.AllottmentPercent</td>
+
+                                        <td>
+                                            @Item.PlotStatus
+                                        </td>
+
+
+
+
+                                    </tr>
+                                }
+                                i++;
+                            }
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+
+
+
+}
+
+
+<script>
+
+
+    function openpopup(plotid) {
+        $('#PlotID').val(plotid);
+        // $('#updateLocation').modal('show');
+    }
+
+    function onSiteChange() {
+        $("#divload").css({ 'display': '' });
+        var value = $('#SiteID').val();
+        var values = $('#SectorID').val();
+        var tr = [];
+        $.ajax({
+            url: "/Masters/GetSiteDetails",
+            Type: "Get",
+            DataType: "JSON",
+            data: { SiteID: value },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                var j = 1;
+                //alert(data.Result);
+                if (data.Result == "yes") {
+                    //alert(data.Rate);
+
+                    $("#SectorID").html(""); // clear before appending new list
+                    $("#SectorID").empty();
+                    $("#BlockID").empty();
+                    $("#SectorID").append(
+                        $('<option></option>').val(0).html('Select Sector'));
+                    $.each(data.ddlSector, function (index, Sectorcount) {
+                        $("#SectorID").append(
+                            $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+
+                    });
+
+
+
+                }
+                else {
+                    $('#Rate').val('');
+                }
+            }
+
+        });
+
+    }
+
+    function onSectorChange() {
+        debugger;
+        $("#divload").css({ 'display': '' });
+        var siteID = $('#SiteID').val();
+        var sectorID = $('#SectorID').val();
+        $.ajax({
+            url: '/Masters/GetBlockList', type: 'post', dataType: 'json',
+            data: { 'SiteID': siteID, 'sectorID': sectorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                $("#BlockID").html(""); // clear before appending new list
+                $("#BlockID").empty();
+                $("#BlockID").append(
+                    $('<option></option>').val(0).html('Select Block'));
+                $.each(data.lstBlock, function (index, BlockCount) {
+                    $("#BlockID").append(
+                        $('<option></option>').val(BlockCount.Value).html(BlockCount.Text));
+                });
+
+            }
+
+        });
+    }
+
+
+
+</script>
+

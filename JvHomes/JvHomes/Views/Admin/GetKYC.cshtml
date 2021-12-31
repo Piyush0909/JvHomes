@@ -1,0 +1,127 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "GetKYC";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("ApproveKYC", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Accounts</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active"> KYC</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    Account No
+                    @Html.TextBoxFor(m => m.MemberAccNo, new { @class = "form-control", @readonly = "fsd", @style = "color:blue" })
+                </div>
+                <div class="col-sm-3">
+                    Bank Name
+                    @Html.TextBoxFor(m => m.MemberBankName, new { @class = "form-control", @readonly = "fsd", @style = "color:blue" })
+                </div>
+                <div class="col-sm-3">
+                    Bank Branch
+                    @Html.TextBoxFor(m => m.MemberBranch, new { @class = "form-control", @readonly = "fsd", @style = "color:blue" })
+                </div>
+                <div class="col-sm-3">
+                    IFSC Code
+                    @Html.TextBoxFor(m => m.IFSCCode, new { @class = "form-control", @readonly = "fsd", @style = "color:blue" })
+                </div>
+            </div>
+            <br />
+            <table id="basicExample" class="table table-bordered">
+                <thead>
+                    <tr>
+
+                        <th>Document Number</th>
+                        <th>Document Image</th>
+                        <th>Document Type</th>
+                        <th>Status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.documentList != null)
+                        {
+                            if (Model.documentList.Rows.Count > 0)
+                            {
+                                for (int i = 0; i <= Model.documentList.Rows.Count - 1; i++)
+                                {
+                    <tr>
+
+
+                        <td>@Model.documentList.Rows[i]["DocumentNumber"].ToString()</td>
+                        <td>
+                            <a href="@Model.documentList.Rows[i]["DocumentImage"].ToString()" target="_blank"> <img src="@Model.documentList.Rows[i]["DocumentImage"].ToString()" style="width:50px;height:50px" /></a>
+                        </td>
+                        <td>@Model.documentList.Rows[i]["DocumentType"].ToString()</td>
+                        @if (Model.documentList.Rows[i]["Status"].ToString() == "Approved")
+                        {
+                            <td>
+                                <a class="btn btn-success btn-sm"> @Model.documentList.Rows[i]["Status"].ToString()</a>
+                            </td>
+                        }
+                        @if (Model.documentList.Rows[i]["Status"].ToString() == "Declined")
+                        {
+                            <td>
+                                <a class="btn btn-danger btn-sm"> @Model.documentList.Rows[i]["Status"].ToString()</a>
+                            </td>
+                        }
+                        @if (Model.documentList.Rows[i]["Status"].ToString() == "Not Uploaded")
+                        {
+                            <td>
+                                <a class="btn btn-info btn-sm"> @Model.documentList.Rows[i]["Status"].ToString()</a>
+                            </td>
+                        }
+                    </tr>
+                                }
+
+                            }
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}
+
+
+<script src="../../assets/js/jquery.min.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+
+
+    });
+
+</script>
+
+
+
+

@@ -1,0 +1,178 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "PrintLedger";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Print Ledger</title>
+    <style>
+        table, th, td {
+            font-size: medium;
+            /*border: 1px solid black;*/
+            border-collapse: collapse;
+        }
+
+        th, td {
+            font-size: medium;
+            padding: 5px;
+        }
+    </style>
+
+</head>
+<body>
+    <div style="border:3px solid #a20e0e;padding-left:10px;padding-right:10px;">
+        <table style="border: 0px none black;">
+            <tr style="border: 0px none black;">
+                <td style="border: 0px none black;">
+                    <img src="~/AdminPanelCss/img/logo-dark1.png" style="width:100px" />
+                </td>
+                <td style="border: 0px none black;"></td>
+
+                <td style="border: 0px none black;">
+                    <h1 style="color:#a20e0e">@JvHomes.Models.Common.SoftwareDetails.CompanyName </h1>
+
+                </td>
+            </tr>
+
+        </table>
+        <br />
+
+      
+
+     
+       
+        <table style="width: 100%;" class="table table-striped">
+            <tr>
+
+                <td style="border: 1px solid black;"><b> Customer Name:    </b>@ViewBag.Name</td>
+                <td style="border: 1px solid black;"><b>Login Id:    </b>@ViewBag.LoginId</td>
+               
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;"><b>Site Name :    </b>@ViewBag.SiteName</td>
+                <td style="border: 1px solid black;"><b> Plot No:    </b>@ViewBag.PlotNumber</td>
+            </tr>
+            
+            <tr>
+                <td style="border: 1px solid black;"><b>Area:     </b>@ViewBag.TotalArea </td>
+                <td style="border: 1px solid black;"><b>Plot Rate :     </b>@ViewBag.PlotRate /-</td>
+               
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;"><b>Plot Amount:     </b>@ViewBag.PlotAmount /-</td>
+                <td style="border: 1px solid black;"><b>PLC(%):     </b>@ViewBag.PLCPerc </td>
+            </tr>
+            <tr>
+                
+                <td style="border: 1px solid black;" colspan="4"><b>Total Amount :     </b>@ViewBag.NetPlotAmount</td>
+            </tr>
+           
+            
+
+
+
+        </table>
+
+        <br />
+        
+
+
+        <table style="width: 100%;text-align:center">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black;">Sr No</th>
+                    <th style="border: 1px solid black;">Date</th>
+                    <th style="border: 1px solid black;">Particular</th>
+                    <th style="text-align:right;border: 1px solid black;">Plot Amount</th>
+                    <th style="text-align:right;border: 1px solid black;">Paid Amount</th>
+
+
+                    <th style="text-align:right;border: 1px solid black;">Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.paymentDetails != null)
+                    {
+                        int j = 1;
+                        if (Model.paymentDetails.Rows.Count > 0)
+                        {
+                            for (int i = 0; i <= Model.paymentDetails.Rows.Count - 1; i++)
+                            {
+                                <tr class="text-left">
+                                    <td style="border: 1px solid black;">@j</td>
+                                    <td style="border: 1px solid black;">
+                                        @Model.paymentDetails.Rows[i]["TransactionDate"].ToString()
+                                    </td>
+                                    <td style="border: 1px solid black;">
+                                        @Model.paymentDetails.Rows[i]["Particular"].ToString()
+                                    </td>
+                                    <td style="text-align:right;border: 1px solid black;">
+                                        @Model.paymentDetails.Rows[i]["NetPlotAmount"].ToString()
+                                    </td>
+                                    <td style="text-align:right;border: 1px solid black;">
+                                        @Model.paymentDetails.Rows[i]["PaidAmount"].ToString()
+                                    </td>
+                                    <td style="text-align:right;border: 1px solid black;">
+                                        @Model.paymentDetails.Rows[i]["Balance"].ToString()
+                                    </td>
+
+                                </tr>
+                                j++;
+                            }
+                        }
+
+                    }
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+
+                    <th style="border: 1px solid black;"></th>
+                    <th style="border: 1px solid black;"></th>
+                    <th style="border: 1px solid black;">Total</th>
+                    <th style="text-align:right;border: 1px solid black">@ViewBag.TotalPlotAmount</th>
+                    <th style="text-align:right;border: 1px solid black">@ViewBag.TotalPaidAmount</th>
+                    <th style="text-align:right;border: 1px solid black">@ViewBag.TotalBalance</th>
+                </tr>
+            </tfoot>
+
+        </table>
+        <br />
+        <br />
+        <br />
+        <br />
+        <table style="width:100%;text-align:right">
+            <tr>
+                <td></td>
+                <td>Authorized Signatory</td>
+            </tr>
+        </table>
+        <br />
+        <table style="width:100%;background:#a20e0e;color:white;">
+            <tr>
+                <td style="text-align:center">
+                    @JvHomes.Models.Common.SoftwareDetails.CompanyAddress
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+
+    </div>
+
+    <p style="page-break-after: always;">&nbsp;</p>
+
+
+    
+   
+</body>
+</html>
+

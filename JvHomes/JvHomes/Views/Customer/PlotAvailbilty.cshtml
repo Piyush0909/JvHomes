@@ -1,0 +1,241 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "PlotAvailbilty";
+    Layout = "~/Views/Shared/CustomerLayout.cshtml";
+}
+@using (Html.BeginForm("PlotAvailbilty", "Customer", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Plot Availbility</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+
+            <div class="row gutters">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Select Site <span style="color: red">*</span>
+                        @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Select Sector
+                        @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control", @onchange = "return onSectorChange();" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Select Block
+                        @Html.DropDownListFor(m => m.BlockID, new SelectList(ViewBag.ddlBlock, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Plot No
+                        @Html.TextBoxFor(m => m.PlotNumber, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Plot Status
+                        <select class="form-control" id="PlotStatus" name="PlotStatus">
+                            <option value="">All</option>
+                            <option value="A">Available</option>
+                            <option value="H">Hold</option>
+                            <option value="B">Booked</option>
+                            <option value="AL">Allotted</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <br>
+                    <div class="form-group">
+                        <input type="submit" name="Search" value="Search" id="btnSearchPlot" class="btn btn-success" onclick="return GetDetails(); ">
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-lg-12">
+                    <label style="color: black;"><b><u>Availability Status</u></b></label>
+                    <br>
+                    <div class="col-md-2 float-left">
+                        <div style="border:solid; border-color:#69ce69; background-color:#69ce69; height:20px; width:20px; float:left"></div>
+                        - Available
+                    </div>
+                    <div class="col-md-2 float-left">
+                        <div style="border:solid; border-color:yellow; background-color:yellow; height:20px; width:20px; float:left"></div>
+                        - On Hold
+                    </div>
+                    <div class="col-md-2 float-left">
+                        <div style="border:solid; border-color:#e66b6b; background-color:#e66b6b; height:20px; width:20px; float:left"></div>
+                        - Booked
+                    </div>
+
+                    <div class="col-md-2 float-left">
+                        <div style="border:solid; border-color: #e470e4; background-color: #e470e4; height:20px; width:20px; float:left"></div>
+                        - Allotted
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="row gutters">
+                <br />
+                <br />
+                @if (Model != null)
+                {
+                    if (Model.lstPlot != null)
+                    {
+                        foreach (var item in Model.lstPlot)
+                        {
+                            if (item.PlotStatus == "Available")
+                            {
+                                <div style="width:16%;margin-left:0.5%;color:black;background: #69ce69; border:Solid; float:left; height:110px; margin-bottom:0.5%; text-align:center; padding-top:0.5%">
+
+                                    <b>Sector : </b>@item.SectorName
+                                    <br>
+                                    <b>Block : </b>@item.BlockName
+                                    <br>
+                                    <b>Plot Number : </b>@item.PlotNumber
+                                    <br>
+                                    <b>Plot Area : </b>@item.PlotArea Sq/Ft
+                                </div>
+                            }
+                            else if (item.PlotStatus == "Booked")
+                            {
+                                <div style="width:16%;margin-left:0.5%;color:black;background: #e66b6b; border:Solid; float:left; height:110px; margin-bottom:0.5%; text-align:center; padding-top:0.5%">
+                                    <b>Sector : </b>@item.SectorName
+                                    <br>
+                                    <b>Block : </b>@item.BlockName
+                                    <br>
+                                    <b>Plot Number : </b>@item.PlotNumber
+                                    <br>
+                                    <b>Plot Area : </b>@item.PlotArea Sq/Ft
+                                </div>
+                            }
+                            else if (item.PlotStatus == "Allotted")
+                            {
+                                <div style="width:16%;margin-left:0.5%;color:black;background: #e470e4; border:Solid; float:left; height:110px; margin-bottom:0.5%; text-align:center; padding-top:0.5%">
+                                    <b>Sector : </b>@item.SectorName
+                                    <br>
+                                    <b>Block : </b>@item.BlockName
+                                    <br>
+                                    <b>Plot Number : </b>@item.PlotNumber
+                                    <br>
+                                    <b>Plot Area : </b>@item.PlotArea Sq/Ft
+                                </div>
+                            }
+                            else if (item.PlotStatus == "Hold")
+                            {
+                                <div style="width:16%;margin-left:0.5%;color:black;background: yellow; border:Solid; float:left; height:110px; margin-bottom:0.5%; text-align:center; padding-top:0.5%">
+                                    <b>Sector : </b>@item.SectorName
+                                    <br>
+                                    <b>Block : </b>@item.BlockName
+                                    <br>
+                                    <b>Plot Number : </b>@item.PlotNumber
+                                    <br>
+                                    <b>Plot Area : </b>@item.PlotArea Sq/Ft
+                                </div>
+                            }
+                        }
+                    }
+                }
+
+
+            </div>
+            <!-- Row ends -->
+
+        </div>
+
+    </div>
+}
+    <script>
+        function GetDetails() {
+            debugger
+            if ($('#SiteID').val() == '0' && $('#SiteID').val() == '0' && $('#SiteID').val() == '0') {
+                alert("Please select Site!")
+                return false;
+            }
+
+            else {
+                $("#DivPlot").show();
+            }
+        }
+
+        function onSiteChange() {
+            $("#divload").css({ 'display': '' });
+
+            var value = $('#SiteID').val();
+            var values = $('#SectorID').val();
+            var tr = [];
+            $.ajax({
+                url: "/Customer/GetSiteDetails",
+                Type: "Get",
+                DataType: "JSON",
+                data: { SiteID: value },
+                success: function (data) {
+                    var j = 1;
+                    if (data.Result == "yes") {
+                        $("#divload").css({ 'display': 'none' });
+
+                        $("#SectorID").html(""); // clear before appending new list
+                        $("#SectorID").empty();
+                        $("#SectorID").append(
+                            $('<option></option>').val(0).html('Select Sector'));
+                        $.each(data.ddlSector, function (index, Sectorcount) {
+                            $("#SectorID").append(
+                                $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+                        });
+
+                    }
+                    else {
+                        $("#SectorID").empty();
+                        $('#Rate').val('');
+                    }
+                }
+
+            });
+
+        }
+
+        function onSectorChange() {
+
+            $("#divload").css({ 'display': '' });
+            var siteID = $('#SiteID').val();
+            var sectorID = $('#SectorID').val();
+            $.ajax({
+                url: '/Customer/GetBlockList', type: 'post', dataType: 'json',
+                data: { 'SiteID': siteID, 'sectorID': sectorID },
+                success: function (data) {
+                    $("#divload").css({ 'display': 'none' });
+                    $("#BlockID").html(""); // clear before appending new list
+                    $("#BlockID").empty();
+                    $("#BlockID").append(
+                        $('<option></option>').val(0).html('Select Block'));
+                    $.each(data.lstBlock, function (index, BlockCount) {
+                        $("#BlockID").append(
+                            $('<option></option>').val(BlockCount.Value).html(BlockCount.Text));
+                    });
+
+                }
+
+            });
+        }
+    </script>

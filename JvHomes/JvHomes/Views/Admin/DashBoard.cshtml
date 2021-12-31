@@ -1,0 +1,276 @@
+﻿@model JvHomes.Models.Dashboard
+
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Dashboard</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 style="color:blue">Welcome Back @Session["FullName"]</h4>
+            </div>
+
+        </div>
+        @if (Session["Pk_AdminId"].ToString() == "11")
+        {
+
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <a href="/Admin/AssociateList">
+                        <div class="card border-left-primary shadow h-100 py-2" style="background-color:#02c58d">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                            Total Assocaite
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff">@ViewBag.TotalAssociate</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <a href="/Admin/CustomerList">
+                        <div class="card border-left-primary shadow h-100 py-2" style="background-color:#990099">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                            Total Customer
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.TotalCustomer</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <a href="/Admin/BookingList">
+                        <div class="card border-left-primary shadow h-100 py-2" style="background-color:#fcbe2d">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                            Total Booking
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.TotalBooking</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <a href="/Admin/AssociateList?status=P">
+                        <div class="card border-left-primary shadow h-100 py-2" style="background-color:#30419b">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                            Total Active Assocaite
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff">@ViewBag.TotalActiveAssociate</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                @if (Session["RoleName"].ToString() == "Admin")
+                {
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="/Admin/CollectionReport">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#8893cc">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Total Business
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.TotalBusiness</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2" style="background-color:#4e5058">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                            Total Direct Business
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.TotalDirectBusiness</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                }
+                @if (Session["RoleName"].ToString() == "Admin" || Session["Pk_adminId"].ToString() == "9")
+                {
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2" style="background-color:#ab5aab">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                            Total Level Business
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.TotalLevelBusienss</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <a href="/Admin/AssociateList?status=T">
+                        <div class="card border-left-primary shadow h-100 py-2" style="background-color:#bd3030">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                            Total Inactive Associate
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.TotalInactiveAssociate</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+
+            </div>
+
+            if (Session["RoleName"].ToString() == "Admin")
+            {
+                <div class="row">
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="/Admin/ApproveKYC">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#1231d4">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Pending Document
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.PendingDocument</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="/Admin/GetPlotAreaReport?Status=Booked">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#3c488a">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Booked Area
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.BookedArea Sqft</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="/Admin/GetPlotAreaReport?Status=Alloted">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#31654b">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Alloted Area
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.AllotedArea Sqft</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <a href="/Admin/GetPlotAreaReport?Status=Registered">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#ca4c64">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Registered Area
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@ViewBag.RegisteredArea Sqft</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                </div>
+
+            }
+        }
+
+    </div>
+
+</div>
+<!-- Row end -->

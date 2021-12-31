@@ -1,0 +1,113 @@
+﻿@model JvHomes.Models.Wallet
+
+@{
+    ViewBag.Title = "PayoutLedger";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+@using (Html.BeginForm("PayoutLedger", "Associate", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Payout</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Ledger</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+
+            <div class="row">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>From Date  </label>
+                        @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>To Date  </label>
+                        @Html.TextBoxFor(m => m.ToDate, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <br />
+                        <input type="submit" id="btnSearch" class="btn btn-success pull-left" name="Search" value="Search" />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row gutters table-responsive">
+                <table id="example23" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Transaction Date</th>
+                            <th>Transaction No</th>
+                            <th>Narration</th>
+                            <th>CrAmount</th>
+                            <th>DrAMount</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.ledgerList != null)
+                            {
+                                if (Model.ledgerList.Rows.Count > 0)
+                                {
+                                    int j = 1;
+                                    for (int i = 0; i <= Model.ledgerList.Rows.Count - 1; i++)
+                                    {
+                                        <tr class="text-left">
+                                            <td>@j</td>
+                                            <td>@Model.ledgerList.Rows[i]["TransactionDate"].ToString()</td>
+                                            <td>@Model.ledgerList.Rows[i]["TransactionNo"].ToString()</td>
+
+                                            <td>@Model.ledgerList.Rows[i]["Narration"].ToString()</td>
+                                            <td>@Model.ledgerList.Rows[i]["CrAmount"].ToString()</td>
+                                            <td>@Model.ledgerList.Rows[i]["DrAMount"].ToString()</td>
+                                            <td>@Model.ledgerList.Rows[i]["Balance"].ToString()</td>
+                                        </tr>
+                                        j++;
+                                    }
+                                }
+
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+}
+
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script>
+
+    $('#FromDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+    });
+    $('#ToDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+    });
+</script>
+

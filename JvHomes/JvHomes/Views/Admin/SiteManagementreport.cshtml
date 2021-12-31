@@ -1,0 +1,145 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "SiteManagementreport";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("SiteManagementreport", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Ledger</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    Select Site <span style="color: red">*</span>
+                    @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control" })
+                </div>
+
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    <div class="form-group">
+                        <label>From Date  </label>
+                        @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    <div class="form-group">
+                        <label>To Date  </label>
+                        @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    <div class="form-group">
+                        <br />
+                        <input type="submit" id="btnSearch" class="btn btn-success pull-left" name="Search" value="Search" onclick="return fvalidate();" />
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row gutters table-responsive">
+                <table id="example23" class="table table-bordered">
+                    <thead style="background-color: #DEBA84;border-color: #DEBA84;border-width: 1px;border-style: none;color:#f10808">
+                        <tr>
+                            <th>TransactionDate</th>
+
+                            <th>Name</th>
+
+                            <th>Narration</th>
+                            <th>Mode</th>
+                            <th>Transaction No</th>
+                            <th>Recieve</th>
+                            <th>Expenses</th>
+                            <th>Balance</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.lstDetails != null)
+                            {
+                                if (Model.lstDetails.Rows.Count > 0)
+                                {
+                                    int j = 1;
+                                    for (int i = 0; i <= Model.lstDetails.Rows.Count - 1; i++)
+                                    {
+                                        <tr class="text-left">
+
+                                            <td>@Model.lstDetails.Rows[i]["TransactionDate"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["Name"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["Narration"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["PaymentMode"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["TransactionNo"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["CrAmount"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["DrAmount"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["Balance"].ToString()</td>
+                                        </tr>
+                                        j++;
+                                    }
+                                }
+
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr style="background-color: #F7DFB5;color: #8C4510;"><td></td><td style="color:black;font-weight: bold;">
+                           
+                            <td></td>
+                            <td></td>
+                            <td  style="color:black;font-weight: bold;">Total</td>
+                            <td  style="color:blue;font-weight: bold;">@ViewBag.TotalCRAmount</td>
+                            <td  style="color:green;font-weight: bold;">@ViewBag.TotalDRAmount</td>
+                            <td  style="color:red;font-weight: bold;">@ViewBag.TotalBalance</td>
+
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+}
+
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script>
+    function fvalidate() {
+        $(".errortext").removeClass("errortext");
+
+        if ($('#SiteID').val() == '0') {
+            $("#SiteID").addClass('errortext');
+            $('#SiteID').focus();
+            return false;
+        }
+    }
+    $('#FromDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+    });
+    $('#Todate').datepicker({
+        dateFormat: 'dd/mm/yy',
+    });
+</script>
+
+
+
+

@@ -1,0 +1,265 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "GlobalSearch";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Global Search</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Details</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+
+        <!-- Tabs navs -->
+        <!-- Tabs navs -->
+        <!-- Tabs content -->
+
+        <div class="dt-responsive table-responsive">
+            <nav class="navbar navbar-light bg-light" style="background-color:#91a3c1 !important">
+                <a class="navbar-brand" href="#">Profile</a>
+            </nav>
+            <div class="row">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>LoginId</label>
+                        <input type="text" class="form-control" readonly="readonly" value="@Model.associateDetails.Rows[0]["LoginId"].ToString()" style="color:blue" />
+
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" readonly="readonly" value="@Model.associateDetails.Rows[0]["Name"].ToString()" style="color:blue" />
+
+
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Joining Date</label>
+                        <input type="text" class="form-control" readonly="readonly" value="@Model.associateDetails.Rows[0]["JoiningDate"].ToString()" style="color:blue" />
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Status</label>
+                        <input type="text" class="form-control" readonly="readonly" value="@Model.associateDetails.Rows[0]["Status"].ToString()" style="color:blue" />
+
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Mobile</label>
+
+                        <input type="text" class="form-control" readonly="readonly" value="@Model.associateDetails.Rows[0]["Mobile"].ToString()" style="color:blue" />
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Account No</label>
+                        <input type="text" class="form-control" readonly="readonly" value="@Model.associateDetails.Rows[0]["MemberAccNo"].ToString()" style="color:blue" />
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Bank Name</label>
+                        <input type="text" class="form-control" readonly="readonly" value="@Model.associateDetails.Rows[0]["MemberBankName"].ToString()" style="color:blue" />
+
+
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Bank Branch</label>
+                        <input type="text" class="form-control" readonly="readonly" value="@Model.associateDetails.Rows[0]["MemberBranch"].ToString()" style="color:blue" />
+
+
+
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>IFSC Code</label>
+                        <input type="text" class="form-control" readonly="readonly" value="@Model.associateDetails.Rows[0]["IFSCCode"].ToString()" style="color:blue" />
+
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="dt-responsive table-responsive">
+            <nav class="navbar navbar-light bg-light" style="background-color:#91a3c1 !important">
+                <a class="navbar-brand" href="#">Booking Details</a>
+            </nav>
+
+            @if (Model != null)
+            {
+                if (Model.bookingData != null)
+                {
+                    if (Model.bookingData.Rows.Count > 0)
+                    {
+                        for (int i = 0; i <= Model.bookingData.Rows.Count - 1; i++)
+                        {
+                            <table id="basicExample123" class="table table-bordered">
+                                <thead style="background-color: #337ab7;color: white;">
+                                    <tr>
+                                        <th>Customer Id</th>
+                                        <th>Customer Name</th>
+                                        <th>Booking Date</th>
+                                        <th>Site</th>
+                                        <th>Sector</th>
+                                        <th>Block</th>
+                                        <th>Plot Number</th>
+                                        <th>Plot Amount</th>
+                                        <th>Plot Rate</th>
+                                        <th>PLC Charge(%)</th>
+                                        <th>Final Amount</th>
+                                        <th>Payment Plan</th>
+                                        <th>Booking Status</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>@Model.bookingData.Rows[i]["LoginId"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["Name"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["BookingDate"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["SiteName"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["SectorName"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["BlockName"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["PlotNumber"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["PlotAmount"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["PlotRate"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["PLCCharge"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["NetPlotAmount"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["PaymentPlan"].ToString()</td>
+                                        <td>@Model.bookingData.Rows[i]["BookingStatus"].ToString()</td>
+                                    </tr>
+
+
+                                </tbody>
+                                @if (Model.bookingDetails != null)
+                                {
+                                    if (Model.bookingDetails.Rows.Count > 0)
+                                    {
+                                        for (int j = 0; j <= Model.bookingDetails.Rows.Count - 1; j++)
+                                        {
+                                            if (Model.bookingData.Rows[i]["Pk_BookingId"].ToString() == Model.bookingDetails.Rows[j]["Fk_BookingId"].ToString())
+                                            {
+
+                                                <thead style="background-color: #f0ad4e;color: white;">
+                                                    <tr>
+                                                        <th>Payment Date</th>
+                                                        <th>Paid Amount</th>
+                                                        <th colspan="2">Payment Mode</th>
+                                                        <th colspan="4">Bank Details</th>
+
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>@Model.bookingDetails.Rows[j]["PaymentDate"].ToString()</td>
+                                                        <td>@Model.bookingDetails.Rows[j]["PaidAmount"].ToString()</td>
+                                                        <td colspan="2">@Model.bookingDetails.Rows[j]["PaymentMode"].ToString()</td>
+                                                        <td colspan="4">
+                                                            Transaction No - @Model.bookingDetails.Rows[j]["TransactionNo"].ToString()<br />
+                                                            Transaction Date - @Model.bookingDetails.Rows[j]["TransactionDate"].ToString()<br />
+                                                            Bank Name - @Model.bookingDetails.Rows[j]["BankName"].ToString()<br />
+                                                            Bank Branch - @Model.bookingDetails.Rows[j]["BankBranch"].ToString()<br />
+                                                        </td>
+
+                                                    </tr>
+
+
+                                                </tbody>
+
+                                            }
+
+
+                                        }
+
+                                    }
+                                }
+                            </table>
+
+
+
+                        }
+
+                    }
+                }
+
+            }
+
+        </div>
+        <div class="dt-responsive table-responsive">
+            <nav class="navbar navbar-light bg-light" style="background-color:#91a3c1 !important">
+                <a class="navbar-brand" href="#">Advance Payment Details</a>
+            </nav>
+            <table id="example23" class="table table-bordered">
+                <thead>
+                    <tr>
+
+                        <th>Amount</th>
+                        <th>Payment Date</th>
+                        <th>Payment Mode</th>
+                        <th>Bank Details</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.advanaceDetails != null)
+                        {
+                            if (Model.advanaceDetails.Rows.Count > 0)
+                            {
+                                for (int i = 0; i <= Model.advanaceDetails.Rows.Count - 1; i++)
+                                {
+                                    <tr>
+
+                                        <td>@Model.advanaceDetails.Rows[i]["Amount"].ToString()</td>
+                                        <td>@Model.advanaceDetails.Rows[i]["PaymentDate"].ToString()</td>
+                                        <td>@Model.advanaceDetails.Rows[i]["PaymentMode"].ToString()</td>
+                                        <td>@Model.advanaceDetails.Rows[i]["PayMode"].ToString()</td>
+                                        <td>@Model.advanaceDetails.Rows[i]["Description"].ToString()</td>
+
+                                    </tr>
+                                }
+
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

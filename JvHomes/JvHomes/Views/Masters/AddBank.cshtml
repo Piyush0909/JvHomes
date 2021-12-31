@@ -1,0 +1,77 @@
+﻿@model JvHomes.Models.Master
+
+@{
+    ViewBag.Title = "AddBank";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("AddBank", "Masters", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Masters</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Add Bank</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    Bank Name
+                    @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @Placeholder = "Bank Name" })
+                </div>
+
+
+                <div class="col-sm-3">
+                    <br />
+                    <input type="submit" value="Save" class="btn btn-primary" onclick="return fvalidate();" />
+                    <a class="btn btn-info" href="/Masters/BankList">Back To List</a>
+                    <p style="color:red">@TempData["AddBank"]</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+  
+
+
+}
+
+
+<script src="../../assets/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+
+
+<script>
+    function fvalidate() {
+        $(".errortext").removeClass("errortext");
+
+        if ($('#BankName').val() == '') {
+            $("#BankName").addClass('errortext');
+            $('#BankName').focus();
+            $('#BankName').val('');
+            //   alert("Please Fill Sponsor ID .")
+            return false;
+        }
+
+        $("#divload").css({ 'display': '' });
+        return true;
+    }
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+    });
+</script>

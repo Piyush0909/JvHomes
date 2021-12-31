@@ -1,0 +1,225 @@
+﻿@model JvHomes.Models.Customer
+
+@{
+    ViewBag.Title = "CustomerRegistration";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("CustomerRegistration", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Customer</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Customer Registration</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label class="float-label">Associate Code<span style="color:red">*</span></label>
+                    @if (Model.UserID == null)
+                    {
+                        @Html.TextBoxFor(m => m.sponserId, new { @class = "form-control", @Placeholder = "Sponsor ID", @onchange = "return getSponsorName();" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.sponserId, new { @class = "form-control", @Placeholder = "Sponsor ID", @readonly = "readonly" })
+                    }
+                    @Html.HiddenFor(m => m.UserID)
+                </div>
+                <div class="col-sm-3">
+                    <label class="float-label">Associate Name<span style="color:red">*</span></label>
+                    @Html.TextBoxFor(m => m.sponsorName, new { @class = "form-control", @Placeholder = "Sponsor Name", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+                    <label class="float-label">First Name<span style="color:red">*</span></label>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Placeholder = "First Name" })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-3">
+                    <label class="float-label">Last Name</label>
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Placeholder = "Last Name" })
+                    <span class="form-bar"></span>
+                </div>
+
+            </div>
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    <label class="float-label">Mobile<span style="color:red">*</span></label>
+                    @Html.TextBoxFor(m => m.Contact, new { @class = "form-control", @Placeholder = "Mobile Number", @onkeypress = "return isNumberOrDecimal(event);", @maxlength = "10" })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-3">
+                    <label class="float-label">Email</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Placeholder = "Email" })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-3">
+                    <label class="float-label">Pan No.</label>
+                    @Html.TextBoxFor(m => m.PanNo, new { @class = "form-control", @Placeholder = "PAN Number", @maxlength = "10", @onchange = "return validatePan();" })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-3">
+                    <label class="float-label">Relation</label>
+                    @Html.DropDownListFor(m => m.Relation, new SelectList(ViewBag.ddlRelation, "Value", "Text"), new { @class = "form-control" })
+                    <span class="form-bar"></span>
+                   
+                </div>
+            </div>
+
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    <label class="float-label">Relation Name</label>
+                    @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control", @Placeholder = "Father's Name" })
+                    <span class="form-bar"></span>
+
+                </div>
+                <div class="col-sm-7">
+                    <label class="float-label">Address</label>
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @Placeholder = "Address" })
+                    <span class="form-bar"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group row">
+                <div class="col-md-6">
+                    @if (Model.UserID == null)
+                    {
+                        <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Save" id="btnSave" name="btnRegistration" />
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(m => m.UserID, new { @Value = @Model.UserID })
+                        <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Update" id="btnUpdate" name="btnUpdate" />
+                    }
+                    <a class="btn btn-info" href="/Admin/CustomerList">Back To List</a>
+                    <p style="color:red">@TempData["Registration"]</p>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script>
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+    });
+
+    function validatePan() {
+        var panVal = $('#PanNo').val();
+        var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+
+        if (regpan.test(panVal)) {
+            $("#PanNo").removeClass('errortext');
+        } else {
+            alert("Invalid PAN Number");
+            $("#PanNo").val('');
+            $("#PanNo").addClass('errortext');
+        }
+    }
+
+
+
+    function getSponsorName() {
+
+        $("#divload").css({ 'display': '' });
+        var sponsorID = $('#sponserId').val();
+        $.ajax({
+            url: '/Admin/GetSponsorNameForPlotBooking', type: 'post', dataType: 'json',
+            data: { 'SponsorID': sponsorID },
+            success: function (data) {
+
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "yes") {
+                    $("#sponsorName").val(data.sponsorName);
+                    $("#UserID").val(data.UserID);
+                    $("#sponsorName").removeClass('errortext');
+                    $("#sponserId").removeClass('errortext');
+                }
+                else if (data.Result == "no") {
+                    alert("Invalid Sponsor ID");
+                    $("#sponsorName").val('');
+                    $("#sponsorName").addClass('errortext');
+                    $("#sponserId").addClass('errortext');
+                    $('#sponserId').focus();
+                    $('#sponserId').val('');
+
+                }
+            }
+        });
+    }
+
+    function validateform() {
+        $("#divload").css({ 'display': 'none' });
+        $(".errortext").removeClass("errortext");
+
+        if ($('#sponserId').val() == '') {
+            $("#sponserId").addClass('errortext');
+            $('#sponserId').focus();
+            return false;
+        }
+        if ($('#FirstName').val() == '') {
+            $("#FirstName").addClass('errortext');
+            $('#FirstName').focus();
+            return false;
+        }
+        if ($('#Contact').val() == '') {
+            $("#Contact").addClass('errortext');
+            $('#Contact').focus();
+            return false;
+        }
+
+
+        $("#divload").css({ 'display': '' });
+        return true;
+    }
+
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+</script>
+
+

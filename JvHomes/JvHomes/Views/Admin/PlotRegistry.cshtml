@@ -1,0 +1,415 @@
+﻿@model JvHomes.Models.Plot
+
+@{
+    ViewBag.Title = "PlotRegistry";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("PlotRegistry", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{<div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Plot</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Registry</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Select Site <span style="color: red">*</span>
+                        @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Select Sector <span style="color: red">*</span>
+                        @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control", @onchange = "return onSectorChange();" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Select Block <span style="color: red">*</span>
+                        @Html.DropDownListFor(m => m.BlockID, new SelectList(ViewBag.ddlBlock, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Plot Number <span style="color: red">*</span>
+                        @Html.TextBoxFor(m => m.PlotNumber, new { @class = "form-control", @Placeholder = "Plot Number" })
+                        @Html.HiddenFor(m => m.PlotID)
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" name="GetDetails" value="Search" id="GetDetails" class="btn btn-success" onclick="return GetDetails(); " />
+                        <p style="color:red">@TempData["PlotRegistry"]</p>
+                    </div>
+                </div>
+            </div>
+
+
+            @if (Model != null)
+            {
+
+                if (Model.AssociateLoginID != null)
+                {
+                    <div class="row" id="Details1">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Plot Details @*<small>List Of Sites</small>*@</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="row ">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Associate ID :</b></label>
+                                            <input type="text" class="form-control" value="@Model.AssociateLoginID" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Associate Name :</b></label>
+                                            <input type="text" class="form-control" value="@Model.AssociateName" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b> Customer ID :</b></label>
+                                            <input type="text" class="form-control" value="@Model.CustomerLoginID" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label> <b>Customer Name :</b></label>
+                                            <input type="text" class="form-control" value="@Model.CustomerName" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Plot Rate :</b></label>
+                                            <input type="text" class="form-control" value="@Model.PlotRate" disabled="disabled" />
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Plot Area :</b></label>
+                                            <input type="text" class="form-control" value="@Model.PlotArea" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Actual Plot Amount :</b></label>
+                                            <input type="text" class="form-control" value="@Model.PlotAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Discount :</b></label>
+                                            <input type="text" class="form-control" value="@Model.Discount" disabled="disabled" />
+                                            @Html.HiddenFor(m => m.PK_BookingId)
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Booking Amount :</b></label>
+                                            <input type="text" class="form-control" value="@Model.BookingAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Booking Date :</b></label>
+                                            <input type="text" class="form-control" value="@Model.BookingDate" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Paid Amount:</b></label>
+                                            <input type="text" class="form-control" value="@Model.PaidAmount" disabled="disabled" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Payment Plan :</b></label>
+                                            <input type="text" class="form-control" value="@Model.PlanName" disabled="disabled" />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><b>Balance</b></label>
+                                            <input type="text" class="form-control" value="@Model.Balance" disabled="disabled" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            Khasra No<span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.KhadraNo, new { @class = "form-control", @Placeholder = "Khasra No" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            Registree No<span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.RegistreeNo, new { @class = "form-control", @Placeholder = "Registree No" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            Registree Date<span style="color: red">*</span>
+                                            @Html.TextBoxFor(m => m.RegistrationDate, new { @class = "form-control", @Placeholder = "select Registree Date" })
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input type="submit" name="SaveRegistry" value="Save" id="SaveRegistry" class="btn btn-success" onclick="return validateform();" />
+                                            <p style="color:red">@TempData["PlotRegistry"]</p>
+                                            @*   <input type="submit" name="SaveAndPrint" value="Save And Print" id="SaveAndPrint" class="btn btn-primary" onclick="return validateform();" formtarget="_blank" />*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+
+
+        </div>
+    </div>
+  
+}
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+
+<script>
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+    });
+
+    $('#RegistrationDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true
+    });
+
+    function validateform() {
+        $(".errortext").removeClass("errortext");
+
+        if ($('#KhadraNo').val() == '') {
+            $("#KhadraNo").addClass('errortext');
+            $('#KhadraNo').focus();
+            return false;
+        }
+        if ($('#RegistreeNo').val() == '') {
+            $("#RegistreeNo").addClass('errortext');
+            $('#RegistreeNo').focus();
+            return false;
+        }
+        if ($('#RegistrationDate').val() == '') {
+            $("#RegistrationDate").addClass('errortext');
+            $('#RegistrationDate').focus();
+            return false;
+        }
+        return true;
+    }
+
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+    function onSiteChange() {
+        $("#divload").css({ 'display': '' });
+        var value = $('#SiteID').val();
+        var values = $('#SectorID').val();
+        var tr = [];
+        $.ajax({
+            url: "/Masters/GetSiteDetails",
+            Type: "Get",
+            DataType: "JSON",
+            data: { SiteID: value },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                var j = 1;
+                if (data.Result == "yes") {
+                    $('#Rate').val(data.Rate);
+                    $("#SectorID").html(""); // clear before appending new list
+                    $("#SectorID").empty();
+                    $("#SectorID").append(
+                        $('<option></option>').val(0).html('Select Sector'));
+                    $.each(data.ddlSector, function (index, Sectorcount) {
+                        $("#SectorID").append(
+                            $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+
+                    });
+                }
+                else {
+                    $("#SectorID").empty();
+                    $('#Rate').val('');
+                }
+            }
+
+        });
+
+    }
+
+    function onSectorChange() {
+
+        $("#divload").css({ 'display': '' });
+        var siteID = $('#SiteID').val();
+        var sectorID = $('#SectorID').val();
+        $.ajax({
+            url: '/Masters/GetBlockList', type: 'post', dataType: 'json',
+            data: { 'SiteID': siteID, 'sectorID': sectorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                $("#BlockID").html(""); // clear before appending new list
+                $("#BlockID").empty();
+                $("#BlockID").append(
+                    $('<option></option>').val(0).html('Select Block'));
+                $.each(data.lstBlock, function (index, BlockCount) {
+                    $("#BlockID").append(
+                        $('<option></option>').val(BlockCount.Value).html(BlockCount.Text));
+                });
+
+            }
+
+        });
+    }
+
+    function GetDetails() {
+        $("#divload").css({ 'display': '' });
+
+        if ($('#SiteID').val() == '0') {
+            $("#SiteID").addClass('errortext');
+            $('#SiteID').focus();
+            return false;
+        }
+
+        if ($('#SectorID').val() == '0') {
+            $("#SectorID").addClass('errortext');
+            $('#SectorID').focus();
+            return false;
+        }
+
+        if ($('#BlockID').val() == '0') {
+            $("#BlockID").addClass('errortext');
+            $('#BlockID').focus();
+            return false;
+        }
+
+        if ($('#PlotNumber').val() == '') {
+            $("#PlotNumber").addClass('errortext');
+            $('#PlotNumber').focus();
+            return false;
+        }
+
+
+    }
+
+
+
+    function Validate() {
+        $(".errortext").removeClass("errortext");
+
+        if ($('#SiteID').val() == '') {
+            $("#SiteID").addClass('errortext');
+            $('#SiteID').focus();
+            return false;
+        }
+        if ($('#BookingNumber').val() == '0') {
+            $("#BookingNumber").addClass('errortext');
+            $('#BookingNumber').focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    function validatePayAmount() {
+        debugger
+        var totalAmt = $('#netPlotAmt').text();
+        var paidAmt = $('#Payamt').text();
+        var checkAmt = (Number)(totalAmt) - (Number)(paidAmt);
+        var payAmt = $('#PaidAmount').val();
+        if ((Number)(payAmt) > (Number)(checkAmt)) {
+            alert('Pay Amount cannot be greater than Remaining Amount.\nRemaining Amount is : Rs.' + checkAmt);
+            $("#PaidAmount").val("");
+            $("#PaidAmount").addClass('errortext');
+            $('#PaidAmount').focus();
+        }
+        else {
+            $("#PaidAmount").removeClass('errortext');
+        }
+    }
+</script>

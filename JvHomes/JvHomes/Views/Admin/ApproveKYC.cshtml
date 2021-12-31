@@ -1,0 +1,97 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "ApproveKYC";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("ApproveKYC", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Accounts</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Approve KYC</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+         
+            <table id="basicExample" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>LoginId</th>
+
+                        <th>Name</th>
+                        <th>Document Number</th>
+                        <th>Document Image</th>
+                        <th>Document Type</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.documentList != null)
+                        {
+                            if (Model.documentList.Rows.Count > 0)
+                            {
+                                for (int i = 0; i <= Model.documentList.Rows.Count - 1; i++)
+                                {
+                                    <tr>
+                                        <td>@Model.documentList.Rows[i]["LoginId"].ToString()</td>
+
+                                        <td>@Model.documentList.Rows[i]["FirstName"].ToString()</td>
+
+                                        <td>@Model.documentList.Rows[i]["DocumentNumber"].ToString()</td>
+                                        <td>
+                                            <a href="@Model.documentList.Rows[i]["DocumentImage"].ToString()" target="_blank"> <img src="@Model.documentList.Rows[i]["DocumentImage"].ToString()" style="width:50px;height:50px" /></a>
+                                        </td>
+                                        <td>@Model.documentList.Rows[i]["DocumentType"].ToString()</td>
+                                        <td>
+                                            <a class="btn btn-success btn-sm" href="/Admin/UpdateKYCStatus?id=@Model.documentList.Rows[i]["PK_UserDocumentID"].ToString()&&DocumentType=@Model.documentList.Rows[i]["DocumentType"].ToString()&&Status=Approved">Approve</a>
+                                            <a href="/Admin/UpdateKYCStatus?id=@Model.documentList.Rows[i]["PK_UserDocumentID"].ToString()&&DocumentType=@Model.documentList.Rows[i]["DocumentType"].ToString()&&Status=Declined" class="btn btn-danger btn-sm">Decline KYC</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            }
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+}
+
+
+<script src="../../assets/js/jquery.min.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+
+
+    });
+
+</script>
+
+

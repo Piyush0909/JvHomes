@@ -1,0 +1,228 @@
+﻿@model JvHomes.Models.KYCDocuments
+
+@{
+    ViewBag.Title = "KYCDocuments";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+<!-- BEGIN .main-heading -->
+<!-- END: .main-heading -->
+
+@using (Html.BeginForm("KYCDocuments", "Associate", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Profile</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Update Profile</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Mobile No</label>
+                        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @placeholder = "Mobile No", @readonly = "re" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Email</label>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email" })
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Account No</label>
+                        @Html.TextBoxFor(m => m.AccountNo, new { @class = "form-control", @placeholder = "Account No" })
+
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Bank Name</label>
+                        @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @placeholder = "Bank Name" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Bank Branch</label>
+                        @Html.TextBoxFor(m => m.BankBranch, new { @class = "form-control", @placeholder = "Bank Branch" })
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>IFSC</label>
+                        @Html.TextBoxFor(m => m.IFSC, new { @class = "form-control", @placeholder = "IFSC" })
+
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Address</label>
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Address" })
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Adhar Number <span style="color:red">*</span></label>
+                        @if (Model.AdharStatus != "Approved")
+                        {
+                            @Html.TextBoxFor(m => m.AdharNumber, new { @class = "form-control", @required = "required", @maxlength = "12" })
+                            <b style="color:red">@Model.AdharStatus</b>
+
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.AdharNumber, new { @class = "form-control", @required = "required", @maxlength = "12", @readonly = "readonly" })
+                            <b style="color:green">@Model.AdharStatus</b>
+                        }
+                     
+                        @Html.ValidationMessageFor(m => m.AdharNumber)
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Pan Number <span style="color:red">*</span></label>
+                        @if (Model.PanStatus != "Approved")
+                        {
+                            @Html.TextBoxFor(m => m.PanNumber, new { @class = "form-control", @required = "required", @maxlength = "10" })
+                            <b style="color:red">@Model.PanStatus</b>
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(m => m.PanNumber, new { @class = "form-control", @required = "required", @maxlength = "10", @readonly = "readonly" })
+                            <b style="color:green">@Model.PanStatus</b>
+                        }
+                        @Html.ValidationMessageFor(m => m.PanNumber)
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Aadhar Back <span style="color:red">*</span></label>
+                        @if (Model.DocumentStatus != "Approved")
+                        {
+                          
+                            <b style="color:red">@Model.DocumentStatus</b>
+                        }
+                        else
+                        {
+                            
+                            <b style="color:green">@Model.DocumentStatus</b>
+                        }
+
+                        
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Adhar Image <span style="color:red">*</span></label>
+                       
+                            <input type="file" name="postedFileaadhar"  />
+                      
+
+                        <img src="@Url.Content(Model.AdharImage)" class="mt-4  img-thumbnail rounded" />
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Pan Image <span style="color:red">*</span></label>
+                        
+                            <input type="file" name="postedFilePan" />
+                        
+
+
+                        <img src="@Url.Content(Model.PanImage)" class="mt-4 img-thumbnail rounded" />
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Aadhar Back <span style="color:red">*</span></label>
+
+                      
+                            <input type="file" name="postedFileAadharBack" />
+                        
+                        <img src="@Url.Content(Model.DocumentImage)" class="mt-4  img-thumbnail rounded" />
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Profile Pic <span style="color:red">*</span></label>
+                       
+                            <input type="file" name="postedFileProfile" />
+                        
+
+
+                        <img src="@Url.Content(Model.ProfilePic)" class="mt-4  img-thumbnail rounded" />
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-12">
+                    <div class="form-group">
+                        <label>Signature<span style="color:red">*</span></label>
+                        
+                            <input type="file" name="postedFileSignature" />
+                        
+
+
+                        <img src="@Url.Content(Model.Signature)" class="mt-4  img-thumbnail rounded" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gutters">
+
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <br />
+                        <input type="submit" id="btnUpdate" class="btn btn-success pull-right" name="btnUpdate" value="Update" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+
+        </div>
+    </div>
+
+
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<!-- /.row -->

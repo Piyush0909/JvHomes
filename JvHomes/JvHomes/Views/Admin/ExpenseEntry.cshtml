@@ -1,0 +1,229 @@
+﻿@model JvHomes.Models.DayBook
+
+@{
+    ViewBag.Title = "ExpenseEntry";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("ExpenseEntry", "Admin", FormMethod.Post, new { @id = "form1" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Add Expense </h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Accounts</a></li>
+                            <li class="breadcrumb-item active">Add Expense</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card m-b-30">
+                        <div class="card-body">
+                            <h6 style="color: red">
+
+                                @TempData["DayBook"]
+
+                            </h6>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="float-label">LoginId </label>  <span id="Name" style="color:blue;text-align:right"></span>
+                                    @Html.TextBoxFor(n => n.LoginId, new { @class = "form-control", @Placeholder = "LoginId", @onchange = "getName()" })
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="float-label">Select Account Head </label>
+                                    @Html.DropDownListFor(m => m.AccountId, new SelectList(ViewBag.ddlHead, "Value", "Text"), new { @class = "form-control" })
+                                    <span class="form-bar"></span>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label class="float-label">Date </label>
+                                    @Html.TextBoxFor(n => n.TransactionDate, new { @class = "form-control", @Placeholder = "Date" })
+                                    <span class="form-bar"></span>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label class="float-label">Amount </label>
+                                    @Html.TextBoxFor(n => n.Amount, new { @class = "form-control", @Placeholder = "Amount", @onkeypress = "return isNumber(event)" })
+                                    <span class="form-bar"></span>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label class="float-label">Narration </label>
+                                    @Html.TextAreaFor(n => n.Narration, new { @class = "form-control", @Placeholder = "Narration" })
+                                    <span class="form-bar"></span>
+                                </div>
+                                <div class="col-sm-3">
+                                    Payment Mode <span style="color: red">*</span>
+                                    @Html.DropDownListFor(m => m.PaymentMode, new SelectList(ViewBag.ddlPaymentMode, "Value", "Text"), new { @class = "form-control", @onchange = "return CheckPayMode()" })
+                                </div>
+
+                                
+                            </div>
+                            <div class="row" id="divPaymentMode" style="display: none">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        Cheque/Transaction Number <span style="color: red">*</span>
+                                        @Html.TextBoxFor(m => m.TransactionNumber, new { @class = "form-control", @Placeholder = "Cheque/Transaction Number", @maxlength = "50" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        Cheque/Transaction Date <span style="color: red">*</span>
+                                        @Html.TextBoxFor(m => m.ChequeDate, new { @class = "form-control", @Placeholder = "Cheque/Transaction Date", @Readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        Bank Name <span style="color: red">*</span>
+                                        @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Name" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        Bank Branch <span style="color: red">*</span>
+                                        @Html.TextBoxFor(m => m.BankBranch, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Branch" })
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <br />
+
+                                    <input type="submit" class="btn btn-success" name="Save" id="Save" value="Save" onclick="return validateform();" />
+
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+<script src="../../assets/js/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script>
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+    });
+
+    $('#TransactionDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true,
+        minDate: 0
+    });
+    $('#ChequeDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true,
+        minDate: 0
+    });
+    
+    function isNumber(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+    function getName() {
+        $("#divload").css({ 'display': '' });
+        var sponsorID = $('#LoginId').val();
+        $.ajax({
+            url: '/Admin/GetNameForExpense', type: 'post', dataType: 'json',
+            data: { 'LoginId': sponsorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "yes") {
+                    $("#Name").text(data.sponsorName);
+                   
+
+                 
+                }
+                else if (data.Result == "no") {
+                    $("#Name").text('');
+                    $("#sponsorName").addClass('errortext');
+                    $("#LoginId").addClass('errortext');
+
+                    $('#LoginId').focus();
+                    $('#LoginId').val('');
+                    alert("Invalid LoginId");
+                }
+            }
+
+        });
+    }
+    function CheckPayMode() {
+        debugger
+        if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+            $("#divPaymentMode").show();
+           
+        }
+
+        else {
+            $("#divPaymentMode").hide();
+        }
+
+    }
+    function validateform() {
+        $(".errortext").removeClass("errortext");
+        if ($('#LoginId').val() == '') {
+            $("#LoginId").addClass('errortext');
+            $('#LoginId').focus();
+            return false;
+        }
+        if ($('#AccountId').val() == '0') {
+            $("#AccountId").addClass('errortext');
+            $('#AccountId').focus();
+            return false;
+        }
+        if ($('#TransactionDate').val() == '') {
+            $("#TransactionDate").addClass('errortext');
+            $('#TransactionDate').focus();
+            return false;
+        }
+        if ($('#Amount').val() == '') {
+            $("#Amount").addClass('errortext');
+            $('#Amount').focus();
+            return false;
+        }
+        if ($('#Amount').val() == '0') {
+            $("#Amount").addClass('errortext');
+            $('#Amount').focus();
+            return false;
+        }
+        if ($('#Narration').val() == '') {
+            $("#Narration").addClass('errortext');
+            $('#Narration').focus();
+            return false;
+        }
+        if ($('#PaymentMode').val() == '0') {
+            $("#PaymentMode").addClass('errortext');
+            $('#PaymentMode').focus();
+            return false;
+        }
+    }
+</script>

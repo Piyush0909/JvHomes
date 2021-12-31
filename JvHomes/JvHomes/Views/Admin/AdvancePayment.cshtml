@@ -1,0 +1,398 @@
+﻿@model JvHomes.Models.Wallet
+
+@{
+    ViewBag.Title = "AdvancePayment";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+
+@using (Html.BeginForm("AdvancePayment", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Accounts</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Advance Payment</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <h6 style="color: red">
+
+                @TempData["AdvancePayment"]
+
+            </h6>
+            <div class="row">
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>LoginId</label>
+                        @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @onchange = "return GetMemberName();" })
+
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Name</label>
+                        @Html.TextBoxFor(m => m.sponsorName, new { @class = "form-control", @readonly = "fd" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="panel panel-primary" style="border-color: #0029ff;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 2px solid #0029ff;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);">
+                        <div class="panel-heading" style="color: #fff;
+    background-color: #0029ff;
+    border-color: #0029ff;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;">
+                            <div class="row">
+                                <div class="col-xs-12" style="position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;">
+                                    Quick Info
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="table table-responsive">
+                                    <table class="display nowrap table table-hover table-striped table-bordered">
+
+                                        <tbody>
+                                            <tr>
+                                                <th>Email</th>
+                                                <th><input type="text" id="EmailId" readonly="readonly" class="form-control" style="color:blue" /></th>
+
+
+
+                                            </tr>
+                                            <tr>
+                                                <th>Mobile</th>
+                                                <th><input type="text" id="Mobile" readonly="readonly" class="form-control" style="color:blue" /></th>
+
+
+
+                                            </tr>
+                                            <tr>
+                                                <th>Addres</th>
+                                                <th><input type="text" id="Addres" readonly="readonly" class="form-control" style="color:blue" /></th>
+
+
+
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="table table-responsive">
+                                    <table class="display nowrap table table-hover table-striped table-bordered">
+
+                                        <tbody>
+                                            <tr>
+                                                <th>A/C No</th>
+                                                <th><input type="text" id="MemberAccNo" readonly="readonly" class="form-control" style="color:blue" /></th>
+
+
+
+                                            </tr>
+                                            <tr>
+                                                <th>Bank Name</th>
+                                                <th><input type="text" id="MemberBankName" readonly="readonly" class="form-control" style="color:blue" /></th>
+
+
+
+                                            </tr>
+                                            <tr>
+                                                <th>IFSCCode</th>
+                                                <th><input type="text" id="IFSCCode" readonly="readonly" class="form-control" style="color:blue" /></th>
+
+
+
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="table table-responsive">
+                                    <table class="display nowrap table table-hover table-striped table-bordered">
+
+                                        <tbody>
+                                            <tr>
+                                                <th>Adhar Number</th>
+                                                <th><input type="text" id="AdharNumber" readonly="readonly" class="form-control" style="color:blue" /></th>
+
+
+
+                                            </tr>
+                                            <tr>
+                                                <th>Pan Number</th>
+                                                <th><input type="text" id="PanNumber" readonly="readonly" class="form-control" style="color:blue" /></th>
+
+
+
+                                            </tr>
+
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                
+                                <img src="~/assets/images/Logo.png" id="ProfilePic" style="width:100px" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Amount</label>
+                        @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @onkeypress = "return isNumberOrDecimal(event);" })
+
+
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Payment Mode</label>
+                        @Html.DropDownListFor(m => m.PaymentMode, new SelectList(ViewBag.ddlpaymentmode, "Value", "Text"), new { @class = "form-control", @onchange = "return getpaymentdetails();" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-lg col-md-4 col-sm-4 col-4">
+                    <div class="form-group">
+                        <label>Payment Date</label>
+                        @Html.TextBoxFor(m => m.PaymentDate, new { @class = "form-control", @placeholder = "Transaction Date", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-xl-8 col-lg col-md-8 col-sm-8 col-8">
+                    <div class="form-group">
+                        <label>Description</label>
+                        @Html.TextBoxFor(m => m.Narration, new { @class = "form-control" })
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12" id="bankname" style="display: none">
+                    <div class="form-group">
+                        <label>Bank Name</label>
+                        @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @placeholder = "Bank Name" })
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12" id="chequeno" style="display: none">
+                    <div class="form-group">
+                        <label>Transaction No</label>
+                        @Html.TextBoxFor(m => m.TransactionNo, new { @class = "form-control", @placeholder = "Transaction No" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12" id="chequdate" style="display: none">
+                    <div class="form-group">
+                        <label>Transaction Date</label>
+
+                        @Html.TextBoxFor(m => m.TransactionDate, new { @class = "form-control", @placeholder = "Transaction Date", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12" id="bankbranch" style="display: none">
+                    <div class="form-group">
+                        <label>Bank Branch</label>
+                        @Html.TextBoxFor(m => m.BankBranch, new { @class = "form-control", @placeholder = "Bank Branch" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-6 col-lg col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                        <label>Credit To</label>
+
+                        @Html.DropDownListFor(m => m.CreditTo, new SelectList(ViewBag.ddlBank, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-success ml-3" onclick="return validateform();" value="Advance Payment" />
+
+            </div>
+        </div>
+    </div>
+
+}
+<script src="../../assets/js/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js"></script>
+
+<script>
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+    $('#TransactionDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        maxDate: 0,
+        changeMonth: true
+    }); 
+    $('#PaymentDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: 0,
+        changeYear: true,
+        changeMonth: true
+    });
+   
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+    });
+    function validateform() {
+        $(".errortext").removeClass("errortext");
+        if ($('#LoginId').val() == '') {
+            $("#LoginId").addClass('errortext');
+            $('#LoginId').focus();
+            return false;
+
+        }
+        if ($('#Amount').val() == '') {
+            $("#Amount").addClass('errortext');
+            $('#Amount').focus();
+            return false;
+        }
+        if ($('#Amount').val() == '0') {
+            $("#Amount").addClass('errortext');
+            $('#Amount').focus();
+            return false;
+        }
+        if ($('#PaymentDate').val() == '') {
+            $("#PaymentDate").addClass('errortext');
+            $('#PaymentDate').focus();
+            return false;
+        }
+        if ($('#PaymentMode').val() == '0') {
+            $("#PaymentMode").addClass('errortext');
+            $('#PaymentMode').focus();
+            return false;
+        }
+        if ($('#PaymentMode').val() != "1") {
+            if ($('#BankName').val() == '') {
+                $("#BankName").addClass('errortext');
+                $('#BankName').focus();
+                return false;
+            }
+            if ($('#TransactionNo').val() == '') {
+                $("#TransactionNo").addClass('errortext');
+                $('#TransactionNo').focus();
+                return false;
+            }
+            if ($('#TransactionDate').val() == '') {
+                $("#TransactionDate").addClass('errortext');
+                $('#TransactionDate').focus();
+                return false;
+            }
+            if ($('#BankBranch').val() == '') {
+                $("#BankBranch").addClass('errortext');
+                $('#BankBranch').focus();
+                return false;
+            }
+        }
+        
+    }
+    function getpaymentdetails() {
+        if ($('#PaymentMode').val() != "1") {
+            $('#bankname').css({ 'display': '' });
+            $('#chequdate').css({ 'display': '' });
+            $('#chequeno').css({ 'display': '' });
+            $('#bankbranch').css({ 'display': '' });
+
+        }
+        else {
+            $('#bankname').css({ 'display': 'none' });
+            $('#chequdate').css({ 'display': 'none' });
+            $('#chequeno').css({ 'display': 'none' });
+            $('#bankbranch').css({ 'display': 'none' });
+        }
+    }
+    function GetMemberName() {
+        $("#divload").css({ 'display': '' });
+        var sponsorID = $('#LoginId').val();
+        $.ajax({
+            url: '/Admin/GetNameForExpense', type: 'post', dataType: 'json',
+            data: { 'LoginId': sponsorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "yes") {
+                    $("#sponsorName").val(data.sponsorName);
+                    $("#Addres").val(data.Addres);
+                    $("#Mobile").val(data.Mobile);
+                    $("#EmailId").val(data.EmailId);
+                    $("#MemberAccNo").val(data.MemberAccNo);
+                    $("#MemberBankName").val(data.MemberBankName);
+                    $("#MemberBranch").val(data.MemberBranch);
+                    $("#IFSCCode").val(data.IFSCCode);
+                    
+                    $("#AdharNumber").val(data.AdharNumber);
+                    $("#AdharImage").val(data.AdharImage);
+                    $("#AdharStatus").val(data.AdharStatus);
+                    $("#PanNumber").val(data.PanNumber);
+                    $("#PanImage").val(data.PanImage);
+                    $("#PanStatus").val(data.PanStatus);
+                    $("#DocumentImage").val(data.DocumentImage);
+                    $("#DocumentStatus").val(data.DocumentStatus);
+                    $("#ProfilePic").attr("src", data.ProfilePic);
+
+                }
+                else if (data.Result == "no") {
+                    $("#Name").text('');
+                    $("#sponsorName").addClass('errortext');
+                    $("#LoginId").addClass('errortext');
+
+                    $('#LoginId').focus();
+                    $('#LoginId').val('');
+                    alert("Invalid LoginId");
+                }
+            }
+
+        });
+    }
+
+
+</script>

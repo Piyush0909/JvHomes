@@ -1,0 +1,410 @@
+﻿@model JvHomes.Models.Plot
+
+@{
+    /**/
+
+    ViewBag.Title = "CancelPlot";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("CancelPlot", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Plot</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Cancel Plot</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Customer ID
+                        @Html.TextBoxFor(m => m.CustomerID, new { @class = "form-control", @Placeholder = "Search by Customer ID" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Associate ID
+                        @Html.TextBoxFor(m => m.AssociateID, new { @class = "form-control", @Placeholder = "Search by Associate ID" })
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        From Date
+                        @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @Placeholder = "From Date", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        To Date
+                        @Html.TextBoxFor(m => m.ToDate, new { @class = "form-control", @Placeholder = "To Date", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Booking No
+                        @Html.TextBoxFor(m => m.BookingNumber, new { @class = "form-control", @Placeholder = "Booking No" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Select Site
+                        @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Select Sector
+                        @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control", @onchange = "return onSectorChange();" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Select Block
+                        @Html.DropDownListFor(m => m.BlockID, new SelectList(ViewBag.ddlBlock, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        Plot Number
+                        @Html.HiddenFor(m => m.PK_BookingId)
+                        @Html.TextBoxFor(m => m.PlotNumber, new { @class = "form-control", @Placeholder = "PlotNumber" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <br />
+                        <input class="btn btn-success" type="submit" value="Search" id="btnSearch" name="Search" />
+                        <p style="color:red">
+                            @TempData["CancelPlot"]
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <table id="basic-btn" class="table table-striped table-bordered nowrap">
+                <thead>
+                    <tr>
+
+                        <th>S No.</th>
+                        <th>Booking No</th>
+
+                        <th>Customer Name</th>
+                        <th>AssociateName</th>
+                        <th>Plot No.</th>
+                        <th>Booking Date</th>
+                        <th>Booking Amount</th>
+                        <th>Payment Plan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.lstPlot != null)
+                        {
+                            int i = 1;
+                            foreach (var Item in Model.lstPlot)
+                            {
+                                <tr class="text-left">
+
+                                    <td>@i</td>
+                                    <td>@Item.BookingNumber</td>
+
+                                    <td>@Item.CustomerName (@Item.CustomerLoginID)</td>
+                                    <td>@Item.AssociateName (@Item.AssociateLoginID)</td>
+                                    <td>@Item.PlotNumber</td>
+                                    <td>@Item.BookingDate</td>
+                                    <td>@Item.BookingAmount</td>
+                                    <td>@Item.PaymentPlanID</td>
+                                    <td>
+                                        @*<a href="/Plot/CancelPlotBooking?BookingID=@Item.PK_BookingId" class="btn btn-danger btn-sm" onclick = "return confirm('Are you sure you want to cancel this booking?');">Cancel</a>*@
+                                        <a href="#" class="btn btn-danger btn-sm" onclick="openCancelPopup('@Item.PK_BookingId');" data-toggle="modal" data-target="#myModal">Cancel</a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+        <div class="modal fade" id="myModal" role="dialog" style="display: none">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" onclick="closeModal();">&times;</button>
+
+                    </div>
+                    <div class="modal-body" style="color: black">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Cancel Remark</label>
+                                    @Html.TextAreaFor(m => m.CancelRemark, new { @class = "form-control", @placeholder = "Remark for Cancellation" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Refund Amount</label>
+                                    @Html.TextBoxFor(m => m.PaidAmount, new { @class = "form-control", @placeholder = "Refund Amount" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Payment Mode</label>
+                                    @Html.DropDownListFor(m => m.PaymentMode, new SelectList(ViewBag.ddlPaymentMode, "Value", "Text"), new { @class = "form-control", @onchange = "return CheckPayMode()" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Credit To</label>
+                                    @Html.DropDownListFor(m => m.CreditTo, new SelectList(ViewBag.ddlBank, "Value", "Text"), new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row" id="divPaymentMode" style="display: none">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        Cheque/Transaction Number <span style="color: red">*</span>
+                                        @Html.TextBoxFor(m => m.TransactionNumber, new { @class = "form-control", @Placeholder = "Cheque/Transaction Number", @maxlength = "50" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        Cheque/Transaction Date <span style="color: red">*</span>
+                                        @Html.TextBoxFor(m => m.TransactionDate, new { @class = "form-control", @Placeholder = "Cheque/Transaction Date", @Readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        Bank Name <span style="color: red">*</span>
+                                        @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Name" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        Bank Branch <span style="color: red">*</span>
+                                        @Html.TextBoxFor(m => m.BankBranch, new { @class = "form-control", @maxlength = "100", @Placeholder = "Bank Branch" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @*<a href="/Plot/CancelPlotBooking?BookingID=@Item.PK_BookingId" class="btn btn-danger btn-sm" onclick = "return confirm('Are you sure you want to cancel this booking?');">Cancel</a>*@
+                                    <input type="button" class="btn btn-sm btn-danger pull-right" onclick="return cancelBooking()" value="Cancel Booking" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeModal();">Close</button>
+                        </div>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- END: .main-content -->
+    <!-- BEGIN .main-footer -->
+
+}
+
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script>
+    //$(document).ready(function () {
+    //    $("#myModal").modal('show');
+    //});
+    function openCancelPopup(bookingID) {
+        $("#PK_BookingId").val(bookingID);
+       // $("#myModal").modal('show');
+    }
+    function closeModal() {
+        $("#myModal").hide();
+        //$('body').removeClass().removeAttr('style'); $('.modal-backdrop').remove();
+    }
+     function cancelBooking() {
+        $(".errortext").removeClass("errortext");
+
+        if ($('#CancelRemark').val() == '') {
+            $("#CancelRemark").addClass('errortext');
+            $('#CancelRemark').focus();
+            return false;
+        }
+         if ($('#PaidAmount').val() == '') {
+             $("#PaidAmount").addClass('errortext');
+             $('#PaidAmount').focus();
+             return false;
+         }
+         if ($('#PaidAmount').val() == '0') {
+             $("#PaidAmount").addClass('errortext');
+             $('#PaidAmount').focus();
+             return false;
+         }
+         if ($('#PaymentMode').val() == '') {
+             $("#PaymentMode").addClass('errortext');
+             $('#PaymentMode').focus();
+             return false;
+         }
+         if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+             if ($('#TransactionNumber').val() == '') {
+                 $("#TransactionNumber").addClass('errortext');
+                 $('#TransactionNumber').focus();
+                 $("#divload").css({ 'display': 'none' });
+                 return false;
+             }
+             if ($('#TransactionDate').val() == '') {
+                 $("#TransactionDate").addClass('errortext');
+                 $('#TransactionDate').focus();
+                 $("#divload").css({ 'display': 'none' });
+                 return false;
+             }
+             if ($('#PaymentMode').val() != '4' && $('#PaymentMode').val() != '9') {
+                 if ($('#BankName').val() == '') {
+                     $("#BankName").addClass('errortext');
+                     $('#BankName').focus();
+                     $("#divload").css({ 'display': 'none' });
+                     return false;
+                 }
+                 if ($('#BankBranch').val() == '') {
+                     $("#BankBranch").addClass('errortext');
+                     $('#BankBranch').focus();
+                     $("#divload").css({ 'display': 'none' });
+                     return false;
+                 }
+                 // $('#creditdebit').html('Debit To');
+             }
+
+         }
+         else {
+             $('#TransactionNumber').val('');
+             $('#TransactionDate').val('');
+             $('#BankName').val('');
+             $('#BankBranch').val('');
+         }
+        var r = confirm('Are you sure you want to cancel this Booking ?');
+        if (r == true) {
+            //$("#divload").css({ 'display': '' });
+            $.ajax({
+                url: "/Admin/CancelPlotBooking",
+                Type: "Get",
+                DataType: "JSON",
+                data: { BookingID: $("#PK_BookingId").val(), Remark: $("#CancelRemark").val(), PaidAmount: $('#PaidAmount').val(), PaymentMode: $('#PaymentMode').val(), TransactionNumber: $('#TransactionNumber').val(), TransactionDate: $('#TransactionDate').val(), BankName: $('#BankName').val(), BankBranch: $('#BankBranch').val(), CreditTo: $('#CreditTo').val()},
+                success: function (data) {
+                    alert("Booking has been cancelled.");
+                    window.location.href = '@Url.Action("CancelPlot", "Admin")';
+
+                }
+
+            });
+            }
+    }
+    function onSiteChange() {
+        $("#divload").css({ 'display': '' });
+        var value = $('#SiteID').val();
+        var values = $('#SectorID').val();
+        var tr = [];
+        $.ajax({
+            url: "/Masters/GetSiteDetails",
+            Type: "Get",
+            DataType: "JSON",
+            data: { SiteID: value },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                var j = 1;
+                if (data.Result == "yes") {
+                    $('#Rate').val(data.Rate);
+                    $("#SectorID").html(""); // clear before appending new list
+                    $("#SectorID").empty();
+                    $("#SectorID").append(
+                        $('<option></option>').val(0).html('Select Sector'));
+                    $.each(data.ddlSector, function (index, Sectorcount) {
+                        $("#SectorID").append(
+                            $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+
+                    });
+
+                }
+                else {
+                    $("#SectorID").empty();
+                    $('#Rate').val('');
+                }
+
+
+            }
+
+        });
+    }
+
+    function onSectorChange() {
+
+        $("#divload").css({ 'display': '' });
+        var siteID = $('#SiteID').val();
+        var sectorID = $('#SectorID').val();
+        $.ajax({
+            url: '/Masters/GetBlockList', type: 'post', dataType: 'json',
+            data: { 'SiteID': siteID, 'sectorID': sectorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                $("#BlockID").html(""); // clear before appending new list
+                $("#BlockID").empty();
+                $("#BlockID").append(
+                    $('<option></option>').val(0).html('Select Block'));
+                $.each(data.lstBlock, function (index, BlockCount) {
+                    $("#BlockID").append(
+                        $('<option></option>').val(BlockCount.Value).html(BlockCount.Text));
+                });
+
+            }
+
+        });
+    }
+    function CheckPayMode() {
+        debugger
+        if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+            $("#divPaymentMode").show();
+
+        }
+
+        else {
+            $("#divPaymentMode").hide();
+        }
+
+    }
+    $('#FromDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true
+    });
+    $('#TransactionDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true
+    });
+
+    $('#ToDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true
+    });
+</script>

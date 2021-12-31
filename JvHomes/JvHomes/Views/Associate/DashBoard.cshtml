@@ -1,0 +1,485 @@
+﻿@model JvHomes.Models.Dashboard
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+<style>
+    @@keyframes blink {
+        50% {
+            opacity: 0.0;
+        }
+    }
+
+    @@-webkit-keyframes blink {
+        50% {
+            opacity: 0.0;
+        }
+    }
+
+    .blink {
+        animation: blink 1s step-start 0s infinite;
+        -webkit-animation: blink 1s step-start 0s infinite;
+        color: blue;
+    }
+</style>
+
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">DashBoard</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">DashBoard</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+
+
+        @if (Model != null)
+        {
+            if (Model.associateDetails != null)
+            {
+                if (Model.associateDetails.Rows.Count > 0)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 style="color:blue">Welcome Back @Session["FullName"]</h4>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#02c58d">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Total Direct
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff">@Model.associateDetails.Rows[0]["TotalDirect"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#990099">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Total Downline
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.associateDetails.Rows[0]["TotalDownline"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#fcbe2d">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Total Business
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.investmentDetails.Rows[0]["TOtalBusiness"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#30419b">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Direct Income
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff">@Model.investmentDetails.Rows[0]["DirectAmount"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                    <div class="row gutters">
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#8893cc">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Level Income
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.investmentDetails.Rows[0]["LevelIncome"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#4e5058">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Team Income
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.investmentDetails.Rows[0]["DifferenceIncome"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#ab5aab">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                TDS
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.investmentDetails.Rows[0]["TDS"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#bd3030">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Admin Charge
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.investmentDetails.Rows[0]["Processing"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row gutters">
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#b59b5e">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Net Amount
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.investmentDetails.Rows[0]["NetAmount"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#aaacb7">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Club Income
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">@Model.investmentDetails.Rows[0]["ClubIncome"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#479c7d">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                House Fund
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">0</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#307cbd">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Travel Fund
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:#fff !important">0</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row gutters">
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#cc88ba">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Current Level
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800 blink" style="color:blue !important">@Model.investmentDetails.Rows[0]["DesignationName"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#a78f28">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Aadhar Back Status
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800 blink" style="color:blue !important">@Model.kycDetails.Rows[0]["AadharBackStatus"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#d61d90">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Pan Status
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800 blink" style="color:blue !important">@Model.kycDetails.Rows[0]["AadharBackStatus"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:burlywood">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                                Aadhar Front Status
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800 blink" style="color:blue !important">@Model.kycDetails.Rows[0]["AadharBackStatus"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row gutters">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2" style="background-color:#b2c13c">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1" style="color:#fff !important">
+                                               Advance Payment
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:white !important">@Model.associateDetails.Rows[0]["Advance"].ToString()</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="row gutters">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="card custom-bdr">
+                                    <div class="card-header">Club Income</div>
+                                    <div class="card-body">
+
+                                        <div class="dt-responsive table-responsive">
+                                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="example23">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S No.</th>
+                                                        <th>Club Name</th>
+                                                        <th>Club Target</th>
+                                                        <th>Club Reward</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>Gold</td>
+                                                        <td>1 Cr</td>
+                                                        <td>Bullet</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>Diamond</td>
+                                                        <td>5 Cr</td>
+                                                        <td>Triber Car</td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>Ruby</td>
+                                                        <td>25 Cr</td>
+                                                        <td>Scorpio</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4</td>
+                                                        <td>Crown</td>
+                                                        <td>50 Cr</td>
+                                                        <td>House</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5</td>
+                                                        <td>Director</td>
+                                                        <td>100 Cr</td>
+                                                        <td>Farm House</td>
+
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="card custom-bdr">
+                                    <div class="card-header">Travel Fund</div>
+                                    <div class="card-body">
+
+                                        <div class="dt-responsive table-responsive">
+                                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="example23">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S No.</th>
+                                                        <th>Target </th>
+                                                        <th>Note</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+
+                                                        <td>1 Cr</td>
+                                                        <td>Team Turn Over 1 %</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="card custom-bdr">
+                                    <div class="card-header">House Fund</div>
+                                    <div class="card-body">
+
+                                        <div class="dt-responsive table-responsive">
+                                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable" id="example23">
+                                                <thead>
+                                                    <tr>
+                                                        <th>S No.</th>
+                                                        <th>Target </th>
+                                                        <th>Note</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+
+                                                        <td>25 Cr</td>
+                                                        <td>Company Turn Over 1 %</td>
+                                                    </tr>
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                        }
+                        }
+                        }
+
+
+                    </div>
+
+                </div>

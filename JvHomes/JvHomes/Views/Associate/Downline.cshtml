@@ -1,0 +1,80 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "Downline";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<div class="wrapper">
+    <div class="container-fluid">
+        <!-- Page-Title -->
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Tree</h4>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-right">
+
+                        <li class="breadcrumb-item active">Downline</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+
+        <table id="example23" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>LoginId</th>
+
+                    <th>Name</th>
+                    <th>Sponsor Details</th>
+                    <th>Joining Date</th>
+                    <th>Mobile</th>
+
+                    <th>Level</th>
+                    <th>Business</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    if (Model.directList != null)
+                    {
+                        if (Model.directList.Rows.Count > 0)
+                        {
+                            int j = 1;
+                            for (int i = 0; i <= Model.directList.Rows.Count - 1; i++)
+                            {
+                                <tr>
+                                    <td>@j</td>
+                                    <td>@Model.directList.Rows[i]["LoginId"].ToString()</td>
+
+                                    <td>@Model.directList.Rows[i]["Name"].ToString()</td>
+                                    <td>
+                                        @Model.directList.Rows[i]["sponsorId"].ToString()
+                                        <br />
+                                        @Model.directList.Rows[i]["sponsorName"].ToString()
+                                    </td>
+
+                                    <td>@Model.directList.Rows[i]["JoiningDate"].ToString()</td>
+                                    <td>@Model.directList.Rows[i]["Mobile"].ToString()</td>
+                                    <td>@Model.directList.Rows[i]["DesignationName"].ToString()</td>
+                                    <td>@Model.directList.Rows[i]["TotalBusiness"].ToString()</td>
+                                    <td>@Model.directList.Rows[i]["Status"].ToString()</td>
+
+                                </tr>
+                            }
+                            j++;
+
+                        }
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

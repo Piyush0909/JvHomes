@@ -1,0 +1,469 @@
+﻿@model JvHomes.Models.Plot
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>PrintAllotment</title>
+    <style>
+        table, th, td {
+            font-size: medium;
+            /*border: 1px solid black;*/
+            border-collapse: collapse;
+        }
+
+        th, td {
+            font-size: medium;
+            padding: 5px;
+        }
+    </style>
+
+</head>
+<body>
+    <div style="border:3px solid #a20e0e;padding-left:10px;padding-right:10px;">
+        <table style="border: 0px none black;">
+            <tr style="border: 0px none black;">
+                <td style="border: 0px none black;">
+                    <img src="~/AdminPanelCss/img/logo-dark1.png" style="width:100px" />
+                </td>
+                <td style="border: 0px none black;"></td>
+
+                <td style="border: 0px none black;">
+                    <h1 style="color:#a20e0e">@ViewBag.CompanyName</h1>
+
+                </td>
+            </tr>
+
+        </table>
+        <br />
+
+        <table style="width:100%;background:#a20e0e;color:white;">
+            <tr>
+                <td style="text-align:center">
+                    Office Copy
+                </td>
+            </tr>
+        </table>
+        <br />
+
+        <table style="width: 100%;" class="table table-striped">
+            <tr>
+                <td style="border: 1px solid black;"><b>Booking For:    </b>@ViewBag.ProjectName</td>
+                <td colspan="2" style="border: 1px solid black;"><b>Date :    </b>@DateTime.Now.ToString("dd/MM/yyyy")</td>
+                <td style="border: 1px solid black;"><b>Receipt No.    </b>@ViewBag.ReceiptNo</td>
+            </tr>
+        </table>
+        <br />
+        <table style="width: 100%;" class="table table-striped">
+
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>Customer Id:    </b>@ViewBag.CustomerID</td>
+                <td style="border: 1px solid black;"><b>Mobile No.</b>@ViewBag.CustomerContact</td>
+            </tr>
+            <tr><td style="border: 1px solid black;" colspan="3"><b>Received with thanks from:    </b>@ViewBag.CustomerName @ViewBag.Relation @ViewBag.FathersName</td></tr>
+            <tr>
+                <td colspan="3" style="border: 1px solid black;"><b>Address:    </b>@ViewBag.Address</td>
+            </tr>
+         
+        </table>
+        <br />
+        <table style="width: 100%;" class="table table-striped">
+            <tr>
+
+                <td style="border: 1px solid black;" colspan="2"><b> Site:    </b>@ViewBag.ProjectName</td>
+                <td style="border: 1px solid black;"><b>Sector:    </b>@ViewBag.SectorName</td>
+                <td style="border: 1px solid black;"><b>Block:    </b>@ViewBag.BlockName</td>
+                <td style="border: 1px solid black;"><b> Plot No:    </b>@ViewBag.PlotNumber</td>
+            </tr>
+            <tr>
+
+                <td style="border: 1px solid black;" colspan="5"><b> Site Location:    </b>@ViewBag.SiteLocation</td>
+
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>Plot Amount:     </b>@ViewBag.PlotAmount /-</td>
+                <td style="border: 1px solid black;" colspan="2"><b>PLC Charge:     </b>@ViewBag.TotalPLC /-</td>
+                <td style="border: 1px solid black;" colspan="1"><b>Development Charge:     </b>@ViewBag.DevelopmentCharge /-</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>Total Amount:     </b>@ViewBag.TotalAMount /-</td>
+                <td style="border: 1px solid black;" colspan="3"><b>In Words:     </b>@ViewBag.NetPlotAmountInWords</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>A sum of:     </b>@ViewBag.PaidAmount /-</td>
+                <td style="border: 1px solid black;" colspan="3"><b>In Words:     </b>@ViewBag.AmountInWords</td>
+            </tr>
+            <tr>
+                @if (ViewBag.PaymentMode == "Cash")
+                {
+                    <td style="border: 1px solid black;" colspan="5"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                }
+                else
+                {
+                    if (ViewBag.PaymentMode == "Cheque")
+                    {
+                        <td style="border: 1px solid black;"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                        <td style="border: 1px solid black;"><b> ChequeNo:    </b>@ViewBag.TransactionNo</td>
+                        <td style="border: 1px solid black;"><b> ChequeDate:    </b>@ViewBag.TransactionDate</td>
+                        <td style="border: 1px solid black;"><b> BankName:    </b>@ViewBag.BankName</td>
+                        <td style="border: 1px solid black;"><b> BankBranch:    </b>@ViewBag.BankBranch</td>
+                    }
+                    else if (ViewBag.PaymentMode == "NEFT")
+                    {
+                        <td style="border: 1px solid black;"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                        <td style="border: 1px solid black;"><b> NEFTNo:    </b>@ViewBag.TransactionNo</td>
+                        <td style="border: 1px solid black;"><b> NEFTDate:    </b>@ViewBag.TransactionDate</td>
+                        <td style="border: 1px solid black;"><b> BankName:    </b>@ViewBag.BankName</td>
+                        <td style="border: 1px solid black;"><b> BankBranch:    </b>@ViewBag.BankBranch</td>
+                    }
+                    else if (ViewBag.PaymentMode == "DD")
+                    {
+                        <td style="border: 1px solid black;"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                        <td style="border: 1px solid black;"><b> DD No:    </b>@ViewBag.TransactionNo</td>
+                        <td style="border: 1px solid black;"><b> DD Date:    </b>@ViewBag.TransactionDate</td>
+                        <td style="border: 1px solid black;"><b> BankName:    </b>@ViewBag.BankName</td>
+                        <td style="border: 1px solid black;"><b> BankBranch:    </b>@ViewBag.BankBranch</td>
+                    }
+                    else
+                    {
+                        <td style="border: 1px solid black;"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                        <td style="border: 1px solid black;"><b> Transdaction No:    </b>@ViewBag.TransactionNo</td>
+                        <td style="border: 1px solid black;"><b> Transdaction Date:    </b>@ViewBag.TransactionDate</td>
+                        <td style="border: 1px solid black;"><b> BankName:    </b>@ViewBag.BankName</td>
+                        <td style="border: 1px solid black;"><b> BankBranch:    </b>@ViewBag.BankBranch</td>
+                    }
+                }
+
+
+            </tr>
+
+
+            <tr>
+                <td style="border: 1px solid black;"><b>Area:    </b>@ViewBag.PlotArea </td>
+                <td style="border: 1px solid black;"><b>Rate:    </b>@ViewBag.Rate </td>
+                <td style="border: 1px solid black;" colspan="2"><b>PLC:    </b>@ViewBag.PLC</td>
+                
+            </tr>
+
+        </table>
+
+        <br />
+        <table style="width: 100%;" class="table table-striped">
+            <tr>
+                <td style="border: 1px solid black;"><b>Associate Id:    </b>@ViewBag.RefrenceId  </td>
+                <td style="border: 1px solid black;"><b>Associate Name:    </b>@ViewBag.AssociateName</td>
+                <td style="border: 1px solid black;"></td>
+            </tr>
+        </table>
+        <br />
+        <br />
+
+
+        <table style="width: 100%;text-align:center">
+
+            <tr>
+                <td>
+                    <b>Website:</b>   @ViewBag.Website
+
+                </td>
+                <td><b>Email : </b>@ViewBag.EmailID</td>
+            </tr>
+        </table>
+        <br />
+        <br />
+        <br />
+        <br />
+        <table style="width:100%;text-align:right">
+            <tr>
+                <td></td>
+                <td>Authorized Signatory</td>
+            </tr>
+        </table>
+        <br />
+        <table style="width:100%;background:#a20e0e;color:white;">
+            <tr>
+                <td style="text-align:center">
+                    @ViewBag.CompanyAddress
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+
+    </div>
+
+    <p style="page-break-after: always;">&nbsp;</p>
+
+
+    <div style="border:3px solid #a20e0e;padding-left:10px;padding-right:10px;">
+        <table style="border: 0px none black;">
+            <tr style="border: 0px none black;">
+                <td style="border: 0px none black;">
+                    <img src="~/AdminPanelCss/img/logo-dark1.png" style="width:100px" />
+                </td>
+                <td style="border: 0px none black;"></td>
+
+                <td style="border: 0px none black;">
+                    <h1 style="color:#a20e0e">@ViewBag.CompanyName</h1>
+
+                </td>
+            </tr>
+
+        </table>
+        <br />
+
+        <table style="width:100%;background:#a20e0e;color:white;">
+            <tr>
+                <td style="text-align:center">
+                    Customer Copy
+                </td>
+            </tr>
+        </table>
+        <br />
+
+        <table style="width: 100%;" class="table table-striped">
+            <tr>
+                <td style="border: 1px solid black;"><b>Booking For:    </b>@ViewBag.ProjectName</td>
+                <td colspan="2" style="border: 1px solid black;"><b>Date :    </b>@DateTime.Now.ToString("dd/MM/yyyy")</td>
+                <td style="border: 1px solid black;"><b>Receipt No.    </b>@ViewBag.ReceiptNo</td>
+            </tr>
+        </table>
+        <br />
+        <table style="width: 100%;" class="table table-striped">
+
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>Customer Id:    </b>@ViewBag.CustomerID</td>
+                <td style="border: 1px solid black;"><b>Mobile No.</b>@ViewBag.CustomerContact</td>
+            </tr>
+            <tr><td style="border: 1px solid black;" colspan="3"><b>Received with thanks from:    </b>@ViewBag.CustomerName @ViewBag.Relation @ViewBag.FathersName</td></tr>
+            <tr>
+                <td colspan="3" style="border: 1px solid black;"><b>Address:    </b>@ViewBag.Address</td>
+            </tr>
+         
+        </table>
+        <br />
+        <table style="width: 100%;" class="table table-striped">
+            <tr>
+
+                <td style="border: 1px solid black;" colspan="2"><b> Site:    </b>@ViewBag.ProjectName</td>
+                <td style="border: 1px solid black;"><b>Sector:    </b>@ViewBag.SectorName</td>
+                <td style="border: 1px solid black;"><b>Block:    </b>@ViewBag.BlockName</td>
+                <td style="border: 1px solid black;"><b> Plot No:    </b>@ViewBag.PlotNumber</td>
+            </tr>
+            <tr>
+
+                <td style="border: 1px solid black;" colspan="5"><b> Site Location:    </b>@ViewBag.SiteLocation</td>
+
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>Plot Amount:     </b>@ViewBag.PlotAmount /-</td>
+                <td style="border: 1px solid black;" colspan="2"><b>PLC Charge:     </b>@ViewBag.TotalPLC /-</td>
+                <td style="border: 1px solid black;" colspan="1"><b>Development Charge:     </b>@ViewBag.DevelopmentCharge /-</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>Total Amount:     </b>@ViewBag.TotalAMount /-</td>
+                <td style="border: 1px solid black;" colspan="3"><b>In Words:     </b>@ViewBag.NetPlotAmountInWords</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>A sum of:     </b>@ViewBag.PaidAmount /-</td>
+                <td style="border: 1px solid black;" colspan="3"><b>In Words:     </b>@ViewBag.AmountInWords</td>
+            </tr>
+            <tr>
+                @if (ViewBag.PaymentMode == "Cash")
+                {
+                    <td style="border: 1px solid black;" colspan="5"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                }
+                else
+                {
+                    if (ViewBag.PaymentMode == "Cheque")
+                    {
+                        <td style="border: 1px solid black;"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                        <td style="border: 1px solid black;"><b> ChequeNo:    </b>@ViewBag.TransactionNo</td>
+                        <td style="border: 1px solid black;"><b> ChequeDate:    </b>@ViewBag.TransactionDate</td>
+                        <td style="border: 1px solid black;"><b> BankName:    </b>@ViewBag.BankName</td>
+                        <td style="border: 1px solid black;"><b> BankBranch:    </b>@ViewBag.BankBranch</td>
+                    }
+                    else if (ViewBag.PaymentMode == "NEFT")
+                    {
+                        <td style="border: 1px solid black;"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                        <td style="border: 1px solid black;"><b> NEFTNo:    </b>@ViewBag.TransactionNo</td>
+                        <td style="border: 1px solid black;"><b> NEFTDate:    </b>@ViewBag.TransactionDate</td>
+                        <td style="border: 1px solid black;"><b> BankName:    </b>@ViewBag.BankName</td>
+                        <td style="border: 1px solid black;"><b> BankBranch:    </b>@ViewBag.BankBranch</td>
+                    }
+                    else if (ViewBag.PaymentMode == "DD")
+                    {
+                        <td style="border: 1px solid black;"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                        <td style="border: 1px solid black;"><b> DD No:    </b>@ViewBag.TransactionNo</td>
+                        <td style="border: 1px solid black;"><b> DD Date:    </b>@ViewBag.TransactionDate</td>
+                        <td style="border: 1px solid black;"><b> BankName:    </b>@ViewBag.BankName</td>
+                        <td style="border: 1px solid black;"><b> BankBranch:    </b>@ViewBag.BankBranch</td>
+                    }
+                    else
+                    {
+                        <td style="border: 1px solid black;"><b> Via:    </b>@ViewBag.PaymentMode</td>
+                        <td style="border: 1px solid black;"><b> Transdaction No:    </b>@ViewBag.TransactionNo</td>
+                        <td style="border: 1px solid black;"><b> Transdaction Date:    </b>@ViewBag.TransactionDate</td>
+                        <td style="border: 1px solid black;"><b> BankName:    </b>@ViewBag.BankName</td>
+                        <td style="border: 1px solid black;"><b> BankBranch:    </b>@ViewBag.BankBranch</td>
+                    }
+                }
+
+
+            </tr>
+
+
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>Area:    </b>@ViewBag.PlotArea</td>
+                <td style="border: 1px solid black;"><b>Rate:    </b>@ViewBag.Rate </td>
+                <td style="border: 1px solid black;" colspan="2"><b>PLC:    </b>@ViewBag.PLC</td>
+
+            </tr>
+
+        </table>
+
+        <br />
+        <table style="width: 100%;" class="table table-striped">
+            <tr>
+                <td style="border: 1px solid black;"><b>Associate Id:    </b>@ViewBag.RefrenceId  </td>
+                @*<td style="border: 1px solid black;"><b>Associate Name:    </b>@ViewBag.AssociateName</td>*@
+                <td style="border: 1px solid black;"></td>
+            </tr>
+        </table>
+        <br />
+        <br />
+
+
+
+
+        <table style="width: 100%;text-align:center">
+
+            <tr>
+                <td>
+                    <b>Website:</b>   @ViewBag.Website
+
+                </td>
+                <td><b>Email : </b>@ViewBag.EmailID</td>
+            </tr>
+        </table>
+        <br />
+        <br />
+        <br />
+        <br />
+        <table style="width:100%;text-align:right">
+            <tr>
+                <td></td>
+                <td>Authorized Signatory</td>
+            </tr>
+        </table>
+        <br />
+        <table style="width:100%;background:#a20e0e;color:white;">
+            <tr>
+                <td style="text-align:center">
+                    @ViewBag.CompanyAddress
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+
+
+    </div>
+    <p style="page-break-after: always;">&nbsp;</p>
+    <div style="border:3px solid #a20e0e;padding-left:10px;padding-right:10px;">
+        <table style="width: 100%;" class="table table-striped">
+            <tr>
+                <td style="text-align:left;" colspan="2"><b>  Note :-   </b></td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2">1.KDS गोरखपुर को ‘फर्म’ तथा भूखण्ड आवंटी को ‘ग्राहक’ सम्बोधित किया जायेगा।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2">2.कोई भी व्यक्ति योजना का ग्राहक तभी समझा जायेगा जब उसका प्रार्थना-पत्र स्वीकार कर लिया जायेगा।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2"> 3.इस परियोजना का मुख्य ध्येय यह है कि ग्राहक को एक मुस्त या मासिक / त्रैमासिक/ तिमाही / सलाना किस्त द्वारा भूखण्ड का स्वामित्व प्राप्त हो सकें।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2"> 4.भुगतान चेक / ड्राफ्ट / पे-आर्डर / ई.सी.एस एंव नगद द्वारा किया जा सकता है।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2"> 5.यह भूखण्ड / परियोजना मानीराम फोरलेन से 1 किमी उप रोड पर स्थित है। इस परियोजना के अन्तर्गत प्रत्येक आवंटी के भूखण्ड की सम्पूर्ण कीमत अदा करने के उपरान्त उतनी भूखण्ड का अधिकार प्राप्त होगा।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2"> 6.कार्नर और पार्क के सामने वाले भूखण्ड का 10 प्रतिशत एवं डवलपमेन्ट चार्ज 50 रू0 स्का. फिट देय होगा।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2"> 7.ग्राहक को 25 फीट से ऊपर की सड़क पर स्थित भूखण्ड का 10 प्रतिशत अतिरिक्त भूगतान करना होगा।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2"> 8.इस परियोजना के अंतर्गत प्रत्येक ग्राहक को विकसित भूखण्ड दिये जायेंगें। परियोजना क्षेत्र में सड़क, नाली, पार्क एवं बिजली के खम्भे की व्यवस्था रहेगी।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2"> 9.ग्राहक को प्रत्येक माह की 15 तारीख तक भूगतान करना अनिवार्य है। विलम्ब से किस्त का भुगतान करने पर ग्राहक को विल्मब शुल्क चार्ज देना होगा।यदि कोई ग्राहक लगातार 4 माह कि किस्त का भूगतान नहीं करता है तो ऐसी दशा में बिना सूचना दिये उसका भूखण्ड निरस्त कर दिया जायेगा तथा जमा धनराशि का 25 प्रतिशत कटौती करने के पश्चात पैसा वापस कर दिया जायेगा।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2"> 10.इस परियोजना से सम्बन्धित समस्त धनराशि कार्यालय में अधिकृत व्यक्ति द्वारा जमा करनी होगी किसी अन्य की भुगतान करने पर फर्म की कोई जिम्मेदारी नहीं होगी।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2">11.यदि किसी ग्राहक की आकस्मिक मृत्यु हो जाती है तो उसके द्वारा नामित व्यक्ति के दावा पेश करने पर नामिनी के नाम भूखण्ड का नामांतरण कर दिया जायेगा।</td>
+
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2"> 12.भूखण्ड की रजिस्ट्री से सम्बन्धित समस्त व्यय ग्राहक द्वारा देय होगा।</td>
+
+            <tr>
+                <td style="text-align:left;" colspan="2"> 13.यदि किसी ग्राहक और फर्म के मध्य किसी प्रकार का विवाद उत्पन्न होता है तो इसके निपटारे के लिये मध्यस्थ (आर्बिट्रेटर) की नियुक्ति फर्म द्वारा की जायेगी। नियुक्त किये गये मध्यस्थ का फैसला दोनो पक्षों को मान्य होगा। यदि फिर भी फैसला न हो सका तो गोरखपुर के न्यायिक क्षेत्र में ही फैसला होगा, जो ग्राहक को मान्य होगा।</td>
+
+            <tr>
+                <td style="text-align:left;" colspan="2">14.यदि ग्राहक किसी भी स्थिति में भूखण्ड का निरस्तीकरण चाहता हो तो फर्म के जमाधन से 25 प्रतिशत इन्सीडेंटल कटौती करने के पश्चात ग्राहक को पैसा वापस कर दिया जायेगा।</td>
+
+            </tr>
+
+            <tr>
+                <td style="text-align:left;" colspan="2">
+                    15.यदि कोई ग्राहक अपनी आर्थिक एवं अन्य कोई परेशानी की वजह से आगे पैसा भुगतान करने में असमर्थ है और किसी और के नाम पर ट्रांसफर करना चाहता है तो ऐसी दशा में उस समय जमा कये बकाया किस्तों का भुगतान मय ब्याज के जमा करने तथा निर्धारित ट्रांसफर फीस भुगतान करने के उपरान्त ही भूखण्ड दूसरे के नाम ट्रांसफर कर दिया जायेगा और ट्रांसफर की सुविधा योजना के शुरूआत से 2 वर्ष तक ही दी जायेगी।
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2">
+                    16.फर्म को परियोजना की शर्तों में परिवर्तन या जोड़ने का पूर्ण अधिकार होगा। जिसकी सूचना कार्यालय सूचना पट्ट पर चस्पा कर दी जायेगी।
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2">
+                    17.भूमि से सम्बन्धित किसी भी सरकारी या अदालत के द्वारा जारी अधिग्रहण आदेश पारित है तो ऐसी स्थिति में ग्राहक को दूसरी योजना में भूखण्ड आवंटित कर दिया जायेगा या सदस्य द्वारा जमा धनराशि का भुगतान सदस्य को बिना किसी ब्याज के कर दिया जायेगा जो कि प्रत्येक सदस्य को मान्य होगा।<br />
+                    ग्राहक को अपने पहचान एवं पते का प्रूफ के रूप में आधार कार्ड, ड्राइविंग लाइसेन्स, वोटर आई-डी कार्ड आदि की
+                    छाया प्रति जमा करना अनिवार्य है।
+                    <br />
+
+                    मैने उपरोक्त नियमों को अच्छी तरह पढ़ / पढ़वाकर समझ लिया है तथा हम पूर्णतया संतुष्ट है। हमें फर्म के सभी नियम व शर्ते स्वीकार है।
+
+
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:left;" colspan="2">
+                    I/We declare that the above terms & condition have been read/understood and the same are acceptable to me /us. I/We gave sought detailed explanations and clarifications form the firm and the firm has readily provided such explanations, documents and clarifications and after giving careful consideration to all facts, terms and conditions. I/We have signed this Application Form and paid the booking amount for allotment. I/We further understood and assure the firm that in the event of rejection of my/our application for allotment for whatsoever reason, including  but not limited to noncompliance of the terms by me/us as set out in the terms and conditions provided in this application. I/We shall be left with no right, title interest or lien under this Application or against any House Land in relation to the said House land. If any other Persons has signed this Application Form on behalf my/or behalf, then he shall be presumed to be duty authorized by me/us through proper authorization/Power of Attomey/Resolution etc.
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+

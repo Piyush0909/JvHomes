@@ -1,0 +1,171 @@
+﻿@model JvHomes.Models.Customer
+
+@{
+    ViewBag.Title = "LevelMemberRegistration";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("LevelMemberRegistration", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Level Team Management</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Member Registration</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <h6 style="color: red">
+                @TempData["Registration"]
+
+            </h6>
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <label class="float-label">Name<span style="color:red">*</span></label>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Placeholder = "First Name" })
+                    <span class="form-bar"></span>
+                </div>
+                <div class="col-sm-4">
+                    <label class="float-label">Relation</label>
+                    @Html.DropDownListFor(m => m.Relation, new SelectList(ViewBag.ddlRelation, "Value", "Text"), new { @class = "form-control" })
+                    <span class="form-bar"></span>
+
+                </div>
+                <div class="col-sm-4">
+                    <label class="float-label">Relation Name</label>
+                    @Html.TextBoxFor(m => m.FatherName, new { @class = "form-control", @Placeholder = "Father's Name" })
+                    <span class="form-bar"></span>
+
+                </div>
+            </div>
+            <div class="row gutters">
+
+                <div class="col-sm-12">
+                    <label class="float-label">Address</label>
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @Placeholder = "Address" })
+                    <span class="form-bar"></span>
+                </div>
+            </div>
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    <label class="float-label">Mobile<span style="color:red">*</span></label>
+                    @Html.TextBoxFor(m => m.Contact, new { @class = "form-control", @Placeholder = "Mobile Number", @onkeypress = "return isNumberOrDecimal(event);", @maxlength = "10" })
+                    <span class="form-bar"></span>
+                </div>
+
+
+            </div>
+
+
+            <br />
+            <div class="form-group row">
+                <div class="col-md-6">
+                    @if (Model.UserID == null)
+                    {
+                        <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Save" id="btnSave" name="btnSave" />
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(m => m.UserID, new { @Value = @Model.UserID })
+                        <input class="btn btn-success pull-left" type="submit" onclick="return validateform();" value="Update" id="btnUpdate" name="btnUpdate" />
+                    }
+                    <a class="btn btn-info" href="/Admin/LevelMemberRegistrationList">Back To List</a>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script>
+    $(document).ready(function () {
+        $("#divload").css({ 'display': 'none' });
+    });
+
+   
+
+    function validateform() {
+        $("#divload").css({ 'display': 'none' });
+        $(".errortext").removeClass("errortext");
+
+        if ($('#FirstName').val() == '') {
+            $("#FirstName").addClass('errortext');
+            $('#FirstName').focus();
+            return false;
+        }
+        if ($('#Relation').val() == '0') {
+            $("#Relation").addClass('errortext');
+            $('#Relation').focus();
+            return false;
+        }
+        if ($('#FatherName').val() == '') {
+            $("#FatherName").addClass('errortext');
+            $('#FatherName').focus();
+            return false;
+        }
+        if ($('#Address').val() == '') {
+            $("#Address").addClass('errortext');
+            $('#Address').focus();
+            return false;
+        }
+        if ($('#Contact').val() == '') {
+            $("#Contact").addClass('errortext');
+            $('#Contact').focus();
+            return false;
+        }
+
+        $("#divload").css({ 'display': '' });
+        return true;
+    }
+
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+
+</script>
+
+
+
+

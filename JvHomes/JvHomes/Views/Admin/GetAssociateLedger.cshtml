@@ -1,0 +1,220 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "GetAssociateLedger";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("GetAssociateLedger", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Associate Ledger</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    <div class="form-group">
+                        <label>Login Id</label>
+                        @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
+                    <div class="form-group">
+                        <br />
+                        <input type="submit" id="btnSearch" class="btn btn-success pull-left" name="Search" value="Search" onclick="return fvalidate();" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gutters" id="printData">
+                @*id="printableArea"*@
+                @if (Model != null)
+                {
+                    if (Model.lstDetails != null)
+                    {
+                        if (Model.lstDetails.Rows.Count > 0)
+                        {
+                            <div class="col-sm-4">
+                                Name
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["Name"].ToString()" style="color:blue" />
+                            </div>
+                            <div class="col-sm-4">
+                                Relation
+
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["FathersName"].ToString()" style="color:blue" />
+                            </div>
+                            <div class="col-sm-4">
+                                Mobile
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["Mobile"].ToString()" style="color:blue" />
+                            </div>
+                            <div class="col-sm-4">
+                                Adhar Number
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["AdharNumber"].ToString()" style="color:blue" />
+
+                            </div>
+                            <div class="col-sm-4">
+                                Pan
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["PanNumber"].ToString()" style="color:blue" />
+                            </div>
+                            <div class="col-sm-4">
+                                Acc No
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["MemberAccNo"].ToString()" style="color:blue" />
+
+                            </div>
+                            <div class="col-sm-4">
+                                Bank Name
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["MemberBankName"].ToString()" style="color:blue" />
+
+                            </div>
+                            <div class="col-sm-4">
+                                Branch
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["MemberBranch"].ToString()" style="color:blue" />
+
+                            </div>
+                            <div class="col-sm-4">
+                                IFSC
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["IFSCCode"].ToString()" style="color:blue" />
+
+                            </div>
+                            <div class="col-sm-4">
+                                Advance
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["Advance"].ToString()" style="color:blue" />
+
+                            </div>
+                        }
+                    }
+                }
+
+
+
+            </div>
+
+            <div class="row gutters table-responsive">
+                <table id="example25" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>TransactionDate</th>
+                            <th>Particular</th>
+                            <th>Mode</th>
+                            <th>Transaction No</th>
+                            <th>Credit</th>
+                            <th>Debit</th>
+                            <th>Balance</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.customerLedger != null)
+                            {
+                                if (Model.customerLedger.Rows.Count > 0)
+                                {
+                                    int j = 1;
+                                    for (int i = 0; i <= Model.customerLedger.Rows.Count - 1; i++)
+                                    {
+                                        <tr class="text-left">
+                                            <td>@j</td>
+
+                                            <td>@Model.customerLedger.Rows[i]["TransactionDate"].ToString()</td>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        @Model.customerLedger.Rows[i]["Particular"].ToString()
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b style="color:blue"> @Model.customerLedger.Rows[i]["CrAmount1"].ToString()</b>
+                                                    </div>
+                                                </div>
+                                                @if (Model.customerLedger.Rows[i]["Particular"].ToString().Contains("Gross Payout"))
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            TDS (5 %)
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <b style="color:red"> @Model.customerLedger.Rows[i]["Charges"].ToString() </b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            Processing (5 %)
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <b style="color:red"> @Model.customerLedger.Rows[i]["Charges"].ToString() </b>
+                                                        </div>
+                                                    </div>
+
+                                                }
+
+                                            </td>
+                                            <td>@Model.customerLedger.Rows[i]["Mode"].ToString()</td>
+                                            <td>@Model.customerLedger.Rows[i]["TransactionNo"].ToString()</td>
+                                            <td>
+                                                @Model.customerLedger.Rows[i]["CrAmount"].ToString()
+
+                                            </td>
+                                            <td>@Model.customerLedger.Rows[i]["DrAmount"].ToString()</td>
+                                            <td>@Model.customerLedger.Rows[i]["Balance"].ToString()</td>
+                                        </tr>
+                                        j++;
+                                    }
+                                }
+
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+}
+
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+<script>
+
+    $('#FromDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+    });
+    $('#Todate').datepicker({
+        dateFormat: 'dd/mm/yy',
+    });
+    function fvalidate() {
+        if ($('#LoginId').val() == '') {
+            $("#LoginId").addClass('errortext');
+            $('#LoginId').focus();
+
+            return false;
+        }
+        $("#divload").css({ 'display': '' });
+    }
+</script>
+
+
+
+
+

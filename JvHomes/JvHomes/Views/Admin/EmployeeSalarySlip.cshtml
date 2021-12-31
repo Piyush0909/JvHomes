@@ -1,0 +1,211 @@
+﻿@model JvHomes.Models.HRManagement
+
+@{
+    ViewBag.Title = "EmployeeSalarySlip";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm("EmployeeSalarySlip", "Admin", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Employee Salary Slip</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">HR</a></li>
+                            <li class="breadcrumb-item active">Employee Salary Slip</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card m-b-30">
+                        <div class="card-body">
+                            <p style="color:red">
+                                @TempData["EmployeeSalarySlip"]
+                            </p>
+
+                            <div class="card-body">
+
+                                <div class="row justify-content-center">
+                                    <div class="col-md-12 mx-auto">
+                                        <div class="row ">
+                                            <div class="col-lg-3 col-md-3">
+
+                                                <div class="form-group">
+                                                    <label>From Date </label>
+                                                    @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @Placeholder = "From Date" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3">
+
+                                                <div class="form-group">
+                                                    <label>ToDate </label>
+                                                    @Html.TextBoxFor(m => m.ToDate, new { @class = "form-control", @Placeholder = "To Date" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-group">
+                                                    <input type="submit" value="Get Details" class="btn btn-primary" name="Search" onclick="return ValidateSearch();" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (Model != null)
+                {
+                    if (Model.lstList != null)
+                    {
+                                <div class="row">
+                                    <div class="table-responsive">
+
+                                        <div class="col-md-12">
+
+                                            <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th> </th>
+                                                        <th>Sr.No.</th>
+                                                        <th>Emp Code</th>
+                                                        <th>Emp Name</th>
+                                                        <th>Basic      </th>
+                                                        <th>HRA         </th>
+                                                        <th>MA    </th>
+                                                        <th>PA       </th>
+                                                        <th>CA    </th>
+                                                        <th>PF    </th>
+                                                        <th>ExtraWork              </th>
+                                                        <th>Incentive              </th>
+                                                        <th>OtherPay               </th>
+                                                        <th>TotalIncome            </th>
+                                                        <th>Contribution To Society  </th>
+                                                        <th>Advance                </th>
+                                                        <th>TDS                    </th>
+                                                        <th>Insurance              </th>
+                                                        <th>Other                  </th>
+                                                        <th>TotalDeduction         </th>
+                                                        <th>MonthName              </th>
+                                                        <th>Year                   </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (Model != null)
+                                                    {
+                                                        if (Model.lstList != null)
+                                                        {
+                                                            int i = 1;
+                                                            foreach (var item in Model.lstList)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        <a href="/Admin/PrintSalarySlip?EmployeeID=@item.EmployeeID&PaymentDate=@item.PaymentDate" class="btn btn-success btn-sm" target="_blank">Print</a>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        @i
+                                                                    </td>
+                                                                    <td>@item.EmployeeCode   </td>
+                                                                    <td>@item.EmployeeName   </td>
+
+                                                                    <td>@item.Basic</td>
+                                                                    <td>@item.HRA  </td>
+                                                                    <td> @item.MA </td>
+                                                                    <td>@item.PA</td>
+                                                                    <td>@item.CA</td>
+                                                                    <td>@item.PF</td>
+                                                                    <td>@item.ExtraWork </td>
+                                                                    <td>@item.Incentive </td>
+                                                                    <td>@item.OtherPay  </td>
+                                                                    <td>@item.TotalIncome</td>
+                                                                    <td>@item.ContributionTosociety</td>
+                                                                    <td>@item.Advance   </td>
+                                                                    <td>@item.TDS       </td>
+                                                                    <td>@item.Insurance </td>
+                                                                    <td>@item.Other     </td>
+                                                                    <td>@item.TotalDeduction</td>
+                                                                    <td>@item.MonthName  </td>
+                                                                    <td>@item.Year </td>
+                                                                </tr>
+                                                                i++;
+                                                            }
+                                                            <input type="hidden" id="hdRows" name="hdRows" value="@i" />
+                                                        }
+                                                    }
+
+                                                </tbody>
+
+                                            </table>
+
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                    }
+                                }
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+
+            }
+
+            <script src="../../assets/js/jquery.min.js"></script>
+            <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+            <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js"></script>
+
+            <script>
+
+                $(document).ready(function () {
+                    $("#divload").css({ 'display': 'none' });
+                });
+
+                $('#FromDate').datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    changeMonth: true,
+                    changeYear: true,
+                });
+
+                $('#ToDate').datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    changeMonth: true,
+                    changeYear: true,
+                });
+
+                function ValidateSearch() {
+
+                    $(".errortext").removeClass("errortext");
+                    //if ($("#FromDate").val() == "") {
+                    //    $("#FromDate").addClass('errortext');
+                    //    $("#FromDate").focus();
+                    //    return false;
+                    //}
+                    //if ($("#ToDate").val() == "") {
+                    //    $("#ToDate").addClass('errortext');
+                    //    $("#ToDate").focus();
+                    //    return false;
+                    //}
+                    $("#divload").css({ 'display': '' });
+                    return true;
+
+                }
+            </script>

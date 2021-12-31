@@ -1,0 +1,249 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    ViewBag.Title = "DueInstallmentReport";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@using (Html.BeginForm("DueInstallmentReport", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Due Installment Report</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Select Site
+                        @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Select Sector
+                        @Html.DropDownListFor(m => m.SectorID, new SelectList(ViewBag.ddlSector, "Value", "Text"), new { @class = "form-control", @onchange = "return onSectorChange();" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Select Block
+                        @Html.DropDownListFor(m => m.BlockID, new SelectList(ViewBag.ddlBlock, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Plot Number
+                        @Html.TextBoxFor(m => m.PlotNumber, new { @class = "form-control", @Placeholder = "PlotNumber" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="row gutters">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Associate Id
+                        @Html.TextBoxFor(m => m.SponsorId, new { @class = "form-control", @Placeholder = "Associate Id" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Customer Id
+                        @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @Placeholder = "Customer Id" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        Booking No
+                        @Html.TextBoxFor(m => m.BookingNumber, new { @class = "form-control", @Placeholder = "Booking No" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        From Date
+                        @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", @Placeholder = "From Date" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gutters">
+
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        To Date
+                        @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @Placeholder = "To Date" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <br />
+                        <input class="btn btn-success" type="submit" value="Search" id="btnSearch" name="Search" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="row gutters table-responsive">
+                <table id="example23" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr No.</th>
+                            <th>Customer Info</th>
+                            <th>Associate Info</th>
+
+                            <th>Plot Info</th>
+
+                            <th>BookingNo</th>
+                            <th>BookingAmt</th>
+                            <th>TotalPaidAmount</th>
+                            <th>PaymentPlan</th>
+                            <th>Total EMI</th>
+                            <th>DueAmount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.lstDetails != null)
+                            {
+                                if (Model.lstDetails.Rows.Count > 0)
+                                {
+                                    int j = 1;
+                                    for (int i = 0; i <= Model.lstDetails.Rows.Count - 1; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @j
+                                            </td>
+                                            <td>
+                                                <b>@Model.lstDetails.Rows[i]["CustomerId"].ToString()</b>
+                                                <br />
+                                                @Model.lstDetails.Rows[i]["CustomerName"].ToString()
+                                                <br />
+                                                @Model.lstDetails.Rows[i]["CustomerMobile"].ToString()
+                                            </td>
+
+                                            <td>
+                                                <b>@Model.lstDetails.Rows[i]["AssociateId"].ToString()</b>
+                                                <br />
+                                                @Model.lstDetails.Rows[i]["AssociateName"].ToString()
+                                                <br />
+                                                @Model.lstDetails.Rows[i]["AssociateMobile"].ToString()
+                                            </td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["SiteName"].ToString()/@Model.lstDetails.Rows[i]["SectorName"].ToString()/@Model.lstDetails.Rows[i]["BlockName"].ToString()/@Model.lstDetails.Rows[i]["PlotNumber"].ToString()
+                                            </td>
+
+
+                                            <td>@Model.lstDetails.Rows[i]["BookingNo"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["BookingAmt"].ToString()</td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["TotalPaidAmount"].ToString()<br />
+
+                                            </td>
+                                            <td>@Model.lstDetails.Rows[i]["PaymentPlan"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["noOfEMI"].ToString()*@Model.lstDetails.Rows[i]["InstallmentAmt"].ToString()=@Model.lstDetails.Rows[i]["TotalEMI"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["DueAmount"].ToString()</td>
+                                        </tr>
+                                        j++;
+                                    }
+
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script>
+
+
+    $('#FromDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true
+    });
+    $('#Todate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        changeMonth: true
+    });
+    function onSiteChange() {
+        $("#divload").css({ 'display': '' });
+        var value = $('#SiteID').val();
+        var values = $('#SectorID').val();
+        var tr = [];
+        $.ajax({
+            url: "/Masters/GetSiteDetails",
+            Type: "Get",
+            DataType: "JSON",
+            data: { SiteID: value },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                var j = 1;
+                if (data.Result == "yes") {
+
+                    $("#SectorID").html(""); // clear before appending new list
+                    $("#SectorID").empty();
+                    $("#SectorID").append(
+                        $('<option></option>').val(0).html('Select Sector'));
+                    $.each(data.ddlSector, function (index, Sectorcount) {
+                        $("#SectorID").append(
+                            $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+
+                    });
+                }
+                else {
+                    $("#SectorID").empty();
+
+                }
+            }
+
+        });
+
+    }
+
+    function onSectorChange() {
+
+        $("#divload").css({ 'display': '' });
+        var siteID = $('#SiteID').val();
+        var sectorID = $('#SectorID').val();
+        $.ajax({
+            url: '/Masters/GetBlockList', type: 'post', dataType: 'json',
+            data: { 'SiteID': siteID, 'sectorID': sectorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                $("#BlockID").html(""); // clear before appending new list
+                $("#BlockID").empty();
+                $("#BlockID").append(
+                    $('<option></option>').val(0).html('Select Block'));
+                $.each(data.lstBlock, function (index, BlockCount) {
+                    $("#BlockID").append(
+                        $('<option></option>').val(BlockCount.Value).html(BlockCount.Text));
+                });
+
+            }
+
+        });
+    }
+</script>

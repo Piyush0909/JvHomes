@@ -1,0 +1,131 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    /**/
+
+    ViewBag.Title = "PlotCountReport";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("PlotCountReport", "Admin", FormMethod.Post, new { @id = "form1" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Plot Count Report</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    Side Name
+                    @Html.DropDownListFor(m => m.SiteID, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control" })
+                </div>
+
+                <div class="col-sm-3">
+                    <br />
+                    <input type="submit" value="Get Details" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="dt-responsive table-responsive">
+                <table id="example23" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sr No</th>
+
+                            <th>Side Name</th>
+                            <th>Total Plots</th>
+                            <th>Total Area</th>
+                            <th>Booked Plots</th>
+                            <th>Booked Area</th>
+                            <th>Registered Plots</th>
+                            <th>Registered Area</th>
+                            <th>Alloted Plots</th>
+                            <th>Alloted Area</th>
+                            <th>Hold Plots</th>
+                            <th>Hold Area</th>
+                            <th>Available Plots</th>
+                            <th>Available Area</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.lstDetails != null)
+                            {
+                                int j = 1;
+                                if (Model.lstDetails.Rows.Count > 0)
+                                {
+                                    for (int i = 0; i <= Model.lstDetails.Rows.Count - 1; i++)
+                                    {
+                                        <tr>
+                                            <td>@j</td>
+
+                                            <td>@Model.lstDetails.Rows[i]["SiteName"].ToString()</td>
+
+                                            <td>@Model.lstDetails.Rows[i]["TotalPlots"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["TotalArea"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["BookedPlots"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["BookedArea"].ToString()</td>
+                                            <td>
+                                                @Model.lstDetails.Rows[i]["RegisteredPlots"].ToString()
+
+                                            </td>
+                                            <td>@Model.lstDetails.Rows[i]["RegistryArea"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["AllotedPlots"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["AllotedArea"].ToString()</td>
+                                            <td>
+
+                                                @Model.lstDetails.Rows[i]["HoldPlots"].ToString()
+                                            </td>
+                                            <td>@Model.lstDetails.Rows[i]["HoldArea"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["AvailablePlots"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["AvailableArea"].ToString()</td>
+                                        </tr>
+                                        j++;
+                                    }
+
+                                }
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+}
+<script src="../../assets/js/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js"></script>
+<script>
+
+    $('#FromDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeYear: true,
+        maxDate: 0,
+        changeMonth: true
+    });
+    $('#Todate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        maxDate: 0,
+        changeYear: true,
+        changeMonth: true
+    });
+</script>
+

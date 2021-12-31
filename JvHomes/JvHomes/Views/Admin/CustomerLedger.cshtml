@@ -1,0 +1,255 @@
+﻿@model JvHomes.Models.Reports
+
+@{
+    /**/
+
+    ViewBag.Title = "CustomerLedger";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+@using (Html.BeginForm("CustomerLedger", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Reports</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
+
+                            <li class="breadcrumb-item active">Customer Ledger</li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    LoginId
+                    @Html.TextBoxFor(m => m.LoginId, new { @class = "form-control", @Placeholder = "LoginId" })
+                    @Html.HiddenFor(m => m.id)
+                </div>
+
+                <div class="col-sm-3">
+                    <br />
+                    <input type="submit" value="Get Details" class="btn btn-primary" />
+                  
+                    <input type="submit" value="Print" class="btn btn-info" name="print" />
+
+                </div>
+            </div>
+            <br />
+            <div class="row gutters" id="printData">
+                @*id="printableArea"*@
+                @if (Model != null)
+                {
+                    if (Model.lstDetails != null)
+                    {
+                        if (Model.lstDetails.Rows.Count > 0)
+                        {
+                            <div class="col-sm-4">
+                                Customer Name
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["Name"].ToString()" style="color:blue" />
+                            </div>
+                            <div class="col-sm-4">
+                                LoginId
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["LoginId"].ToString()" style="color:blue" />
+
+                            </div>
+                            <div class="col-sm-4">
+                                Relation
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["GaurdianRelation"].ToString()" style="color:blue" />
+                            </div>
+                            <div class="col-sm-4">
+                                Relation Name
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["FathersName"].ToString()" style="color:blue" />
+
+                            </div>
+                            <div class="col-sm-4">
+                                Mobile
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["Mobile"].ToString()" style="color:blue" />
+                            </div>
+                            <div class="col-sm-12">
+                                Address
+                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["Address"].ToString()" style="color:blue" />
+                                
+                            </div>
+                        }
+                    }
+                }
+
+
+
+            </div>
+            <br />
+            <div class="row gutters">
+                <table id="example23654" class="table table-striped table-bordered nowrap">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>Site Name</th>
+                            <th>Plot No</th>
+                            <th>Plot Area</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            if (Model.customerLedger != null)
+                            {
+                                int j = 1;
+                                if (Model.customerLedger.Rows.Count > 0)
+                                {
+                                    for (int i = 0; i <= Model.customerLedger.Rows.Count - 1; i++)
+                                    {
+                                        <tr class="text-left">
+                                            <td>@j</td>
+                                            <td>
+                                                <a style="color:blue;cursor:pointer" onclick="return getPaymentDetails('@Model.customerLedger.Rows[i]["PK_BookingId"].ToString()');"> @Model.customerLedger.Rows[i]["SiteName"].ToString()</a>
+                                            </td>
+                                            <td>
+                                                @Model.customerLedger.Rows[i]["PlotNumber"].ToString()
+                                            </td>
+                                            <td>
+                                                @Model.customerLedger.Rows[i]["TotalArea"].ToString()
+                                            </td>
+
+                                        </tr>
+                                        j++;
+                                    }
+                                }
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <br />
+
+            <div class="row" style="border: 1px solid black;padding: 11px">
+                <div class="col-sm-4">
+                    Customer Name
+                    <input type="text" class="form-control" readonly="readonly" id="txtcustName" style="color:blue" />
+                </div>
+                <div class="col-sm-4">
+                    LoginId
+                    <input type="text" class="form-control" readonly="readonly" id="txtLoginId" style="color:blue" />
+
+                </div>
+                <div class="col-sm-4">
+                    SiteName
+                    <input type="text" class="form-control" readonly="readonly" id="txtSiteName" style="color:blue" />
+                </div>
+                <div class="col-sm-4">
+                    Plot No
+                    <input type="text" class="form-control" readonly="readonly" id="txtPlotNumber" style="color:blue" />
+
+                </div>
+                <div class="col-sm-4">
+                    Total Area
+                    <input type="text" class="form-control" readonly="readonly" id="txtTotalArea" style="color:blue" />
+                </div>
+                <div class="col-sm-4">
+                    Plot Rate
+                    <input type="text" class="form-control" readonly="readonly" id="txtPlotRate" style="color:blue" />
+                    <br />
+                </div>
+                <div class="col-sm-4">
+                    Plot Amount
+                    <input type="text" class="form-control" readonly="readonly" id="txtPlotAmount" style="color:blue" />
+                    <br />
+                </div>
+                <div class="col-sm-4">
+                   PLC(%)
+                    <input type="text" class="form-control" readonly="readonly" id="txtPLCPerc" style="color:blue" />
+                    <br />
+                </div>
+                <div class="col-sm-4">
+                    Final Amount
+                    <input type="text" class="form-control" readonly="readonly" id="txtNetPlotAmount" style="color:blue" />
+                    <br />
+                </div>
+                
+            </div>
+            <br/>
+            <div class="row">
+                <table id="example231" class="table table-striped table-bordered table-hover">
+                    <thead style="background-color: #DEBA84;border-color: #DEBA84;border-width: 1px;border-style: none;color:#f10808">
+                        <tr>
+
+                            <th>Date</th>
+                            <th>Particular</th>
+                            <th>Credit To</th>
+                            <th style="text-align:right">Plot Amount</th>
+                            <th style="text-align:right">Paid Amount</th>
+                            <th style="text-align:right">Balance</th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+
+}
+<script>
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+    function getPaymentDetails(Pk_BookingId) {
+        $.ajax({
+            url: "/Admin/GetPaymentDetails",
+            Type: "Get",
+            DataType: "JSON",
+            data: { id: Pk_BookingId },
+            success: function (data) {
+                $('#txtcustName').val(data.Name);
+                $('#txtLoginId').val(data.LoginId);
+                $('#txtSiteName').val(data.SiteName);
+                $('#txtPlotNumber').val(data.PlotNumber);
+                $('#txtTotalArea').val(data.TotalArea);
+                $('#txtPlotRate').val(data.PlotRate);
+                $('#txtPLCPerc').val(data.PLCPerc);
+                $('#txtPlotAmount').val(data.PlotAmount);
+                $('#txtNetPlotAmount').val(data.NetPlotAmount);
+                $('#id').val(data.id);
+                $('#example231').find("tr:not(:first)").remove();
+
+                var name = "Piyush";
+                if (data.details.length > 0) {
+
+                    for (var i = 0; i < data.details.length; i++) {
+
+                        $("#example231").append('<tr><td id="TransactionDate' + i + ' " >' + data.details[i].TransactionDate +
+                            '</td><td id="Particular' + i + ' " >' + data.details[i].Particular +
+                            '</td><td id="CreditTo' + i + ' " >' + data.details[i].CreditTo +
+                            '</td><td style="text-align:right" id="NetPlotAmount' + i + ' " >' + data.details[i].NetPlotAmount +
+                            '</td><td style="text-align:right" id="PaidAmount' + i + ' " >' + data.details[i].PaidAmount +
+                            '</td><td style="text-align:right" id="Balance' + i + ' " >' + data.details[i].Balance +
+                            '</td></tr>')
+                    }
+                    $("#example231").append('<tfoot><tr style="background-color: #F7DFB5;color: #8C4510;"><td></td><td></td><td style="color:black;font-weight: bold;">Total</td><td style="color:Blue;text-align:right;font-weight: bold;">' + data.TotalPlotAmount +
+                        '</td ><td style="color:green;text-align:right;font-weight: bold;">' + data.TotalPaidAmount +
+                        '</td > <td style="color:red;text-align:right;font-weight: bold;">' + data.TotalBalance +
+                        '</td ></tr ></tfoot > ')
+                }
+
+            }
+
+        });
+    }
+</script>
