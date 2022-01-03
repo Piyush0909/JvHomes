@@ -5333,7 +5333,29 @@ namespace JvHomes.Controllers
             }
         }
 
+        public ActionResult DeletedayBook(string id)
+        {
+            Reports reports = new Reports();
+            reports.PK_LedgerID = id;
+            reports.AddedBy= Session["PK_AdminId"].ToString();
+            DataSet ds = reports.DeleteDayBook();
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0]["Msg"].ToString() == "1")
+                {
 
+                    //TempData["DeletedayBook"] = "Expenses Saved Successfully";
+
+                }
+                else
+                {
+                  //  TempData["DeletedayBook"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                  
+                }
+               
+            }
+            return RedirectToAction("DayBook");
+        }
 
         public ActionResult Expenses()
         {

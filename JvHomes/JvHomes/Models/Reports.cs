@@ -76,6 +76,7 @@ namespace JvHomes.Models
         public string TotalPaidAmount { get;  set; }
         public string TotalBalance { get;  set; }
         public string CreditTo { get; set; }
+        public string PK_LedgerID { get;  set; }
 
         public DataSet GettingUserProfile()
         {
@@ -114,6 +115,16 @@ namespace JvHomes.Models
 
                                       new SqlParameter("@LoginID", LoginId) };
             DataSet ds = Connection.ExecuteQuery("GetKYC", para);
+            return ds;
+        }
+        public DataSet DeleteDayBook()
+        {
+            SqlParameter[] para = {
+
+                                      new SqlParameter("@PK_LedgerID", PK_LedgerID),
+                                      new SqlParameter("@DeletedBy", AddedBy),
+            };
+            DataSet ds = Connection.ExecuteQuery("DeleteDayBook", para);
             return ds;
         }
         public DataSet ApproveKYC()

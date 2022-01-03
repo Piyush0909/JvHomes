@@ -63,6 +63,7 @@
                             <th>Credit To</th>
                             <th>Credit</th>
                             <th>Debit</th>
+                            <th>Action</th>
 
                         </tr>
                     </thead>
@@ -88,6 +89,9 @@
                             <td>@Model.lstDetails.Rows[i]["CreditTo"].ToString()</td>
                             <td>@Model.lstDetails.Rows[i]["CrAmount"].ToString()</td>
                             <td>@Model.lstDetails.Rows[i]["DrAmount"].ToString()</td>
+                            <td>
+                                <a href="/Admin/DeletedayBook?id=@Model.lstDetails.Rows[i]["PK_LedgerID"].ToString()" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you wish to delete this entry?');">Delete</a>
+                            </td>
                         </tr>
                                         j++;
                                     }
