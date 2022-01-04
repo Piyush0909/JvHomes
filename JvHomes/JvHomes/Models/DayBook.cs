@@ -12,6 +12,7 @@ namespace JvHomes.Models
         public List<DayBook> lstdaybook { get; set; }
 
         public string Amount { get; set; }
+        public string Pk_LedgerId { get; set; }
         public string Narration { get; set; }
         public string TransactionDate { get; set; }
         public string ChequeDate { get; set; }
@@ -40,7 +41,18 @@ namespace JvHomes.Models
         public string PanStatus { get;  set; }
         public string DocumentImage { get;  set; }
         public string DocumentStatus { get;  set; }
+        public DataSet GetLedger()
+        {
+            SqlParameter[] para = {
 
+                                        new SqlParameter("@FromDate", FromDate),
+                                        new SqlParameter("@ToDate", ToDate),
+                                        new SqlParameter("@Pk_LedgerId", Pk_LedgerId)
+
+            };
+            DataSet ds = Connection.ExecuteQuery("GetLedger", para);
+            return ds;
+        }
         public DataSet SaveDayBook()
         {
             SqlParameter[] param = {
@@ -57,6 +69,25 @@ namespace JvHomes.Models
                                           new SqlParameter("@AccountId", AccountId)
             };
             DataSet ds = Connection.ExecuteQuery("SaveDayBook", param);
+            return ds;
+        }
+        public DataSet UpdateDayBook()
+        {
+            SqlParameter[] param = {
+                                        new SqlParameter("@Amount", Amount),
+                                        new SqlParameter("@Narration", Narration),
+                                         new SqlParameter("@TransactionDate", TransactionDate),
+                                          new SqlParameter("@AddedBy", AddedBy),
+                                          new SqlParameter("@PaymentMode", PaymentMode),
+                                          new SqlParameter("@LoginId", LoginId),
+                                           new SqlParameter("@TransactionNo"  , TransactionNumber),
+                                        new SqlParameter("@ChequeDate"  , TransactionDate),
+                                        new SqlParameter("@BankName"  , BankName),
+                                        new SqlParameter("@BankBranch"   , BankBranch),
+                                          new SqlParameter("@AccountId", AccountId),
+                                          new SqlParameter("@Pk_LedgerId", Pk_LedgerId)
+            };
+            DataSet ds = Connection.ExecuteQuery("UpdateDayBook", param);
             return ds;
         }
         public DataSet GetUserDetailsForExp()

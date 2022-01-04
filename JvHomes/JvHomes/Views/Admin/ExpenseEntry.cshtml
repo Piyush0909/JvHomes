@@ -97,15 +97,20 @@
                                     
                                 </div>
                             </div>
-
+                            @Html.HiddenFor(m=>m.Pk_LedgerId)
 
 
                             <div class="row">
                                 <div class="col-sm-3">
                                     <br />
-
-                                    <input type="submit" class="btn btn-success" name="Save" id="Save" value="Save" onclick="return validateform();" />
-
+                                    @if (Model.Pk_LedgerId == null)
+                                    {
+                                        <input type="submit" class="btn btn-success" name="Save" id="Save" value="Save" onclick="return validateform();" />
+                                    }
+                                    else
+                                    {
+                                        <input type="submit" class="btn btn-success" name="Update" id="Update" value="Update" onclick="return validateform();" />
+                                    }
                                 </div>
 
                             </div>

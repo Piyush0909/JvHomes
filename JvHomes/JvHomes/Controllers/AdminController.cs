@@ -3755,11 +3755,12 @@ namespace JvHomes.Controllers
             obj.FromDate = string.IsNullOrEmpty(obj.FromSearchDate) ? null : Common.ConvertToSystemDate(obj.FromSearchDate, "dd/MM/yyyy");
             obj.Todate = string.IsNullOrEmpty(obj.ToSearchDate) ? null : Common.ConvertToSystemDate(obj.ToSearchDate, "dd/MM/yyyy");
             DataSet ds = obj.GetLedger();
+
             obj.lstDetails = ds.Tables[0];
             return View(obj);
         }
 
-        public ActionResult ExpenseEntry()
+        public ActionResult ExpenseEntry(string id)
         {
             Master obj = new Master();
             #region ddlHead
@@ -3802,11 +3803,36 @@ namespace JvHomes.Controllers
             }
             ViewBag.ddlPaymentMode = ddlPaymentMode;
             #endregion
-            return View();
+
+            DayBook daybook = new DayBook();
+            daybook.Pk_LedgerId = Crypto.Decrypt(id);
+            DataSet ds = daybook.GetLedger();
+            if (ds != null)
+            {
+                if (ds.Tables[0].Rows[0]["Msg"].ToString() == "1")
+                {
+                    daybook.LoginId = ds.Tables[0].Rows[0]["LoginId"].ToString();
+                    daybook.AccountId = ds.Tables[0].Rows[0]["AccountId"].ToString();
+                    daybook.TransactionDate = ds.Tables[0].Rows[0]["TransactionDate"].ToString();
+                    daybook.Amount = ds.Tables[0].Rows[0]["CrAmount"].ToString();
+                    daybook.Narration = ds.Tables[0].Rows[0]["Narration"].ToString();
+                    daybook.PaymentMode = ds.Tables[0].Rows[0]["PK_paymentID"].ToString();
+                    daybook.TransactionNumber = ds.Tables[0].Rows[0]["TransactionNo"].ToString();
+                    daybook.BankName = ds.Tables[0].Rows[0]["BankName"].ToString();
+                    daybook.BankBranch = ds.Tables[0].Rows[0]["BankBranch"].ToString();
+                    daybook.ChequeDate = ds.Tables[0].Rows[0]["ChequeDate"].ToString();
+                    daybook.Pk_LedgerId = ds.Tables[0].Rows[0]["Pk_LedgerId"].ToString();
+                }
+                else
+                {
+
+                }
+            }
+            return View(daybook);
         }
         [HttpPost]
 
-        public ActionResult ExpenseEntry(DayBook obj)
+        public ActionResult ExpenseEntry(DayBook obj, string Update)
         {
             Master obj11 = new Master();
             #region ddlHead
@@ -3851,15 +3877,32 @@ namespace JvHomes.Controllers
             #endregion
             try
             {
+                DataSet ds = new DataSet();
                 obj.AddedBy = Session["Pk_AdminId"].ToString();
                 obj.TransactionDate = Common.ConvertToSystemDate(obj.TransactionDate, "dd/MM/yyyy");
                 obj.ChequeDate = string.IsNullOrEmpty(obj.ChequeDate) ? null : Common.ConvertToSystemDate(obj.ChequeDate, "dd/MM/yyyy");
-                DataSet ds = obj.SaveDayBook();
+                if (!string.IsNullOrEmpty(Update))
+                {
+                    ds = obj.UpdateDayBook();
+                }
+                else
+                {
+                    ds = obj.SaveDayBook();
+                }
+
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
                     if (ds.Tables[0].Rows[0]["Msg"].ToString() == "1")
                     {
-                        TempData["DayBook"] = "Data Save Successfully";
+                        if (!string.IsNullOrEmpty(Update))
+                        {
+                            TempData["DayBook"] = "Data Updated Successfully";
+                            return View();
+                        }
+                        else
+                        {
+                            TempData["DayBook"] = "Data Save Successfully";
+                        }
                         return RedirectToAction("DayBook");
                     }
                     else
@@ -5312,7 +5355,7 @@ namespace JvHomes.Controllers
                 if (dsSponsorName != null && dsSponsorName.Tables[0].Rows.Count > 0)
                 {
                     model.sponsorName = dsSponsorName.Tables[0].Rows[0]["Name"].ToString();
-                   
+
 
 
                     model.Result = "yes";
@@ -5337,7 +5380,7 @@ namespace JvHomes.Controllers
         {
             Reports reports = new Reports();
             reports.PK_LedgerID = id;
-            reports.AddedBy= Session["PK_AdminId"].ToString();
+            reports.AddedBy = Session["PK_AdminId"].ToString();
             DataSet ds = reports.DeleteDayBook();
             if (ds != null && ds.Tables[0].Rows.Count > 0)
             {
@@ -5349,10 +5392,10 @@ namespace JvHomes.Controllers
                 }
                 else
                 {
-                  //  TempData["DeletedayBook"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
-                  
+                    //  TempData["DeletedayBook"] = ds.Tables[0].Rows[0]["ErrorMessage"].ToString();
+
                 }
-               
+
             }
             return RedirectToAction("DayBook");
         }

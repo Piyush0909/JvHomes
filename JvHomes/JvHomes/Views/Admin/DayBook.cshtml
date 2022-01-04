@@ -1,8 +1,10 @@
 ﻿@model JvHomes.Models.Reports
 
 @{
-    ViewBag.Title = "DayBook";
-    Layout = "~/Views/Shared/AdminLayout.cshtml";
+                /**/
+
+                ViewBag.Title = "DayBook";
+                Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
 @using (Html.BeginForm("DayBook", "Admin", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
@@ -77,22 +79,25 @@
                                     int j = 1;
                                     for (int i = 0; i <= Model.lstDetails.Rows.Count - 1; i++)
                                     {
-                        <tr class="text-left">
-                            <td>@j</td>
-                            <td>@Model.lstDetails.Rows[i]["Name"].ToString()</td>
-                            <td>@Model.lstDetails.Rows[i]["SubAccountHead"].ToString()</td>
+                                        <tr class="text-left">
+                                            <td>@j</td>
+                                            <td>@Model.lstDetails.Rows[i]["Name"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["SubAccountHead"].ToString()</td>
 
-                            <td>@Model.lstDetails.Rows[i]["TransactionDate"].ToString()</td>
-                            <td>@Model.lstDetails.Rows[i]["Narration"].ToString()</td>
-                            <td>@Model.lstDetails.Rows[i]["PaymentMode"].ToString()</td>
-                            <td>@Model.lstDetails.Rows[i]["TransactionNo"].ToString()</td>
-                            <td>@Model.lstDetails.Rows[i]["CreditTo"].ToString()</td>
-                            <td>@Model.lstDetails.Rows[i]["CrAmount"].ToString()</td>
-                            <td>@Model.lstDetails.Rows[i]["DrAmount"].ToString()</td>
-                            <td>
-                                <a href="/Admin/DeletedayBook?id=@Model.lstDetails.Rows[i]["PK_LedgerID"].ToString()" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you wish to delete this entry?');">Delete</a>
-                            </td>
-                        </tr>
+                                            <td>@Model.lstDetails.Rows[i]["TransactionDate"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["Narration"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["PaymentMode"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["TransactionNo"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["CreditTo"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["CrAmount"].ToString()</td>
+                                            <td>@Model.lstDetails.Rows[i]["DrAmount"].ToString()</td>
+                                            <td>
+
+                                                <a href="/Admin/ExpenseEntry?id=@JvHomes.Crypto.Encrypt(Model.lstDetails.Rows[i]["PK_LedgerID"].ToString())" class="btn btn-info btn-sm">Edit</a>
+
+                                                <a href="/Admin/DeletedayBook?id=@Model.lstDetails.Rows[i]["PK_LedgerID"].ToString()" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you wish to delete this entry?');">Delete</a>
+                                            </td>
+                                        </tr>
                                         j++;
                                     }
                                 }
