@@ -140,7 +140,7 @@ namespace JvHomes.Controllers
                     Session["AssociateLoginId"] = ds.Tables[0].Rows[0]["LoginId"].ToString();
                     Session["AssociateName"] = ds.Tables[0].Rows[0]["Name"].ToString();
                     Session["Password"] = Crypto.Decrypt(ds.Tables[0].Rows[0]["Password"].ToString());
-                    string msg = "Dear " + Session["AssociateName"].ToString() + " Welcome to JvHomes Ventures Family.Your Login Id " + Session["AssociateLoginId"].ToString() + " and Password is " + Session["Password"].ToString() + ". Kindly login www.gayatrinfra.com Thankyou";
+                    string msg = "Dear " + Session["AssociateName"].ToString() + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + Session["AssociateLoginId"].ToString() + " and Password is " + Session["Password"].ToString() + ". Kindly login www.gayatrinfra.com Thankyou";
                     BLSMS.SendSMSNew(obj.mobileNo, msg);
                     return RedirectToAction("ConfirmationPage");
                 }

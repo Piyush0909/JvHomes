@@ -2838,13 +2838,13 @@ namespace JvHomes.Controllers
                             string mob = model.Contact;
                             try
                             {
-                                string msg = "Dear " + name + " Welcome to Jv Homes Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
+                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
                                 BLSMS.SendSMSNew(model.Contact, msg);
                             }
                             catch { }
                             try
                             {
-                                string msg = "Dear " + name + " Welcome to Jv Homes Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
+                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
                                 BLSMS.SendSMSNew("9795710000", msg);
                             }
                             catch { }
@@ -4638,13 +4638,13 @@ namespace JvHomes.Controllers
                             string mob = model.Contact;
                             try
                             {
-                                string msg = "Dear " + name + " Welcome to Jv Homes Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
+                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
                                 BLSMS.SendSMSNew(model.Contact, msg);
                             }
                             catch { }
                             try
                             {
-                                string msg = "Dear " + name + " Welcome to Jv Homes Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
+                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
                                 BLSMS.SendSMSNew("9795710000", msg);
                             }
                             catch { }
