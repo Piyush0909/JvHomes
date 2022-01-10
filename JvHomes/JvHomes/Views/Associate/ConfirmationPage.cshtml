@@ -105,14 +105,14 @@
                                 <br><br> <h2 style="color:#0fad00">Success</h2>
 
                                 <img src="../../AdminPanelCss/img/XwHw.gif" style="height:150px" />
-                                <h3>Dear, @Session["AssociateName"]</h3>
+                                <h3>Dear, @Session["DisplayNameConfirm"]</h3>
                                 <p style="font-size:20px;color:#5C5C5C;text-align:center">
-                                    Thank you for your registration. Now you are EASY TO EARN Business Associate.Your Details are as Below:
+                                    Thank you for your registration. Now you are @JvHomes.Models.Common.SoftwareDetails.CompanyName Associate.Your Details are as Below:
                                     <br />
-                                    <span class="border-box">Login ID: @Session["AssociateLoginId"]</span>
-                                    <span class="border-box">Password:  @Session["Password"]</span>
+                                    <span class="border-box">Login ID: @Session["LoginIDConfirm"]</span>
+                                    <span class="border-box">Password:  @Session["PasswordConfirm"]</span>
                                 </p>
-                                <a href="/Associate/DashBoard" class="btn btn-info">     Back    </a>
+                                <a href="/Associate/Registration" class="btn btn-info">     Back    </a>
 
                                 <br><br>
                             </div>

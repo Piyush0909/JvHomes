@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static JvHomes.Models.Common;
 
 namespace JvHomes.Controllers
 {
@@ -193,86 +194,196 @@ namespace JvHomes.Controllers
             }
             return RedirectToAction("UpdateProfile");
         }
-
-        public ActionResult Registration()
+        public ActionResult Registration(string UserID)
         {
-            Registration obj = new Registration();
-            #region ForQueryString
-            if (Request.QueryString["Pid"] != null)
-            {
-                obj.sponserId = Request.QueryString["Pid"].ToString();
-            }
-            if (Request.QueryString["lg"] != null)
-            {
-                obj.leg = Request.QueryString["lg"].ToString();
-                if (obj.leg == "Right")
-                {
-                    ViewBag.RightChecked = "checked";
-                    ViewBag.LeftChecked = "";
-                }
-                else
-                {
-                    ViewBag.RightChecked = "";
-                    ViewBag.LeftChecked = "checked";
-                }
-            }
-            if (Request.QueryString["Pid"] != null)
-            {
-                Common objcomm = new Common();
-                objcomm.sponserId = obj.sponserId;
-                DataSet ds = objcomm.GetMemberDetails();
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
 
-                    obj.sponsorName = ds.Tables[0].Rows[0]["FullName"].ToString();
-                }
-            }
-            else
-            {
-                ViewBag.RightChecked = "";
-                ViewBag.LeftChecked = "checked";
-            }
-            #endregion ForQueryString
 
-            #region BindGender
-            List<SelectListItem> lstgender = Common.BindGender();
-            ViewBag.ddlGender = lstgender;
-            #endregion BindGenders
-            return View(obj);
+            TraditionalAssociate model = new TraditionalAssociate();
+            try
+            {
+
+
+
+                TraditionalAssociate obj = new TraditionalAssociate();
+
+
+                #region ddlDesignation
+
+                int desgnationCount = 0;
+                List<SelectListItem> ddlDesignation = new List<SelectListItem>();
+                ddlDesignation.Add(new SelectListItem { Text = "Select Designation", Value = "0" });
+                ViewBag.ddlDesignation = ddlDesignation;
+
+                #endregion
+
+                #region BindCommissionType
+                List<SelectListItem> lstcommmissionType = Common.BindCommissionType();
+                ViewBag.lstcommmissionType = lstcommmissionType;
+                #endregion BindCommissionType
+                model.sponserId = Session["LoginId"].ToString();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                model.Result = "no";
+                return View(model);
+
+            }
+
+
         }
+
         [HttpPost]
-        public ActionResult Registration(Registration obj)
+        public ActionResult Registration(TraditionalAssociate model, string btnSave)
         {
-            #region BindGender
-            List<SelectListItem> lstgender = Common.BindGender();
-            ViewBag.ddlGender = lstgender;
-            #endregion BindGenders
-            string password = Common.GenerateRandom();
-            obj.password = Crypto.Encrypt(password);
-            DataSet ds = obj.SaveRegistration();
-            if (ds != null)
+
+            #region ddlDesignation
+
+            int desgnationCount = 0;
+            List<SelectListItem> ddlDesignation = new List<SelectListItem>();
+            DataSet dsdesignation = model.GetDesignationList();
+            if (dsdesignation != null && dsdesignation.Tables.Count > 0 && dsdesignation.Tables[0].Rows.Count > 0)
             {
-                if (ds.Tables[0].Rows[0]["Msg"].ToString() == "1")
+                foreach (DataRow r in dsdesignation.Tables[0].Rows)
                 {
-                    Session["AssociateLoginId"] = ds.Tables[0].Rows[0]["LoginId"].ToString();
-                    Session["AssociateName"] = ds.Tables[0].Rows[0]["Name"].ToString();
-                    Session["Password"] = Crypto.Decrypt(ds.Tables[0].Rows[0]["Password"].ToString());
-                    string msg = "Dear " + Session["AssociateName"].ToString() + " Welcome to JvHomes Family.Your Login Id " + Session["AssociateLoginId"].ToString() + " and Password is " + Session["Password"].ToString() + ". Kindly login www.gayatrinfra.com Thankyou";
-                    BLSMS.SendSMSNew(obj.mobileNo, msg);
-                    return RedirectToAction("ConfirmationPage");
+                    if (desgnationCount == 0)
+                    {
+                        ddlDesignation.Add(new SelectListItem { Text = "Select Designation", Value = "0" });
+                    }
+                    ddlDesignation.Add(new SelectListItem { Text = r["DesignationName"].ToString(), Value = r["PK_DesignationID"].ToString() });
+                    desgnationCount = desgnationCount + 1;
+                }
+            }
+
+            ViewBag.ddlDesignation = ddlDesignation;
+
+            #endregion
+            string FormName = "";
+            string Controller = "";
+            try
+            {
+                Random rnd = new Random();
+                int ctrPasword = rnd.Next(111111, 999999);
+                model.Password = Crypto.Encrypt(ctrPasword.ToString());
+                // model.DesignationID = "1";
+                DataSet dsRegistration = new DataSet();
+                if (!string.IsNullOrEmpty(btnSave))
+                {
+                    model.AddedBy = Session["Pk_UserId"].ToString();
+
+                    dsRegistration = model.AssociateRegistration();
                 }
                 else
                 {
-                    return View(obj);
+                    model.Fk_UserId = Crypto.Decrypt(model.Fk_UserId);
+                    model.UpdatedBy = Session["Pk_AdminId"].ToString();
+
+                    dsRegistration = model.UpdateAssociate();
+                }
+
+
+                if (dsRegistration != null && dsRegistration.Tables.Count > 0)
+                {
+                    if (dsRegistration.Tables[0].Rows[0][0].ToString() == "1")
+                    {
+                        if (!string.IsNullOrEmpty(btnSave))
+                        {
+                            Session["DisplayNameConfirm"] = dsRegistration.Tables[0].Rows[0]["Name"].ToString();
+                            Session["LoginIDConfirm"] = dsRegistration.Tables[0].Rows[0]["LoginId"].ToString();
+                            Session["PasswordConfirm"] = Crypto.Decrypt(dsRegistration.Tables[0].Rows[0]["Password"].ToString());
+                            //Session["PKUserID"] = Crypto.Encrypt(dsRegistration.Tables[0].Rows[0]["PKUserID"].ToString());
+
+                            string name = dsRegistration.Tables[0].Rows[0]["Name"].ToString();
+                            string id = dsRegistration.Tables[0].Rows[0]["LoginId"].ToString();
+                            string pass = Crypto.Decrypt(dsRegistration.Tables[0].Rows[0]["Password"].ToString());
+                            string mob = model.Contact;
+                            try
+                            {
+                                string msg = "Dear " + name + " Welcome to SVDGroup Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login " + SoftwareDetails.Website + " Thankyou";
+                               // BLSMS.SendSMS(model.Contact, msg);
+                            }
+                            catch (Exception ex) { }
+
+                        }
+                        else
+                        {
+                            TempData["Registration"] = "Associate Updated Successfully";
+                            return RedirectToAction("AssociateRegistration");
+                        }
+
+                    }
+                    else
+                    {
+                        TempData["Registration"] = dsRegistration.Tables[0].Rows[0]["ErrorMessage"].ToString();
+                        return View(model);
+                    }
                 }
             }
-            return RedirectToAction("ConfirmationPage");
+            catch (Exception ex)
+            {
+                TempData["Registration"] = ex.Message;
+            }
+            FormName = "ConfirmationPage";
+            Controller = "Associate";
+
+            return RedirectToAction(FormName, Controller);
+
         }
         public ActionResult ConfirmationPage()
         {
             return View();
         }
+        public ActionResult GetSponsorName(string SponsorID)
+        {
+            try
+            {
+                TraditionalAssociate model = new TraditionalAssociate();
+                model.LoginID = SponsorID;
 
+
+                DataSet dsSponsorName = model.GetAssociateList();
+                if (dsSponsorName != null && dsSponsorName.Tables[0].Rows.Count > 0)
+                {
+                    model.sponsorName = dsSponsorName.Tables[0].Rows[0]["Name"].ToString();
+                    model.UserID = dsSponsorName.Tables[0].Rows[0]["PK_UserID"].ToString();
+                    model.SponsorDesignationID = dsSponsorName.Tables[0].Rows[0]["FK_DesignationID"].ToString();
+                    model.Percentage = dsSponsorName.Tables[0].Rows[0]["Percentage"].ToString();
+                    int desgnationCount = 0;
+
+                    DataSet dsdesignation = model.GetDesignationList();
+                    List<SelectListItem> ddlDesignation = new List<SelectListItem>();
+                    if (dsdesignation != null && dsdesignation.Tables.Count > 0 && dsdesignation.Tables[0].Rows.Count > 0)
+                    {
+                        foreach (DataRow r in dsdesignation.Tables[0].Rows)
+                        {
+                            if (desgnationCount == 0)
+                            {
+                                ddlDesignation.Add(new SelectListItem { Text = "Select Designation", Value = "0" });
+                            }
+                            ddlDesignation.Add(new SelectListItem { Text = r["DesignationName"].ToString(), Value = r["PK_DesignationID"].ToString() });
+                            desgnationCount = desgnationCount + 1;
+                        }
+                    }
+
+                    // ViewBag.ddlDesignation = ddlDesignation;
+
+                    model.ddlDesignation = ddlDesignation;
+                    model.Result = "yes";
+                }
+                else
+                {
+                    model.sponsorName = "";
+                    model.Result = "no";
+                }
+
+
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
+        }
         public ActionResult PayoutRequest()
         {
             Wallet model = new Wallet();

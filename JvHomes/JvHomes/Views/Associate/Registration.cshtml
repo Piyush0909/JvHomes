@@ -1,140 +1,251 @@
-﻿@model JvHomes.Models.Registration
+﻿@model  JvHomes.Models.TraditionalAssociate
 
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "AssociateRegistration";
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
+@using (Html.BeginForm("Registration", "Associate", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper">
+        <div class="container-fluid">
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Associate</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-right">
 
-    @using (Html.BeginForm("Registration", "Associate", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
-    {
-
-
-        <div class="app-main">
-            <!-- BEGIN .profile-header -->
-            <header class="main-heading">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                            <div class="page-icon">
-                                <i class="icon-laptop_windows"></i>
-                            </div>
-                            <div class="page-title">
-                                <h3>Registration</h3>
-                                @*<h6 class="sub-heading">Welcome to Kingfisher Admin Template</h6>*@
-                            </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                            <div class="daterange-container">
-                                <div id="reportrange1" class="form-control">
-                                    <span> @DateTime.Now.ToString("MMM dd yyyy") </span> <i class="icon-chevron-down down-arrow"></i>
-                                </div>
-                            </div>
-                        </div>
+                            <li class="breadcrumb-item active">Registration</li>
+                        </ol>
                     </div>
                 </div>
-            </header>
-            <!-- END: .profile-header -->
-            <div class="main-content">
-                <div class="row gutters">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="card custom-bdr">
-                            <div class="card-header">Registration</div>
-                            <div class="card-body">
-                                <div class="row gutters">
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            @Html.TextBoxFor(m => m.sponserId, new { @class = "form-control", @placeHolder = "Refer By", @onchange = "return GetMemberName();" })
+                <!-- end row -->
+            </div>
 
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            @Html.TextBoxFor(m => m.sponsorName, new { @class = "form-control", @Disabled = "true" })
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            @Html.HiddenFor(m => m.leg)
-                                            <input type="radio" value="Left" @ViewBag.LeftChecked id="left" name="Leg" /> Left
+            <div class="row gutters">
+                <div class="col-sm-3">
 
-                                            &nbsp;&nbsp;&nbsp;&nbsp;
-                                            <input type="radio" value="Right" id="right" name="Leg" @ViewBag.RightChecked /> Right
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            @Html.TextBoxFor(m => m.firstName, new { @class = "form-control", @placeHolder = "First Name" })
+                    Sponsor Code<span style="color:red">*</span>
 
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            @Html.TextBoxFor(m => m.lastName, new { @class = "form-control", @placeHolder = "Last Name" })
+                    @Html.TextBoxFor(m => m.sponserId, new { @class = "form-control", @Placeholder = "Sponsor ID", @onchange = "return getSponsorName();", @readonly = "readonly" })
 
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            @Html.TextBoxFor(m => m.emailId, new { @class = "form-control", @placeHolder = "Email Id" })
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            @Html.TextBoxFor(m => m.mobileNo, new { @class = "form-control", @placeHolder = "Mobile No" })
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            @Html.DropDownListFor(q => q.gender, new SelectList(ViewBag.ddlGender, "Value", "Text"), new { @class = "form-control" })
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div class="form-group">
-                                            @Html.TextBoxFor(m => m.panCard, new { @class = "form-control", @placeHolder = "Pan Card", @onchage = "return validatepan();" })
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <div class="form-group">
-                                            @Html.TextAreaFor(m => m.address, new { @class = "form-control", @placeHolder = "Address" })
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                                        <div class="form-group">
-                                            @Html.TextBoxFor(m => m.pinCode, new { @class = "form-control", @placeHolder = "Pincode", @onchange = "return getstatecity();" })
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="State" placeholder="State" readonly="readonly" />
-
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="City" placeholder="City" readonly="readonly" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="actions clearfix">
-                                    <input type="submit" class="btn btn-primary btn-block" value="Sign Up" onclick="return fvalidate();" />
-                                </div>
-
-                                @*<a href="login.html" class="additional-link">Have an Account? <span>Login Now</span></a>*@
-                            </div>
-                        </div>
-                    </div>
+                    @Html.HiddenFor(m => m.UserID)
+                    @Html.HiddenFor(m => m.Fk_UserId)
                 </div>
-                
+                <div class="col-sm-3">
+                    Sponsor Name
+                    @Html.TextBoxFor(m => m.sponsorName, new { @class = "form-control", @Placeholder = "Sponsor Name", @readonly = "readonly" })
+                </div>
+                <div class="col-sm-3">
+                    Designation <span style="color:red">*</span>
+                    @Html.DropDownListFor(m => m.DesignationID, new SelectList(ViewBag.ddlDesignation, "Value", "Text"), new { @class = "select2-container form-control show-tick ms select2", @onchange = "return onSiteChange();" })
+                </div>
+                <div class="col-sm-3">
+                    First Name <span style="color:red">*</span>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Placeholder = "First Name" })
+                </div>
             </div>
 
 
+            <div class="row gutters">
+                <div class="col-sm-3">
+                    Last Name
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Placeholder = "Last Name" })
+                </div>
+                <div class="col-sm-3">
+                    Mobile No <span style="color: red">*</span>
+                    @Html.TextBoxFor(m => m.Contact, new { @class = "form-control", @Placeholder = "Mobile Number", @onkeypress = "return isNumberOrDecimal(event);", @maxlength = "10" })
+                </div>
+                <div class="col-sm-3">
+                    Address <span style="color: red">*</span>
+                    @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @Placeholder = "Address" })
+                </div>
+                <div class="col-sm-3">
+                    Aadhar No
+                    @Html.TextBoxFor(m => m.AdharNumber, new { @class = "form-control", @Placeholder = "AdharNumber", @maxlength = "12" })
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+            <br />
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @if (Model.UserID == null)
+                        {
+                            <input class="btn btn-success pull-right" type="submit" onclick="return validateform();" value="Save" id="btnSave" name="btnSave" />
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.UserID, new { @Value = @Model.UserID })
+                            <input class="btn btn-success pull-right" type="submit" onclick="return validateform();" value="Update" id="btnUpdate" name="btnUpdate" />
+                        }
+
+
+                    </div>
+
+
+                </div>
+                <br />
+                <a style="color:red">
+                    @TempData["Registration"]
+                    <br />
+                    @TempData["AssociateDetails"]
+                </a>
+            </div>
         </div>
+    </div>
+
+}
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+
+<script>
+    $(document).ready(function () {
+        getSponsorName();
+    });
+    function GetDirectdata() {
+        if ($('#CommissionType').val() == "Direct") {
+            $("#directPerc").css({ 'display': '' });
+            $('#sponserId').val('KDSL1234');
+            getSponsorName();
+        }
+        else {
+            $("#directPerc").css({ 'display': 'none' });
+            $('#sponserId').val('');
+        }
+    }
+    function getSponsorName() {
+        $("#divload").css({ 'display': '' });
+        var sponsorID = $('#sponserId').val();
+        $.ajax({
+            url: '/Associate/GetSponsorName', type: 'post', dataType: 'json',
+            data: { 'SponsorID': sponsorID },
+            success: function (data) {
+                $("#divload").css({ 'display': 'none' });
+                if (data.Result == "yes") {
+                    $("#sponsorName").val(data.sponsorName);
+                    $("#UserID").val(data.UserID);
+                    $("#sponsorName").removeClass('errortext');
+                    $("#SponsorID").removeClass('errortext');
+
+                    $("#DesignationID").html(""); // clear before appending new list
+                    $("#DesignationID").empty();
+
+                    $.each(data.ddlDesignation, function (index, Sectorcount) {
+                        $("#DesignationID").append(
+                            $('<option></option>').val(Sectorcount.Value).html(Sectorcount.Text));
+
+                    });
+                    $("#DesignationID").val(1);
+                }
+                else if (data.Result == "no") {
+                    $("#sponsorName").val('');
+                    $("#sponsorName").addClass('errortext');
+                    $("#SponsorID").addClass('errortext');
+
+                    $('#SponsorID').focus();
+                    $('#SponsorID').val('');
+                    alert("Invalid Sponsor Id");
+                }
+            }
+
+        });
     }
 
+    function validateform() {
 
+        $(".errortext").removeClass("errortext");
+
+        if ($('#sponserId').val() == '') {
+            $("#sponserId").addClass('errortext');
+            $('#sponserId').focus();
+            $('#sponserId').val('');
+            //   alert("Please Fill Sponsor ID .")
+            return false;
+        }
+        if ($('#DesignationID').val() == '0') {
+            $("#DesignationID").addClass('errortext');
+            $('#DesignationID').focus();
+            //   alert("Please Select Designation .")
+            return false;
+        }
+        if ($('#FirstName').val() == '') {
+            $("#FirstName").addClass('errortext');
+            $('#FirstName').focus();
+            //  alert("Please Fill First Name .")
+            return false;
+        }
+        if ($('#Contact').val() == '') {
+            $("#Contact").addClass('errortext');
+            $('#Contact').focus();
+            //  alert("Please Fill Mobile Number .")
+            return false;
+        }
+        if ($('#PanNo').val() == '') {
+            $("#PanNo").addClass('errortext');
+            $('#PanNo').focus();
+            //    alert("Please Fill PAN .")
+            return false;
+        }
+        if ($('#Pincode').val() == '') {
+            $("#Pincode").addClass('errortext');
+            $('#Pincode').focus();
+            //    alert("Please Enter Pin Code")
+            return false;
+        }
+        $("#divload").css({ 'display': '' });
+        return true;
+    }
+
+    function isNumberOrDecimal(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+            && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function onlyAlphabets(e, t) {
+        try {
+            if (window.event) {
+                var charCode = window.event.keyCode;
+            }
+            else if (e) {
+                var charCode = e.which;
+            }
+            else { return true; }
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123))
+                return true;
+            else
+                return false;
+        }
+        catch (err) {
+            alert(err.Description);
+        }
+    }
+    function validatePan() {
+        var panVal = $('#PanNo').val();
+        var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+
+        if (regpan.test(panVal)) {
+            $("#PanNo").removeClass('errortext');
+        } else {
+            alert("Invalid PAN Number");
+            $("#PanNo").val('');
+            $("#PanNo").addClass('errortext');
+        }
+    }
+</script>
