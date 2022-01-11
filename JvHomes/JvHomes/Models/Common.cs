@@ -212,14 +212,14 @@ namespace JvHomes.Models
         }
         public class SoftwareDetails
         {
-            public static string CompanyName = "KDS Associates";
-            public static string CompanyAddress = "Medical College Road, Rapti Nagar, Near Arogya Mandir, Infront of S.S. Tower";
-            public static string Pin1 = "273004";
+            public static string CompanyName = "VNV INFRA STRUCTURE PRIVATE LIMITED";
+            public static string CompanyAddress = "1/199, Vijyant Khand Near Akshdeep Chauraha, Kathauta,Gomti Nagar";
+            public static string Pin1 = "226010";
             public static string State1 = "Uttar Pradesh";
-            public static string City1 = "Gorakhpur";
+            public static string City1 = "Lucknow";
             public static string ContactNo = "6390486000";
-            public static string Website = "www.JvHomes.com";
-            public static string EmailID = "kdsassociates8@gmail.com";
+            public static string Website = "www.vnvinfra.com";
+            public static string EmailID = "info@vnvinfra.com";
         }
 
 
