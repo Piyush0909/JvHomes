@@ -3805,29 +3805,33 @@ namespace JvHomes.Controllers
             #endregion
 
             DayBook daybook = new DayBook();
-            daybook.Pk_LedgerId = Crypto.Decrypt(id);
-            DataSet ds = daybook.GetLedger();
-            if (ds != null)
+            if(!string.IsNullOrEmpty(id))
             {
-                if (ds.Tables[0].Rows[0]["Msg"].ToString() == "1")
+                daybook.Pk_LedgerId = Crypto.Decrypt(id);
+                DataSet ds = daybook.GetLedger();
+                if (ds != null)
                 {
-                    daybook.LoginId = ds.Tables[0].Rows[0]["LoginId"].ToString();
-                    daybook.AccountId = ds.Tables[0].Rows[0]["AccountId"].ToString();
-                    daybook.TransactionDate = ds.Tables[0].Rows[0]["TransactionDate"].ToString();
-                    daybook.Amount = ds.Tables[0].Rows[0]["CrAmount"].ToString();
-                    daybook.Narration = ds.Tables[0].Rows[0]["Narration"].ToString();
-                    daybook.PaymentMode = ds.Tables[0].Rows[0]["PK_paymentID"].ToString();
-                    daybook.TransactionNumber = ds.Tables[0].Rows[0]["TransactionNo"].ToString();
-                    daybook.BankName = ds.Tables[0].Rows[0]["BankName"].ToString();
-                    daybook.BankBranch = ds.Tables[0].Rows[0]["BankBranch"].ToString();
-                    daybook.ChequeDate = ds.Tables[0].Rows[0]["ChequeDate"].ToString();
-                    daybook.Pk_LedgerId = ds.Tables[0].Rows[0]["Pk_LedgerId"].ToString();
-                }
-                else
-                {
+                    if (ds.Tables[0].Rows[0]["Msg"].ToString() == "1")
+                    {
+                        daybook.LoginId = ds.Tables[0].Rows[0]["LoginId"].ToString();
+                        daybook.AccountId = ds.Tables[0].Rows[0]["AccountId"].ToString();
+                        daybook.TransactionDate = ds.Tables[0].Rows[0]["TransactionDate"].ToString();
+                        daybook.Amount = ds.Tables[0].Rows[0]["CrAmount"].ToString();
+                        daybook.Narration = ds.Tables[0].Rows[0]["Narration"].ToString();
+                        daybook.PaymentMode = ds.Tables[0].Rows[0]["PK_paymentID"].ToString();
+                        daybook.TransactionNumber = ds.Tables[0].Rows[0]["TransactionNo"].ToString();
+                        daybook.BankName = ds.Tables[0].Rows[0]["BankName"].ToString();
+                        daybook.BankBranch = ds.Tables[0].Rows[0]["BankBranch"].ToString();
+                        daybook.ChequeDate = ds.Tables[0].Rows[0]["ChequeDate"].ToString();
+                        daybook.Pk_LedgerId = ds.Tables[0].Rows[0]["Pk_LedgerId"].ToString();
+                    }
+                    else
+                    {
 
+                    }
                 }
             }
+           
             return View(daybook);
         }
         [HttpPost]
