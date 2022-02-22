@@ -3085,6 +3085,7 @@ namespace JvHomes.Controllers
                     ViewBag.Relation = ds.Tables[0].Rows[0]["Relation"].ToString();
                     ViewBag.FathersName = ds.Tables[0].Rows[0]["FathersName"].ToString();
                     ViewBag.CurrentStatus = ds.Tables[0].Rows[0]["CurrentStatus"].ToString();
+                    ViewBag.PaymentDate = ds.Tables[0].Rows[0]["PaymentDate"].ToString();
                     ViewBag.PLC = string.IsNullOrEmpty(ds.Tables[0].Rows[0]["PLC"].ToString()) ? "N/A" : ds.Tables[0].Rows[0]["PLC"].ToString();
 
                     ViewBag.TotalPaidAmount = ds.Tables[0].Rows[0]["TotalPaidAmount"].ToString();
