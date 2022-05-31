@@ -212,7 +212,7 @@ namespace JvHomes.Models
         }
         public class SoftwareDetails
         {
-            public static string CompanyName = "VNV INFRA STRUCTURE PRIVATE LIMITED";
+            public static string CompanyName = "VNV INFRASTRUCTURE PVT. LTD.";
             public static string CompanyAddress = "1/199, Vijyant Khand Near Akshdeep Chauraha, Kathauta,Gomti Nagar";
             public static string Pin1 = "226010";
             public static string State1 = "Uttar Pradesh";

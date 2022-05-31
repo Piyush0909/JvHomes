@@ -28,7 +28,7 @@
         <table style="border: 0px none black;">
             <tr style="border: 0px none black;">
                 <td style="border: 0px none black;">
-                    <img src="~/AdminPanelCss/img/logo-dark1.png" style="width:100px" />
+                    <img src="~/AdminPanelCss/img/logo-dark.png" style="width:100px" />
                 </td>
                 <td style="border: 0px none black;"></td>
 
@@ -98,6 +98,10 @@
                 <td style="border: 1px solid black;" colspan="3"><b>In Words:     </b>@ViewBag.AmountInWords</td>
             </tr>
             <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>Balance:     </b>@ViewBag.BalanceAmt /-</td>
+                <td style="border: 1px solid black;" colspan="3"></td>
+            </tr>
+            <tr>
                 @if (ViewBag.PaymentMode == "Cash")
                 {
                     <td style="border: 1px solid black;" colspan="5"><b> Via:    </b>@ViewBag.PaymentMode</td>
@@ -146,7 +150,7 @@
                 <td style="border: 1px solid black;"><b>Area:    </b>@ViewBag.PlotArea </td>
                 <td style="border: 1px solid black;"><b>Rate:    </b>@ViewBag.Rate </td>
                 <td style="border: 1px solid black;" colspan="2"><b>PLC:    </b>@ViewBag.PLC</td>
-                
+
             </tr>
 
         </table>
@@ -203,7 +207,7 @@
         <table style="border: 0px none black;">
             <tr style="border: 0px none black;">
                 <td style="border: 0px none black;">
-                    <img src="~/AdminPanelCss/img/logo-dark1.png" style="width:100px" />
+                    <img src="~/AdminPanelCss/img/logo-dark.png" style="width:100px" />
                 </td>
                 <td style="border: 0px none black;"></td>
 
@@ -271,6 +275,10 @@
             <tr>
                 <td style="border: 1px solid black;" colspan="2"><b>A sum of:     </b>@ViewBag.PaidAmount /-</td>
                 <td style="border: 1px solid black;" colspan="3"><b>In Words:     </b>@ViewBag.AmountInWords</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid black;" colspan="2"><b>Balance:     </b>@ViewBag.BalanceAmt /-</td>
+                <td style="border: 1px solid black;" colspan="3"></td>
             </tr>
             <tr>
                 @if (ViewBag.PaymentMode == "Cash")
