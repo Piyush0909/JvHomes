@@ -1,151 +1,187 @@
 ﻿@model JvHomes.Models.Login
 
 @{
+    /**/
+
     Layout = null;
 }
+
 
 <!doctype html>
 <html lang="en">
 
-<!-- Mirrored from bootstrap.gallery/kingfisher/light-sidebar/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Dec 2018 07:18:07 GMT -->
+<!-- Mirrored from themesbrand.com/minia/layouts/auth-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 21 Dec 2021 05:51:37 GMT -->
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-    <title>Login</title>
-
-    <!--
-        **********************
-        **********************
-        Common CSS files
-        **********************
-        **********************
-    -->
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../../AdminPanelCss/css/bootstrap.min.css" />
-    <!-- Icomoon Icons CSS -->
-    <link rel="stylesheet" href="../../AdminPanelCss/fonts/icomoon/icomoon.css" />
-    <!-- Master CSS -->
-    <link rel="stylesheet" href="../../AdminPanelCss/css/main.css" />
+    <meta charset="utf-8" />
+    <title>Login </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/assets/images/Logo.png">
+    <!-- preloader css -->
+    <link rel="stylesheet" href="http://auctechcrm.in/AdminPanelCss/assets/css/preloader.min.css" type="text/css" />
+    <!-- Bootstrap Css -->
+    <link href="http://auctechcrm.in/AdminPanelCss/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons Css -->
+    <link href="http://auctechcrm.in/AdminPanelCss/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <!-- App Css-->
+    <link href="http://auctechcrm.in/AdminPanelCss/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <style>
+        .errortext {
+            border: 1px solid red !important;
+        }
+    </style>
 </head>
 <body>
-    <!-- Container start -->
-    <div class="container">
 
-        @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @id = "form1", enctype = "multipart/form-data" }))
-        {
-
-            <div class="row justify-content-md-center">
-                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
-                    <div class="login-screen logintop">
-                        <div class="login-box">
-                            <a href="#" class="login-logo">
-                                <img src="../../AdminPanelCss/img/logo-dark.png" alt="VNV INFRA STRCUTURE" />
-                            </a>
-                            <div class="form-group">
-                                @Html.TextBoxFor(m => m.loginId, new { @class = "form-control", @placeholder = "Login Id" })
-
-                            </div>
-                            <div class="form-group">
-                                @Html.PasswordFor(m => m.password, new { @class = "form-control", @placeholder = "Password" })
-                            </div>
-                            <div class="actions">
-                                <input type="submit" class="btn btn-primary btn-block" value="Login" onclick="return fvalidate();" />
-                                <p style="color:red">@TempData["Login"]</p>
-                                @*<a href="forgot-pwd.html">Forgot password?</a>*@
-                            </div>
-                            <div class="mt-4">
-                                <a href="#" class="additional-link" data-toggle="modal" data-target="#myModal">Forget Password</a>
-                                <a href="/Home/PlotAvailbility" class="additional-link">Plot <span>Availbility</span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="myModal" role="dialog" style="display: none">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" onclick="closeModal();">&times;</button>
-
-                        </div>
-                        <div class="modal-body" style="color: black">
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-
-                                    <div class="form-group">
-
-                                        <input type="text" class="form-control" placeholder="LoginId" id="login" />
+    <!-- <body data-layout="horizontal"> -->
+    <div class="auth-page">
+        <div class="container-fluid p-0">
+            <div class="row g-0">
+                <div class="col-xxl-3 col-lg-4 col-md-5">
+                    <div class="auth-full-page-content d-flex p-sm-5 p-4">
+                        <div class="w-100">
+                            <div class="d-flex flex-column h-100">
+                                <div class="mb-4 mb-md-5 text-center">
+                                    <a href="index.html" class="d-block auth-logo">
+                                        <img src="~/assets/images/Logo.png" alt="" style="height:242px">
+                                    </a>
+                                </div>
+                                <div class="auth-content my-auto">
+                                    <div class="text-center">
+                                        <h5 class="mb-0">Welcome Back !</h5>
+                                        <p class="text-muted mt-2">Sign in to continue to KDS INFRA.</p>
                                     </div>
+                                    @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "mt-4 pt-2", enctype = "multipart/form-data" }))
+                                    {
 
-                                    <div class="mt-4">
+                                        <div class="mb-3">
 
-                                        <a href="#" class="btn btn-success" onclick="return getpassword();">Get <span>Password</span></a>
-                                    </div>
+                                            @Html.TextBoxFor(m => m.loginId, new { @class = "form-control", @placeholder = "Login Id" })
+                                        </div>
+                                        <div class="mb-3">
 
+
+                                            <div class="input-group auth-pass-inputgroup">
+                                                @Html.PasswordFor(m => m.password, new { @class = "form-control", @placeholder = "Password" })
+                                                <button class="btn btn-light shadow-none ms-0" type="button" id="password-addon"><i class="mdi mdi-eye-outline"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <p style="color:red">@TempData["Login"]</p>
+                                            <input type="submit" class="btn btn-primary w-100 waves-effect waves-light" value="Login" onclick="return fvalidate();" />
+
+                                        </div>
+
+
+                                    }
+                                </div>
+
+                                <div class="mt-4 mt-md-5 text-center">
+                                    <p class="mb-0">
+                                        © 2021 Auctech IT Solutions &amp; Services, All Rights Reserved. <a href="http://auctechitsolutions.in/" target="_blank" style="color:blue">Auctech IT Solutions</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        @*<div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeModal();">Close</button>
-                            </div>*@
                     </div>
-
+                    <!-- end auth full page content -->
                 </div>
+                <!-- end col -->
+                <div class="col-xxl-9 col-lg-8 col-md-7">
+                    <div class="auth-bg pt-md-5 p-4 d-flex">
+                        <div class="bg-overlay bg-primary"></div>
+                        <ul class="bg-bubbles">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                        <!-- end bubble effect -->
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-xl-7">
+                                <div class="p-0 p-sm-4 px-xl-0">
+                                    <div id="reviewcarouselIndicators" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-indicators carousel-indicators-rounded justify-content-start ms-0 mb-0">
+                                            <button type="button" data-bs-target="#reviewcarouselIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                            @*<button type="button" data-bs-target="#reviewcarouselIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>*@
+
+                                        </div>
+                                        <!-- end carouselIndicators -->
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <div class="testi-contain text-white">
+                                                    <i class="bx bxs-quote-alt-left text-success display-6"></i>
+                                                    <h4 class="mt-4 fw-medium lh-base text-white">
+                                                        “KDS was started as a novel venture which enjoys today an enviable reputation in terms of Trust & Credibility.KDS now a real conglomerate has various verticlas in jewelery, education,clothing, investment and real estate to name a few. As a major brand extension initiative, KDS has major plan to commence Ethlon Factory at Lucknow. Managed by dedicated and experienced professionals, KDS will soon be recognized on National map of the country.”
+                                                    </h4>
+                                                    <div class="mt-4 pt-3 pb-5">
+                                                        <div class="d-flex align-items-start">
+                                                            <div class="flex-shrink-0">
+                                                                @*<img src="http://auctechcrm.in/imaz_img/team/Zainulabdin.jpg" class="avatar-md img-fluid rounded-circle" alt="...">*@
+                                                            </div>
+                                                            <div class="flex-grow-1 ms-3 mb-4">
+                                                                <h5 class="font-size-18 text-white"></h5>
+                                                                <p class="mb-0 text-white-50">Director</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <!-- end carousel-inner -->
+                                    </div>
+                                    <!-- end review carousel -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
             </div>
-        }
+            <!-- end row -->
+        </div>
+        <!-- end container fluid -->
     </div>
 
-
-    <!-- Container end -->
-</body>
-<!-- Mirrored from bootstrap.gallery/kingfisher/light-sidebar/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 22 Dec 2018 07:18:07 GMT -->
-</html>
-<script src="../../assets/js/jquery.min.js"></script>
-<script src="../../AdminPanelCss/js/bootstrap.min.js"></script>
-<script>
-    function fvalidate() {
-        $(".errortext").removeClass("errortext");
-        if ($('#loginId').val() == '') {
-            $("#loginId").addClass('errortext');
-            $('#loginId').focus();
-            return false;
-        }
-        if ($('#password').val() == '') {
-            $("#password").addClass('errortext');
-            $('#password').focus();
-            return false;
-        }
-
-
-    }
-    function getpassword() {
-        if ($('#login').val() == '') {
-            $("#login").addClass('errortext');
-            $('#login').focus();
-            return false;
-        }
-        $.ajax({
-            url: "/Home/GetPassword",
-            Type: "Get",
-            DataType: "JSON",
-            data: { LoginId: $("#login").val() },
-            success: function (data) {
-                if (data.Result == "1") {
-                    alert("Password Send on your registered mobile No.");
-                }
-                else {
-                    alert("Invalid LoginId");
-                }
-
-
+    <!-- JAVASCRIPT -->
+    <script src="http://auctechcrm.in/AdminPanelCss/assets/libs/jquery/jquery.min.js"></script>
+    <script src="http://auctechcrm.in/AdminPanelCss/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="http://auctechcrm.in/AdminPanelCss/assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="http://auctechcrm.in/AdminPanelCss/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="http://auctechcrm.in/AdminPanelCss/assets/libs/node-waves/waves.min.js"></script>
+    <script src="http://auctechcrm.in/AdminPanelCss/assets/libs/feather-icons/feather.min.js"></script>
+    <!-- pace js -->
+    <script src="http://auctechcrm.in/AdminPanelCss/assets/libs/pace-js/pace.min.js"></script>
+    <!-- password addon init -->
+    <script src="http://auctechcrm.in/AdminPanelCss/assets/js/pages/pass-addon.init.js"></script>
+    <script src="http://auctechcrm.in/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        function fvalidate() {
+            $(".errortext").removeClass("errortext");
+            if ($('#loginId').val() == '') {
+                $("#loginId").addClass('errortext');
+                $('#loginId').focus();
+                return false;
             }
+            if ($('#password').val() == '') {
+                $("#password").addClass('errortext');
+                $('#password').focus();
+                return false;
+            }
+        }
+    </script>
+</body>
 
-        });
-    }
-</script>
+<!-- Mirrored from themesbrand.com/minia/layouts/auth-login.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 21 Dec 2021 05:51:37 GMT -->
+</html>

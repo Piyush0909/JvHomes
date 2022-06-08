@@ -30,6 +30,7 @@ namespace JvHomes.Models
         public string SponsorId { get; set; }
         public string Leg { get; set; }
         public string PayoutNo { get; set; }
+        public string Fk_SiteId { get; set; }
         public string Status { get; set; }
         public DataTable directList { get; set; }
         public string id { get; set; }
@@ -191,6 +192,7 @@ namespace JvHomes.Models
         {
             SqlParameter[] para = { new SqlParameter("@LoginId", LoginId),
                                       new SqlParameter("@PayoutNo", PayoutNo),
+                                      new SqlParameter("@Fk_SiteId", Fk_SiteId),
 
                                          new SqlParameter("@FromDate", FromDate),
                 new SqlParameter("@ToDate", Todate),

@@ -50,6 +50,10 @@
                         @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
+                <div class="col-sm-3">
+                    Select Site 
+                    @Html.DropDownListFor(m => m.Fk_SiteId, new SelectList(ViewBag.ddlSite, "Value", "Text"), new { @class = "form-control", @onchange = "return onSiteChange();" })
+                </div>
                 <div class="col-xl-3 col-lg col-md-3 col-sm-3 col-12">
                     <div class="form-group">
                         <br />
@@ -65,16 +69,16 @@
                     <thead>
                         <tr>
                             <th>Sr No.</th>
+                            <th>Site Name</th>
                             <th>Login Id</th>
                             <th>First Name</th>
                             <th>Payout No</th>
                             <th>Closing Date</th>
-                            <th>Self Business</th>
-                            <th>Team Business</th>
+                            
                             <th>Direct Income</th>
 
-                            <th>Level Income</th>
-                            <th>Team Income</th>
+                          
+                            <th>Difference Income</th>
                             <th>Gross Amount</th>
                             <th>TDS Amount</th>
                             <th>Admin Charges</th>
@@ -96,14 +100,14 @@
                                         <tr class="text-left">
                                             <td>@j</td>
 
+                                            <td>@Model.payoutData.Rows[i]["SiteName"].ToString()</td>
                                             <td>@Model.payoutData.Rows[i]["LoginId"].ToString()</td>
                                             <td>@Model.payoutData.Rows[i]["FirstName"].ToString()</td>
                                             <td>@Model.payoutData.Rows[i]["PayoutNo"].ToString()</td>
                                             <td>@Model.payoutData.Rows[i]["ClosingDate"].ToString()</td>
-                                            <td>@Model.payoutData.Rows[i]["SelfBusiness"].ToString()</td>
-                                            <td>@Model.payoutData.Rows[i]["TeamBusiness"].ToString()</td>
+                                         
                                             <td>@Model.payoutData.Rows[i]["DirectAmount"].ToString()</td>
-                                            <td>@Model.payoutData.Rows[i]["LevelIncome"].ToString()</td>
+                                        
                                             <td>@Model.payoutData.Rows[i]["DifferenceIncome"].ToString()</td>
                                             <td>@Model.payoutData.Rows[i]["GrossAmount"].ToString()</td>
                                             <td>@Model.payoutData.Rows[i]["TDSAmount"].ToString()</td>
