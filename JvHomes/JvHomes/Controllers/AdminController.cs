@@ -3106,7 +3106,30 @@ namespace JvHomes.Controllers
 
             return View(newdata);
         }
+        public ActionResult GetPayoutDetails(string LoginId, string Payout, string Fk_SiteId)
+        {
+            Reports obj = new Reports();
+            List<Reports> lst = new List<Reports>();
+            obj.LoginId = LoginId;
+            obj.PayoutNo = Payout;
+            obj.Fk_SiteId = Fk_SiteId;
+            DataSet ds = obj.GetPayoutDetails();
+            if (ds != null && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    Reports objList = new Reports();
+                    objList.LoginId = dr["LoginId"].ToString();
+                    objList.Name = dr["Name"].ToString();
+                    objList.IncomeType = dr["IncomeType"].ToString();
+                    objList.BusinessAMount = dr["BusinessAMount"].ToString();
+                    objList.Amount = dr["Amount"].ToString();
+                    lst.Add(objList);
+                }
+            }
+            return Json(lst, JsonRequestBehavior.AllowGet);
 
+        }
         public ActionResult DeleteAssociate(string UserID)
         {
             TraditionalAssociate obj = new TraditionalAssociate();

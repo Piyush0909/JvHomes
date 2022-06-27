@@ -78,12 +78,25 @@ namespace JvHomes.Models
         public string TotalBalance { get;  set; }
         public string CreditTo { get; set; }
         public string PK_LedgerID { get;  set; }
+        public string IncomeType { get;  set; }
+        public string BusinessAMount { get;  set; }
+        public string Amount { get;  set; }
 
         public DataSet GettingUserProfile()
         {
             SqlParameter[] para = {
                                         new SqlParameter("@LoginId", LoginId)};
             DataSet ds = Connection.ExecuteQuery("GetUserProfile", para);
+            return ds;
+        }
+        public DataSet GetPayoutDetails()
+        {
+            SqlParameter[] para = { new SqlParameter("@LoginId", LoginId),
+                                      new SqlParameter("@PayoutNo", PayoutNo),
+                                      new SqlParameter("@Fk_SiteId", Fk_SiteId)
+
+            };
+            DataSet ds = Connection.ExecuteQuery("GetPayoutDetails", para);
             return ds;
         }
         public DataSet GetDirectBusinessReport()
