@@ -49,7 +49,7 @@ namespace JvHomes.Controllers
         public ActionResult BinaryTree()
         {
             Session["Pk_userId"] = "1";
-            Session["LoginId"] = "kdsl1234";
+            Session["LoginId"] = "VNV1234";
             return View();
         }
         public ActionResult AssociateList(string status)
@@ -853,33 +853,14 @@ namespace JvHomes.Controllers
                             {
                                 try
                                 {
-                                    string msg = "DEAR CUSTOMER,CONGRATULATION, YOU HAVE BOOKED A PLOT IN " + ds.Tables[0].Rows[0]["SiteName"].ToString() + " with plot no " + plot + ", WE ARE PLEASED TO WELCOME YOU IN KDS ASSOCITATES FAMILY. BEST REGARDS TEAM KDS.Thankyou";
+                                    string msg = "DEAR CUSTOMER,CONGRATULATION, YOU HAVE BOOKED A PLOT IN " + ds.Tables[0].Rows[0]["SiteName"].ToString() + " with plot no " + plot + ", WE ARE PLEASED TO WELCOME YOU IN VNV ASSOCITATES FAMILY.FOr more details please Cont-"+SoftwareDetails.ContactNo + " BULKSMS";
                                     BLSMS.SendSMSNew(mob, msg);
 
 
                                 }
                                 catch { }
-                                try
-                                {
-                                    string msg1 = "DEAR CUSTOMER RECEIVED WITH THANKS FROM AMOUNT RS " + obj.PayAmount + ", AGAINST PLOT No (" + plot + ")" + "Thankyou";
-                                    BLSMS.SendSMSNew(mob, msg1);
-                                }
-                                catch { }
-                                mob = "9795710000";
-                                try
-                                {
-                                    string msg = "DEAR CUSTOMER,CONGRATULATION, YOU HAVE BOOKED A PLOT IN " + ds.Tables[0].Rows[0]["SiteName"].ToString() + " with plot no " + plot + ", WE ARE PLEASED TO WELCOME YOU IN KDS ASSOCITATES FAMILY. BEST REGARDS TEAM KDS.Thankyou";
-                                    BLSMS.SendSMSNew(mob, msg);
-
-
-                                }
-                                catch { }
-                                try
-                                {
-                                    string msg1 = "DEAR CUSTOMER RECEIVED WITH THANKS FROM AMOUNT RS " + obj.PayAmount + ", AGAINST PLOT No (" + plot + ")" + "Thankyou";
-                                    BLSMS.SendSMSNew(mob, msg1);
-                                }
-                                catch { }
+                                
+                               
                             }
                         }
                         else
@@ -2333,12 +2314,12 @@ namespace JvHomes.Controllers
 
                 if (ds.Tables[0].Rows[0]["MSG"].ToString() == "1")
                 {
-                    try
-                    {
-                        string msg = "YOUR CHEQUE OF RS " + ds.Tables[0].Rows[0]["PaidAmount"].ToString() + "IS BOUNCE BY THE BANK PLEASE CONTACT KDS ASSOCIATES. Kindly login" + SoftwareDetails.Website + " Thankyou";
-                        BLSMS.SendSMSNew(ds.Tables[0].Rows[0]["Mobile"].ToString(), msg);
-                    }
-                    catch { }
+                    //try
+                    //{
+                    //    string msg = "YOUR CHEQUE OF RS " + ds.Tables[0].Rows[0]["PaidAmount"].ToString() + "IS BOUNCE BY THE BANK PLEASE CONTACT KDS ASSOCIATES. Kindly login" + SoftwareDetails.Website + " Thankyou";
+                    //    BLSMS.SendSMSNew(ds.Tables[0].Rows[0]["Mobile"].ToString(), msg);
+                    //}
+                    //catch { }
                     return RedirectToAction("ApprovePayent");
                 }
                 else
@@ -2838,16 +2819,11 @@ namespace JvHomes.Controllers
                             string mob = model.Contact;
                             try
                             {
-                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
+                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". For more details please Cont-"+SoftwareDetails.ContactNo+ " BULKSMS";
                                 BLSMS.SendSMSNew(model.Contact, msg);
                             }
                             catch { }
-                            try
-                            {
-                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
-                                BLSMS.SendSMSNew("9795710000", msg);
-                            }
-                            catch { }
+                           
                         }
                         else
                         {
@@ -4396,8 +4372,8 @@ namespace JvHomes.Controllers
         {
             DataSet ds = obj.GetAssociateLedger();
 
-            obj.lstDetails = ds.Tables[0];
-            obj.customerLedger = ds.Tables[1];
+            obj.customerLedger = ds.Tables[0];
+           
             return View(obj);
         }
 
@@ -4687,16 +4663,12 @@ namespace JvHomes.Controllers
                             string mob = model.Contact;
                             try
                             {
-                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
+                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". For More Information Cont-" + SoftwareDetails.ContactNo + " BULKSMS";
                                 BLSMS.SendSMSNew(model.Contact, msg);
                             }
                             catch { }
-                            try
-                            {
-                                string msg = "Dear " + name + " Welcome to VNV INFRA STRCUTURE Family.Your Login Id " + id + " and Password is " + pass + ". Kindly login" + SoftwareDetails.Website + " Thankyou";
-                                BLSMS.SendSMSNew("9795710000", msg);
-                            }
-                            catch { }
+                         
+                            
                         }
                         else
                         {

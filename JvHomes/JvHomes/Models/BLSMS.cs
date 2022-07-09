@@ -28,7 +28,8 @@ namespace JaysSakti
         {
             try
             {
-                string baseurl = "https://api.authkey.io/request?authkey=1f3a7c058e998305&mobile=" + mobile + "&country_code=91&sms=" + msg + "&sender=MYADDS&pe_id=1201160578232705664&template_id=1207161735839113865";
+                string baseurl = "https://www.hellotext.live/vb/apikey.php?apikey=RTsDI5gnm1Zw80Wp&senderid=SKPLES&number="+mobile+"&message="+msg+"";
+                //string baseurl = "https://api.authkey.io/request?authkey=1f3a7c058e998305&mobile=" + mobile + "&country_code=91&sms=" + msg + "&sender=MYADDS&pe_id=1201160578232705664&template_id=1207161735839113865";
                 System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
                 HttpWebRequest httpReq = (HttpWebRequest)WebRequest.Create(new Uri(baseurl, false));
                 HttpWebResponse httpResponse = (HttpWebResponse)(httpReq.GetResponse());

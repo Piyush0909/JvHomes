@@ -235,7 +235,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <label id="creditdebit">Debit To</label>
+                                        <label id="creditdebit">Credit To</label>
                                         @Html.DropDownListFor(m => m.CreditTo, new SelectList(ViewBag.ddlBank, "Value", "Text"), new { @class = "form-control" })
                                     </div>
                                 </div>
@@ -320,10 +320,10 @@
         if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
             $("#divPaymentMode").show();
             if ($('#PaymentMode').val() == '9') {
-                $('#creditdebit').html('Debit To');
+                $('#creditdebit').html('Credit To');
             }
             else {
-                $('#creditdebit').html('Debit To');
+                $('#creditdebit').html('Credit To');
             }
         }
 

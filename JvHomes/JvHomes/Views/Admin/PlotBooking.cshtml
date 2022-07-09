@@ -158,7 +158,7 @@
                     NetPlotAmount<span style="color: red">*</span>
                     @Html.TextBoxFor(m => m.NetPlotAmount, new { @class = "form-control", @Placeholder = "Net Plot Amount", @readonly = "readonly" })
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-3" style="display:none">
                     Booking Amount <span style="color: red">*</span>
                     @Html.TextBoxFor(m => m.BookingAmount, new { @class = "form-control", @maxlength = "8", @Placeholder = "BookingAmount", @onkeypress = "return isNumberOrDecimal(event);", @readonly = "readonly" })
                 </div>
@@ -194,7 +194,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-3">
-                    <label id="creditdebit">Debit To</label>
+                    <label id="creditdebit">Credit To</label>
                     @Html.DropDownListFor(m => m.CreditTo, new SelectList(ViewBag.ddlBank, "Value", "Text"), new { @class = "form-control" })
                 </div>
             </div>
@@ -325,33 +325,44 @@
 
     $(document).ready(function () {
         $("#divload").css({ 'display': 'none' });
-        $('#creditdebit').html('Debit To');
+        $('#creditdebit').html('Credit To');
         $('#Discount').val(0);
         if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
-            if ($('#TransactionNumber').val() == '') {
-                $("#TransactionNumber").addClass('errortext');
-                $('#TransactionNumber').focus();
-                $("#divload").css({ 'display': 'none' });
-                return false;
+            if ($('#PaymentMode').val() != '5' && $('#PaymentMode').val() != '6') {
+                if ($('#TransactionNumber').val() == '') {
+                    $("#TransactionNumber").addClass('errortext');
+                    $('#TransactionNumber').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
             }
-            if ($('#TransactionDate').val() == '') {
-                $("#TransactionDate").addClass('errortext');
-                $('#TransactionDate').focus();
-                $("#divload").css({ 'display': 'none' });
-                return false;
+            else {
+                if ($('#TransactionNumber').val() == '') {
+                    $("#TransactionNumber").addClass('errortext');
+                    $('#TransactionNumber').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
+                if ($('#TransactionDate').val() == '') {
+                    $("#TransactionDate").addClass('errortext');
+                    $('#TransactionDate').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
+                if ($('#BankName').val() == '') {
+                    $("#BankName").addClass('errortext');
+                    $('#BankName').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
+                if ($('#BankBranch').val() == '') {
+                    $("#BankBranch").addClass('errortext');
+                    $('#BankBranch').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
             }
-            if ($('#BankName').val() == '') {
-                $("#BankName").addClass('errortext');
-                $('#BankName').focus();
-                $("#divload").css({ 'display': 'none' });
-                return false;
-            }
-            if ($('#BankBranch').val() == '') {
-                $("#BankBranch").addClass('errortext');
-                $('#BankBranch').focus();
-                $("#divload").css({ 'display': 'none' });
-                return false;
-            }
+            
         }
         else {
             $('#TransactionNumber').val('');
@@ -621,6 +632,14 @@
 
 
         if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+            if ($('#PaymentMode').val() != '5' && $('#PaymentMode').val() != '6') {
+                if ($('#TransactionNumber').val() == '') {
+                    $("#TransactionNumber").addClass('errortext');
+                    $('#TransactionNumber').focus();
+                    $("#divload").css({ 'display': 'none' });
+                    return false;
+                }
+            }
             if ($('#TransactionNumber').val() == '') {
                 $("#TransactionNumber").addClass('errortext');
                 $('#TransactionNumber').focus();
@@ -646,7 +665,7 @@
                     $("#divload").css({ 'display': 'none' });
                     return false;
                 }
-               // $('#creditdebit').html('Debit To');
+               // $('#creditdebit').html('Credit To');
             }
 
         }
@@ -805,12 +824,13 @@
     function CheckPayMode() {
         debugger
         if ($('#PaymentMode').val() != '1' && $('#PaymentMode').val() != '7' && $('#PaymentMode').val() != '8') {
+
             $("#divPaymentMode").show();
             if ($('#PaymentMode').val() == '9') {
-                $('#creditdebit').html('Debit To');
+                $('#creditdebit').html('Credit To');
             }
             else {
-                $('#creditdebit').html('Debit To');
+                $('#creditdebit').html('Credit To');
             }
         }
 

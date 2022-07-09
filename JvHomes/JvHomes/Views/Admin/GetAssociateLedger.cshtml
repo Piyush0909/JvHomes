@@ -43,78 +43,16 @@
                 </div>
             </div>
 
-            <div class="row gutters" id="printData">
-                @*id="printableArea"*@
-                @if (Model != null)
-                {
-                    if (Model.lstDetails != null)
-                    {
-                        if (Model.lstDetails.Rows.Count > 0)
-                        {
-                            <div class="col-sm-4">
-                                Name
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["Name"].ToString()" style="color:blue" />
-                            </div>
-                            <div class="col-sm-4">
-                                Relation
-
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["FathersName"].ToString()" style="color:blue" />
-                            </div>
-                            <div class="col-sm-4">
-                                Mobile
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["Mobile"].ToString()" style="color:blue" />
-                            </div>
-                            <div class="col-sm-4">
-                                Adhar Number
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["AdharNumber"].ToString()" style="color:blue" />
-
-                            </div>
-                            <div class="col-sm-4">
-                                Pan
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["PanNumber"].ToString()" style="color:blue" />
-                            </div>
-                            <div class="col-sm-4">
-                                Acc No
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["MemberAccNo"].ToString()" style="color:blue" />
-
-                            </div>
-                            <div class="col-sm-4">
-                                Bank Name
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["MemberBankName"].ToString()" style="color:blue" />
-
-                            </div>
-                            <div class="col-sm-4">
-                                Branch
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["MemberBranch"].ToString()" style="color:blue" />
-
-                            </div>
-                            <div class="col-sm-4">
-                                IFSC
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["IFSCCode"].ToString()" style="color:blue" />
-
-                            </div>
-                            <div class="col-sm-4">
-                                Advance
-                                <input type="text" class="form-control" readonly="readonly" value="@Model.lstDetails.Rows[0]["Advance"].ToString()" style="color:blue" />
-
-                            </div>
-                        }
-                    }
-                }
-
-
-
-            </div>
+            
 
             <div class="row gutters table-responsive">
-                <table id="example25" class="table table-bordered">
+                <table id="example23" class="table table-bordered">
                     <thead>
                         <tr>
                             <th>Sr No.</th>
                             <th>TransactionDate</th>
                             <th>Particular</th>
-                            <th>Mode</th>
-                            <th>Transaction No</th>
+                          
                             <th>Credit</th>
                             <th>Debit</th>
                             <th>Balance</th>
@@ -135,39 +73,9 @@
                                             <td>@j</td>
 
                                             <td>@Model.customerLedger.Rows[i]["TransactionDate"].ToString()</td>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        @Model.customerLedger.Rows[i]["Particular"].ToString()
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <b style="color:blue"> @Model.customerLedger.Rows[i]["CrAmount1"].ToString()</b>
-                                                    </div>
-                                                </div>
-                                                @if (Model.customerLedger.Rows[i]["Particular"].ToString().Contains("Gross Payout"))
-                                                {
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            TDS (5 %)
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <b style="color:red"> @Model.customerLedger.Rows[i]["Charges"].ToString() </b>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            Processing (5 %)
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <b style="color:red"> @Model.customerLedger.Rows[i]["Charges"].ToString() </b>
-                                                        </div>
-                                                    </div>
-
-                                                }
-
-                                            </td>
-                                            <td>@Model.customerLedger.Rows[i]["Mode"].ToString()</td>
-                                            <td>@Model.customerLedger.Rows[i]["TransactionNo"].ToString()</td>
+                                            
+                                            <td>@Model.customerLedger.Rows[i]["Narration"].ToString()</td>
+                                           
                                             <td>
                                                 @Model.customerLedger.Rows[i]["CrAmount"].ToString()
 

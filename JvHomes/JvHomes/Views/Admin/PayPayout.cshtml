@@ -116,7 +116,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Debit To</label>
+                                <label>Credit To</label>
                                 @Html.DropDownListFor(m => m.Fk_BankId, new SelectList(ViewBag.ddlBank, "Value", "Text"), new { @class = "form-control" })
                             </div>
                         </div>
@@ -208,7 +208,7 @@
                     $("#divload").css({ 'display': 'none' });
                     return false;
                 }
-                // $('#creditdebit').html('Debit To');
+                // $('#creditdebit').html('Credit To');
             }
 
         }
